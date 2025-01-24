@@ -163,7 +163,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 8
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 1bafe9d8b38ab4bf9ba9db099e4d7156, type: 3}
   m_Color: {r: 1, g: 0.21866007, b: 0, a: 1}
   m_FlipX: 1
@@ -279,7 +279,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 9db457348ab3ed149b89b7e0604abc0a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -697,4 +697,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa3c2371ddefac4ca76a2c9bb28e22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletAnimator: {fileID: 6484682193250593918}
+  _objectToSpawnAnimator: {fileID: 6484682193250593918}

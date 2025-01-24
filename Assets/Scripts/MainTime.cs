@@ -6,10 +6,11 @@ public class MainTime : MonoBehaviour
     [SerializeField] private Environment[] _environments;
     [SerializeField] private BulletSpawner[] _bulletSpawners;
     [SerializeField] private BulletSpawner _playerBulletSpawner;
+    [SerializeField] private Score _score;
 
     private readonly int _maxBoostLevel = 12; 
 
-    private int _boostLevel;
+    private int _boostLevel = 1;
     private float _currentTime;
 
     private void Update()
@@ -32,7 +33,8 @@ public class MainTime : MonoBehaviour
 
     private void ApplyAcceleration()
     {
-        //_spawner.AddMaxEnemyCount(_boostLevel);
+        AddMaxEnemiesCount();
+        AddMaxObstaclesCount();
 
         foreach (Environment environment in _environments)
             environment.AddSpeed(TimeUtils.EnvironmentBoostedSpeed);
@@ -41,5 +43,17 @@ public class MainTime : MonoBehaviour
             bulletSpawner.AddSpeed(TimeUtils.EnvironmentBoostedSpeed);
 
         _playerBulletSpawner.DecreaseSpeed(TimeUtils.EnvironmentBoostedSpeed);
+    }
+
+    private void AddMaxEnemiesCount()
+    {
+        if(_boostLevel % 4 == 0)
+            _spawner.AddMaxEnemiesCount();
+    }
+
+    private void AddMaxObstaclesCount()
+    {
+        if (_boostLevel % 6 == 0)
+            _spawner.AddMaxOstaclesCount();
     }
 }

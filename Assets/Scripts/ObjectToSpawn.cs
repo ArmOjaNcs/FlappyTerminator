@@ -9,6 +9,12 @@ public abstract class ObjectToSpawn : MonoBehaviour
 
     public bool IsSpawnerSubscribed => _isSpawnerSubscribed;
 
+    private protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out ObjectRemover _))
+            Release();
+    }
+
     public void SetStartPosition(Container container)
     {
         transform.position = container.transform.position;
@@ -30,4 +36,6 @@ public abstract class ObjectToSpawn : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    private protected abstract void Release();
 }

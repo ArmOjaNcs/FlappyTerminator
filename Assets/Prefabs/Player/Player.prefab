@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6152200679733003936}
   - component: {fileID: 6856703639179760690}
+  - component: {fileID: 1241003489568585894}
   m_Layer: 0
-  m_Name: blaster_purple
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,6 +89,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1241003489568585894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718095400605210400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22e9216937606e4983f62cba44d8295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FirePoint: {fileID: 6047922410588394771}
+  Delay: 0.3
+  _inputController: {fileID: 0}
 --- !u!1 &5286540816066966484
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +118,7 @@ GameObject:
   - component: {fileID: 3039052566777413953}
   - component: {fileID: 2761203636321760287}
   - component: {fileID: 3672189991508607910}
+  - component: {fileID: 4080694448963728075}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -241,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d0f4ab9d2a39eb4582181799cc4d4d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputController: {fileID: 0}
   _tapForce: 10
   _rotationSpeed: 2
   _maxRotationZ: 45
@@ -281,6 +299,20 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0.20126629, y: -0.7044351}
   m_Radius: 1.4338446
+--- !u!114 &4080694448963728075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5286540816066966484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371a0deb8d24d7a4cb23b109fc556b48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weapon: {fileID: 1241003489568585894}
+  _bulletSpawner: {fileID: 0}
 --- !u!1 &5596880800507550249
 GameObject:
   m_ObjectHideFlags: 0

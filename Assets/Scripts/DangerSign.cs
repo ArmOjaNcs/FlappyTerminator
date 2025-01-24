@@ -1,13 +1,12 @@
 using System;
-using UnityEngine;
 
 public class DangerSign : ObjectToSpawn
 {
     public override event Action<ObjectToSpawn> LifeTimeFinished;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private protected override void Release()
     {
-        if (collision.TryGetComponent(out ObjectRemover _))
-            LifeTimeFinished?.Invoke(this);
+        transform.DetachChildren();
+        LifeTimeFinished?.Invoke(this);
     }
 }

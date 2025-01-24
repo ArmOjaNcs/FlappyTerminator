@@ -20,6 +20,7 @@ public class PlayerWeapon : Shooter
         {
             SetDirection(GetDirection());
             Shoot();
+            Debug.Log("Shooting");
         }
     }
 

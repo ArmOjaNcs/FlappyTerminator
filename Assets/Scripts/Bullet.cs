@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class Bullet : ObjectToSpawn
 {
-    [SerializeField] private BulletAnimator _bulletAnimator;
+    [SerializeField] private ObjectToSpawnAnimator _objectToSpawnAnimator;
 
     private float _damage;
     private float _speed;
@@ -19,11 +19,9 @@ public class Bullet : ObjectToSpawn
 
     public override event Action<ObjectToSpawn> LifeTimeFinished;
 
-    public BulletAnimator Animator => _bulletAnimator;
-
     private void Start()
     {
-        _bulletAnimator.HitPerformed += Release;
+        _objectToSpawnAnimator.HitPerformed += Release;
     }
 
     private protected virtual void OnEnable()
@@ -31,7 +29,7 @@ public class Bullet : ObjectToSpawn
         _lifeCoroutine = StartCoroutine(BeginLifeTime());
         _reliaseCoroutine = null;
         _isStop = false;
-        _bulletAnimator.transform.position = transform.position;
+        _objectToSpawnAnimator.transform.position = transform.position;
     }
 
     private void OnDisable()
@@ -49,17 +47,18 @@ public class Bullet : ObjectToSpawn
             Move();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private protected override void OnTriggerEnter2D(Collider2D collision)
     {
+        base.OnTriggerEnter2D(collision);
+
         if (collision.TryGetComponent(out HitZone hitZone) && hitZone.EnemyTarget == null == _isPlayerTarget)
         {
-            if (_reliaseCoroutine == null)
+            if (_reliaseCoroutine == null && enabled)
                 _reliaseCoroutine = StartCoroutine(DealDamage(hitZone));
-            
         }
         else if (collision.TryGetComponent(out Obstacle obstacle))
         {
-            if (_reliaseCoroutine == null)
+            if (_reliaseCoroutine == null && enabled)
                 _reliaseCoroutine = StartCoroutine(HitObstacle(obstacle));
         }
     }
@@ -99,11 +98,10 @@ public class Bullet : ObjectToSpawn
         _isPlayerTarget = isPlayerTarget;
     }
 
-    private void Release()
+    private protected override void Release()
     {
         transform.parent = null;
         LifeTimeFinished?.Invoke(this);
-        Debug.Log("Release");
     }
 
     private void Move()
@@ -119,6 +117,9 @@ public class Bullet : ObjectToSpawn
 
     private IEnumerator DealDamage(HitZone hitZone)
     {
+        if (_lifeCoroutine != null)
+            StopCoroutine(_lifeCoroutine);
+
         hitZone.TakeDamage(_damage);
         yield return null;
         PerformHit(hitZone.transform);
@@ -126,6 +127,9 @@ public class Bullet : ObjectToSpawn
 
     private IEnumerator HitObstacle(Obstacle obstacle)
     {
+        if (_lifeCoroutine != null)
+            StopCoroutine(_lifeCoroutine);
+
         yield return null;
         PerformHit(obstacle.transform);
     }
@@ -134,6 +138,6 @@ public class Bullet : ObjectToSpawn
     {
         _isStop = true;
         transform.SetParent(collisionTransform);
-        _bulletAnimator.SetHitTrigger();
+        _objectToSpawnAnimator.SetHitTrigger();
     }
 }

@@ -31,6 +31,16 @@ public class MainSpawner : MonoBehaviour
         SpawnMaxObstaclesCount();
     }
 
+    public void AddMaxEnemiesCount()
+    {
+        _maxEnemiesCount++;
+    }
+
+    public void AddMaxOstaclesCount()
+    {
+        _maxObstaclesCount++;
+    }
+
     private void OnGroundChanged()
     {
         SpawnMaxEnemyCount();

@@ -9,7 +9,7 @@ public class Container : MonoBehaviour
     public void SetElement(ObjectToSpawn element)
     {
         _element = element;
-        element.LifeTimeFinished += OnElementLeaved;
+        _element.LifeTimeFinished += OnElementLeaved;
     }
 
     private void OnElementLeaved(ObjectToSpawn element)

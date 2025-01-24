@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa3c2371ddefac4ca76a2c9bb28e22f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletAnimator: {fileID: 194184041539233515}
+  _objectToSpawnAnimator: {fileID: 194184041539233515}
 --- !u!1 &8967089913007434915
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: cf9760a2dafc94f97b705a62ec67e9ff, type: 3}
   m_Color: {r: 0.35368967, g: 0.28184396, b: 0.7660377, a: 1}
   m_FlipX: 0
