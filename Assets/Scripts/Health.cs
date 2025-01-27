@@ -4,14 +4,15 @@ using UnityEngine;
 public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxValue;
-    [SerializeField] private HitZone _hitZone;
 
     private EnemyTarget _enemyTarget;
 
     public event Action HealthUpdate;
+    public event Action HealthEnded;
 
     public float MaxValue => _maxValue;
     public float CurrentValue { get; private set; }
+    public EnemyTarget EnemyTarget => _enemyTarget;
 
     private void Awake()
     {
@@ -23,12 +24,6 @@ public class Health : MonoBehaviour
     private void OnEnable()
     {
         CurrentValue = MaxValue;
-        _hitZone.DamageDetected += OnDamageDetected;
-    }
-
-    private void OnDisable()
-    {
-        _hitZone.DamageDetected -= OnDamageDetected;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -48,12 +43,15 @@ public class Health : MonoBehaviour
         HealthUpdate?.Invoke();
     }
 
-    public void OnDamageDetected(float damage)
+    public void TakeDamage(float damage)
     {
         CurrentValue -= damage;
 
         if (CurrentValue < 0)
+        {
             CurrentValue = 0;
+            HealthEnded?.Invoke();
+        }
 
         HealthUpdate?.Invoke();
     }

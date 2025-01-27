@@ -1,20 +1,27 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class MedPack : MonoBehaviour
+public class MedPack : ObjectToSpawn
 {
-    private readonly float _healingPower = 20;
+    private readonly float _healingPower = 300;
 
     private AudioSource _audioSource;
     private SpriteRenderer _spriteRenderer;
     private WaitForSeconds _wait;
     private bool _isFirstTouch;
 
+    public override event Action<ObjectToSpawn> LifeTimeFinished;
+
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
+        //_audioSource = GetComponent<AudioSource>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _wait = new WaitForSeconds(_audioSource.clip.length);
+        //_wait = new WaitForSeconds(_audioSource.clip.length);
+    }
+
+    private void OnEnable()
+    {
         _isFirstTouch = true;
     }
 
@@ -39,9 +46,14 @@ public class MedPack : MonoBehaviour
 
     private IEnumerator PickingUp()
     {
-        _audioSource.Play();
+        //_audioSource.Play();
         _spriteRenderer.enabled = false;
-        yield return _wait;
-        Destroy(gameObject);
+        yield return null;
+        Release();
+    }
+
+    private protected override void Release()
+    {
+        LifeTimeFinished?.Invoke(this);
     }
 }

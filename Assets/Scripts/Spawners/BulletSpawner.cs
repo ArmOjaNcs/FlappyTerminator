@@ -5,7 +5,7 @@ public class BulletSpawner : SinglePrefabSpawner<Bullet>
     [SerializeField] private float _speed;
     [SerializeField] private float _lifeTime;
     [SerializeField] private float _damage;
-    [SerializeField] private bool _isPlayerTarget;
+    [SerializeField] private Transform _parentBody;
 
     private WaitForSeconds _time;
 
@@ -37,7 +37,7 @@ public class BulletSpawner : SinglePrefabSpawner<Bullet>
         if (bullet.IsSpawnerSubscribed == false)
         {
             bullet.LifeTimeFinished += Release;
-            bullet.SetIsPlayerTarget(_isPlayerTarget);
+            bullet.SetParentBody(_parentBody);
             bullet.SubscribeBySpawner();
         }
     }

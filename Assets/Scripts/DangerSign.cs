@@ -6,7 +6,6 @@ public class DangerSign : ObjectToSpawn
 
     private protected override void Release()
     {
-        transform.DetachChildren();
         LifeTimeFinished?.Invoke(this);
     }
 }

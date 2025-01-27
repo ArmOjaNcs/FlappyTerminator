@@ -6,6 +6,7 @@ public class EnemyWeapon : Shooter
     private bool _isSpawnerSubscribed = false;
 
     public event Action<EnemyWeapon> LifeTimeFinished;
+
     public bool IsSpawnerSubscribed => _isSpawnerSubscribed;
 
     private void Awake()

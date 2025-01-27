@@ -484,7 +484,6 @@ GameObject:
   - component: {fileID: -9179452093984445582}
   - component: {fileID: 4024908023175251917}
   - component: {fileID: -3833391193597757928}
-  - component: {fileID: -2740496113946309276}
   - component: {fileID: -4357660471071139624}
   m_Layer: 0
   m_Name: BirdOrangeType3
@@ -656,19 +655,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 20
-  _hitZone: {fileID: -2740496113946309276}
---- !u!114 &-2740496113946309276
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8625703755621988800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bccc0afc2daf3949af5a76ff1469818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-4357660471071139624
 MonoBehaviour:
   m_ObjectHideFlags: 0

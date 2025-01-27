@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 489790050430954078}
   - component: {fileID: 7859021466394295164}
   - component: {fileID: 7248607298906806521}
-  - component: {fileID: 1444756792184898883}
+  - component: {fileID: 6516141948481262900}
   m_Layer: 0
   m_Name: PlasmaBullet
   m_TagString: Untagged
@@ -99,7 +99,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.13822843, y: -0.047115125}
   m_Size: {x: 2.3392837, y: 0.4987168}
   m_Direction: 1
---- !u!114 &1444756792184898883
+--- !u!114 &6516141948481262900
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2476888186634496614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fa3c2371ddefac4ca76a2c9bb28e22f, type: 3}
+  m_Script: {fileID: 11500000, guid: b02f07ad24496a64ebb73fdde4077f77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToSpawnAnimator: {fileID: 194184041539233515}
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: cf9760a2dafc94f97b705a62ec67e9ff, type: 3}
   m_Color: {r: 0.35368967, g: 0.28184396, b: 0.7660377, a: 1}
   m_FlipX: 0

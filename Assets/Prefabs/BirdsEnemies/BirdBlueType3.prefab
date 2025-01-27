@@ -397,7 +397,6 @@ GameObject:
   - component: {fileID: 1961663997879278347}
   - component: {fileID: 9202629434871394327}
   - component: {fileID: -5734842052279759855}
-  - component: {fileID: 2473405329168361890}
   - component: {fileID: 3045145157671644912}
   m_Layer: 0
   m_Name: BirdBlueType3
@@ -569,19 +568,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 20
-  _hitZone: {fileID: 2473405329168361890}
---- !u!114 &2473405329168361890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7641101861598183801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bccc0afc2daf3949af5a76ff1469818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3045145157671644912
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,19 +5,30 @@ public class MainSpawner : MonoBehaviour
     [SerializeField] private MainEnvironmentChanger _changer;
     [SerializeField] private EnemySpawner _enemySpawner;
     [SerializeField] private ObstaclesSpawner[] _obstaclesSpawners;
+    [SerializeField] private Player _player;
 
     private int _maxEnemiesCount;
     private int _maxObstaclesCount;
+    private bool _isPlayerDead;
+
+    public EnemySpawner EnemySpawner => _enemySpawner;
 
     private void Awake()
     {
-        _maxEnemiesCount = TimeUtils.StartEnemiesCount;
-        _maxObstaclesCount = TimeUtils.StartObstaclesCount;
+        _maxEnemiesCount = GameUtils.StartEnemiesCount;
+        _maxObstaclesCount = GameUtils.StartObstaclesCount;
+        _isPlayerDead = false;
     }
 
     private void OnEnable()
     {
         _changer.GroundChanged += OnGroundChanged;
+        _player.PlayerDead += OnPlayerDead;
+    }
+
+    private void OnPlayerDead()
+    {
+        _isPlayerDead = true;
     }
 
     private void OnDisable()
@@ -43,8 +54,11 @@ public class MainSpawner : MonoBehaviour
 
     private void OnGroundChanged()
     {
-        SpawnMaxEnemyCount();
-        SpawnMaxObstaclesCount();
+        if(_isPlayerDead == false)
+        {
+            SpawnMaxEnemyCount();
+            SpawnMaxObstaclesCount();
+        }
     }
 
     private void SpawnMaxEnemyCount()

@@ -7,7 +7,10 @@ public class WeaponSpawner : SinglePrefabSpawner<EnemyWeapon>
     public EnemyWeapon GetWeapon()
     {
         EnemyWeapon weapon = Pool.GetFreeElement();
-        Initialize(weapon);
+
+        if( weapon != null )
+            Initialize(weapon);
+        
         return weapon;
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DynamicBullet : Bullet
+public class DynamicBullet : EnemyBullet
 {
     private Rigidbody2D _rigidbody2D;
 
@@ -15,9 +15,9 @@ public class DynamicBullet : Bullet
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
-    private protected override void PerformHit(Transform collisionTransform)
+    private protected override void PerformHit()
     {
-        base.PerformHit(collisionTransform);
+        base.PerformHit();
         _rigidbody2D.linearVelocity = Vector3.zero;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
     }

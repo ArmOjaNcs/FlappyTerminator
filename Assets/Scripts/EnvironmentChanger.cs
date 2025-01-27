@@ -4,26 +4,26 @@ using System.Linq;
 
 public class EnvironmentChanger
 {
-    private List<Environment> _environments;
-    private Queue<Environment> _environmentsQueue;
+    private List<EnvironmentMover> _environments;
+    private Queue<EnvironmentMover> _environmentsQueue;
 
     public event Action GroundChanged;
 
-    public EnvironmentChanger(List<Environment> environments)
+    public EnvironmentChanger(List<EnvironmentMover> environments)
     {
-        _environments = new List<Environment>(environments);
-        _environmentsQueue = new Queue<Environment>();
+        _environments = new List<EnvironmentMover>(environments);
+        _environmentsQueue = new Queue<EnvironmentMover>();
 
-        foreach (Environment environment in _environments)
+        foreach (EnvironmentMover environment in _environments)
         {
             environment.Finished += OnFinishReached;
             _environmentsQueue.Enqueue(environment);
         }
     }
 
-    private void OnFinishReached(Environment environment)
+    private void OnFinishReached(EnvironmentMover environment)
     {
-        Environment lastEnvironment = _environmentsQueue.Last();
+        EnvironmentMover lastEnvironment = _environmentsQueue.Last();
 
         if (lastEnvironment != null)
             environment.StartPoint.position = lastEnvironment.EndPoint.position;

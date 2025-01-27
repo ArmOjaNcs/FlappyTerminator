@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HpBarMover : MonoBehaviour
+public class HealthBarMover : MonoBehaviour
 {
     [SerializeField] private Transform _player;
 

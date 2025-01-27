@@ -3,31 +3,55 @@ using UnityEngine;
 public class MainTime : MonoBehaviour
 {
     [SerializeField] private MainSpawner _spawner;
-    [SerializeField] private Environment[] _environments;
+    [SerializeField] private EnvironmentMover[] _environments;
     [SerializeField] private BulletSpawner[] _bulletSpawners;
     [SerializeField] private BulletSpawner _playerBulletSpawner;
     [SerializeField] private Score _score;
 
-    private readonly int _maxBoostLevel = 12; 
-
     private int _boostLevel = 1;
-    private float _currentTime;
+    private float _currentTimeForBoost;
+    private float _currentTimeForScore;
+
+    private void Awake()
+    {
+        Time.timeScale = 1;
+    }
+
+    private void OnEnable()
+    {
+        _spawner.EnemySpawner.EnemyKilled += AddScoreForEnemy;
+    }
+
+    private void OnDisable()
+    {
+        _spawner.EnemySpawner.EnemyKilled -= AddScoreForEnemy;
+    }
 
     private void Update()
     {
-        if (_boostLevel < _maxBoostLevel)
-            RunTime();
+        RunTime();
     }
 
     private void RunTime()
     {
-        _currentTime += Time.deltaTime;
+        _currentTimeForScore += Time.deltaTime;
 
-        if(_currentTime > TimeUtils.TimeToNextLevel)
+        if (_currentTimeForScore > GameUtils.TimeToAddScore)
         {
-            _currentTime = 0;
-            _boostLevel++;
-            ApplyAcceleration();
+            AddScore(_boostLevel);
+            _currentTimeForScore = 0;
+        }
+
+        if (_boostLevel <= GameUtils.MaxBoostLevel)
+        {
+            _currentTimeForBoost += Time.deltaTime;
+
+            if (_currentTimeForBoost > GameUtils.TimeToNextLevel)
+            {
+                _currentTimeForBoost = 0;
+                _boostLevel++;
+                ApplyAcceleration();
+            }
         }
     }
 
@@ -36,24 +60,34 @@ public class MainTime : MonoBehaviour
         AddMaxEnemiesCount();
         AddMaxObstaclesCount();
 
-        foreach (Environment environment in _environments)
-            environment.AddSpeed(TimeUtils.EnvironmentBoostedSpeed);
+        foreach (EnvironmentMover environment in _environments)
+            environment.AddSpeed(GameUtils.EnvironmentBoostedSpeed);
 
         foreach (BulletSpawner bulletSpawner in _bulletSpawners)
-            bulletSpawner.AddSpeed(TimeUtils.EnvironmentBoostedSpeed);
+            bulletSpawner.AddSpeed(GameUtils.EnvironmentBoostedSpeed);
 
-        _playerBulletSpawner.DecreaseSpeed(TimeUtils.EnvironmentBoostedSpeed);
+        _playerBulletSpawner.DecreaseSpeed(GameUtils.EnvironmentBoostedSpeed);
     }
 
     private void AddMaxEnemiesCount()
     {
-        if(_boostLevel % 4 == 0)
+        if (_boostLevel % GameUtils.DividerForAddMaxEnemyCount == 0)
             _spawner.AddMaxEnemiesCount();
     }
 
     private void AddMaxObstaclesCount()
     {
-        if (_boostLevel % 6 == 0)
+        if (_boostLevel % GameUtils.DividerForAddMaxObstaclesCount == 0)
             _spawner.AddMaxOstaclesCount();
+    }
+
+    private void AddScore(int score)
+    {
+        _score.AddValue(score);
+    }
+
+    private void AddScoreForEnemy()
+    {
+        _score.AddValue(GameUtils.ScoreByEnemy);
     }
 }

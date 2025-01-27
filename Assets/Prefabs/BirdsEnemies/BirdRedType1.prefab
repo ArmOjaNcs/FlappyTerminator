@@ -453,7 +453,6 @@ GameObject:
   - component: {fileID: -792905881139468825}
   - component: {fileID: 8604889039787005641}
   - component: {fileID: 8997845903892301071}
-  - component: {fileID: -144584189563046003}
   - component: {fileID: -2522804405894297583}
   m_Layer: 0
   m_Name: BirdRedType1
@@ -625,19 +624,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 20
-  _hitZone: {fileID: -144584189563046003}
---- !u!114 &-144584189563046003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7137398060938046828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bccc0afc2daf3949af5a76ff1469818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-2522804405894297583
 MonoBehaviour:
   m_ObjectHideFlags: 0

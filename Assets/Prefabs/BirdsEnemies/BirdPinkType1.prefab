@@ -310,7 +310,6 @@ GameObject:
   - component: {fileID: -5310598895557332501}
   - component: {fileID: 1536486530773471449}
   - component: {fileID: -2130205044844300255}
-  - component: {fileID: -586017460326684600}
   - component: {fileID: 7600379237625480248}
   m_Layer: 0
   m_Name: BirdPinkType1
@@ -482,19 +481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 20
-  _hitZone: {fileID: -586017460326684600}
---- !u!114 &-586017460326684600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4546526352972151208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bccc0afc2daf3949af5a76ff1469818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7600379237625480248
 MonoBehaviour:
   m_ObjectHideFlags: 0

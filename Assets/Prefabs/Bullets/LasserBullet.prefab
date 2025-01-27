@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5457909772036289901}
   - component: {fileID: 6753809813557893880}
   - component: {fileID: 4146839458938827397}
-  - component: {fileID: 6195818674844407199}
+  - component: {fileID: 2222487210866437444}
   m_Layer: 0
   m_Name: LasserBullet
   m_TagString: Untagged
@@ -99,7 +99,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.63157994, y: -0.03374799}
   m_Size: {x: 6.8915224, y: 0.43111312}
   m_Direction: 1
---- !u!114 &6195818674844407199
+--- !u!114 &2222487210866437444
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5329410333858719654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fa3c2371ddefac4ca76a2c9bb28e22f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6267e12a6130a1947aa677ec889b2367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToSpawnAnimator: {fileID: 5641134243420743762}
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 5334a60396bca40f19ac9d531fab2621, type: 3}
   m_Color: {r: 0.91764706, g: 0.8234179, b: 0.2352941, a: 1}
   m_FlipX: 1

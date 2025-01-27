@@ -7,11 +7,18 @@ public class InputController : MonoBehaviour
     public event Action<bool> RotateToMin;
     public event Action<bool> FlyUp;
     public event Action<bool> Shoot;
+    public event Action Reload;
 
-    private bool IsRotateToMax => Input.GetKey(KeyCode.W);
-    private bool IsRotateToMin => Input.GetKey(KeyCode.S);
+    private bool IsRotateToMax => Input.GetAxis("Mouse Y") > 0;
+    private bool IsRotateToMin => Input.GetAxis("Mouse Y") < 0;
     private bool IsFlyUp => Input.GetKeyDown(KeyCode.Space);
-    private bool IsShoot => Input.GetKey(KeyCode.E);
+    private bool IsShoot => Input.GetKey(KeyCode.Mouse0);
+    private bool IsReload => Input.GetKeyDown(KeyCode.Mouse1);
+
+    private void Start()
+    {
+        GameUtils.LockCursor();
+    }
 
     private void Update()
     {
@@ -34,5 +41,8 @@ public class InputController : MonoBehaviour
             Shoot?.Invoke(true);
         else 
             Shoot?.Invoke(false);
+
+        if (IsReload)
+            Reload?.Invoke();
     }
 }

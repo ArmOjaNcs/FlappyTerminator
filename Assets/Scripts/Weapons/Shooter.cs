@@ -41,7 +41,11 @@ public abstract class Shooter : MonoBehaviour
     private protected void Shoot()
     {
         Bullet bullet = _bulletSpawner.Pool.GetFreeElement();
-        _bulletSpawner.Initialize(bullet, _direction, FirePoint, transform.rotation);
-        _currentTime = 0;
+
+        if(bullet != null)
+        {
+            _bulletSpawner.Initialize(bullet, _direction, FirePoint, transform.rotation);
+            _currentTime = 0;
+        }
     }
 }

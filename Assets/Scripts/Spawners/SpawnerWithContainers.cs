@@ -24,8 +24,8 @@ public abstract class SpawnerWithContainers : MonoBehaviour
 
         foreach (Container container in containers)
         {
-            if (container.transform.position.x >= DistanceUtils.MinXPosition &&
-                container.transform.position.x <= DistanceUtils.MaxXPosition)
+            if (container.transform.position.x >= GameUtils.MinXPosition &&
+                container.transform.position.x <= GameUtils.MaxXPosition)
                 validContainers.Add(container);
         }
 

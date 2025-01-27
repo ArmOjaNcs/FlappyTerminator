@@ -8,6 +8,7 @@ public class LeadersBoard
 
     public LeadersBoard()
     {
+        PlayerPrefs.DeleteAll();
         _playersScores = new PlayerScore[LidersBoardInitializer.MaxElements];
         
         if (PlayerPrefs.GetString(_key) == string.Empty)
@@ -25,6 +26,7 @@ public class LeadersBoard
 
     public void AddElement(PlayerScore playerScore)
     {
+        _playersScores[_playersScores.Length - 1] = playerScore;
         PlayerScore tempPlayerScore = null;
 
         for (int i = _playersScores.Length - 1; i >= 0; i--)

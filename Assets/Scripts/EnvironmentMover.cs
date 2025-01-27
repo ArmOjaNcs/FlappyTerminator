@@ -1,7 +1,7 @@
-using System;
+ using System;
 using UnityEngine;
 
-public class Environment : MonoBehaviour
+public class EnvironmentMover : MonoBehaviour
 {
     [SerializeField] private EnvironmentBody _body;
     [SerializeField] private Transform _startPoint;
@@ -11,7 +11,7 @@ public class Environment : MonoBehaviour
     private float _currentSpeed;
     private float _boostedSpeed;
 
-    public event Action<Environment> Finished;
+    public event Action<EnvironmentMover> Finished;
 
     public Transform StartPoint => _startPoint;
     public Transform EndPoint => _endPoint;
@@ -19,7 +19,7 @@ public class Environment : MonoBehaviour
     private void Awake()
     {
         _body.FinishReached += OnFinished;
-        _boostedSpeed = TimeUtils.StartEnvironmentSpeed;
+        _boostedSpeed = GameUtils.StartEnvironmentSpeed;
         SetCurrentSpeed();
     }
 

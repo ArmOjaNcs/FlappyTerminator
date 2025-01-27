@@ -366,7 +366,6 @@ GameObject:
   - component: {fileID: -8677505369755988698}
   - component: {fileID: 2436941656704531061}
   - component: {fileID: 1789204482885010249}
-  - component: {fileID: -4891127685957768892}
   - component: {fileID: -464455644717278506}
   m_Layer: 0
   m_Name: BirdBlackType5
@@ -538,19 +537,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 20
-  _hitZone: {fileID: -4891127685957768892}
---- !u!114 &-4891127685957768892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4841983275295681187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bccc0afc2daf3949af5a76ff1469818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-464455644717278506
 MonoBehaviour:
   m_ObjectHideFlags: 0

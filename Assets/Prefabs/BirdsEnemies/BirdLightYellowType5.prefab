@@ -306,7 +306,6 @@ GameObject:
   - component: {fileID: -3142092635159884494}
   - component: {fileID: 6708569639190793726}
   - component: {fileID: -2615432630544208818}
-  - component: {fileID: -7598656838100247340}
   - component: {fileID: -1428050174627285966}
   m_Layer: 0
   m_Name: BirdLightYellowType5
@@ -478,19 +477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxValue: 20
-  _hitZone: {fileID: -7598656838100247340}
---- !u!114 &-7598656838100247340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4119090709941619583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bccc0afc2daf3949af5a76ff1469818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-1428050174627285966
 MonoBehaviour:
   m_ObjectHideFlags: 0

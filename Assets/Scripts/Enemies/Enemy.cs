@@ -12,6 +12,7 @@ public class Enemy : ObjectToSpawn
     public override event Action<ObjectToSpawn> LifeTimeFinished;
     public event Action<bool> CanShootChanged;
     public event Action<Enemy> ReturnToPool;
+    public event Action EnemyKilled;
     
     public Transform WeaponContainer => _weaponContainer;
 
@@ -31,6 +32,7 @@ public class Enemy : ObjectToSpawn
     {
         if(_health.CurrentValue == 0)
         {
+            EnemyKilled?.Invoke();
             ReturnToPool?.Invoke(this);
             _objectToSpawnAnimator.SetHitTrigger();
         }
@@ -38,17 +40,6 @@ public class Enemy : ObjectToSpawn
 
     private protected override void Release()
     {
-        int childCount = transform.childCount;
-        
-        if(childCount > 0)
-        {
-            for (int i = 0; i < childCount; i++)
-            {
-                if (transform.GetChild(i).TryGetComponent(out Bullet bullet))
-                    bullet.transform.parent = null;
-            }
-        }
-        
         ReturnToPool?.Invoke(this);
         LifeTimeFinished?.Invoke(this);
     }

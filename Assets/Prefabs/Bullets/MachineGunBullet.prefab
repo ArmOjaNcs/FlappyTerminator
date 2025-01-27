@@ -77,7 +77,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 9687b8cba872c4f50aeb3b2b3ff1a0b7, type: 3}
   m_Color: {r: 0.98490566, g: 0.05760764, b: 0.05760764, a: 1}
   m_FlipX: 0
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 5095332382770474985}
   - component: {fileID: 563138846858125530}
   - component: {fileID: 6557008938980256562}
-  - component: {fileID: 3924597534427753422}
+  - component: {fileID: 8645015332835480964}
   m_Layer: 0
   m_Name: MachineGunBullet
   m_TagString: Untagged
@@ -222,7 +222,7 @@ CapsuleCollider2D:
   m_Offset: {x: -0.21213287, y: 0.0048219822}
   m_Size: {x: 0.614306, y: 0.527528}
   m_Direction: 1
---- !u!114 &3924597534427753422
+--- !u!114 &8645015332835480964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,7 +231,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6702114730653759933}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fa3c2371ddefac4ca76a2c9bb28e22f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6267e12a6130a1947aa677ec889b2367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToSpawnAnimator: {fileID: 4186107019248405217}

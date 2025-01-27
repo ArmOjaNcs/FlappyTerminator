@@ -8,8 +8,12 @@ public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerSign>
            IsContainersInEnoughDistance(containers, out List<Container> validContainers))
         {
             DangerSign obstacle = Pool.GetFreeElement();
-            obstacle.SetStartPosition(GetRandomContainer(validContainers));
-            Initialize(obstacle);
+
+            if(obstacle != null)
+            {
+                obstacle.SetStartPosition(GetRandomContainer(validContainers));
+                Initialize(obstacle);
+            }
         }
     }
 
