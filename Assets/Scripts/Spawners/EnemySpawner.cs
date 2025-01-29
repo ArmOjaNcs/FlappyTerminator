@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MultiPrefabSpawnerWithContainers<Enemy>
+public class EnemySpawner : MultiPrefabSpawnerWithContainers<Enemy>, IPauseable
 {
     [SerializeField] private Armory _armory;
 
@@ -23,10 +23,33 @@ public class EnemySpawner : MultiPrefabSpawnerWithContainers<Enemy>
         }
     }
 
+    public void Stop()
+    {
+        List<Enemy> enemies = Pool.GetAllBusyElements();
+
+        if (enemies.Count > 0)
+        {
+            foreach (Enemy enemy in enemies)
+                enemy.Stop();
+        }
+    }
+
+    public void Resume()
+    {
+        List<Enemy> enemies = Pool.GetAllBusyElements();
+
+        if (enemies.Count > 0)
+        {
+            foreach (Enemy enemy in enemies)
+                enemy.Resume();
+        }
+    }
+
     private protected override void Initialize(Enemy enemy)
     {
         EnemyWeapon weapon = _armory.GetRandomWeapon();
         weapon.SetEnemyParent(enemy);
+        enemy.SetWeapon(weapon);
         enemy.Activate();
 
         if (enemy.IsSpawnerSubscribed == false)

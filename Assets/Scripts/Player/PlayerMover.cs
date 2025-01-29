@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerMover : MonoBehaviour
+public class PlayerMover : MonoBehaviour, IPauseable
 {
     [SerializeField] private InputController _inputController;
     [SerializeField] private float _tapForce;
@@ -16,6 +16,7 @@ public class PlayerMover : MonoBehaviour
     private bool _isRotateToMax;
     private bool _isRotateToMin;
     private bool _isFlyUp;
+    private bool _isPaused;
 
     private void Awake()
     {
@@ -42,7 +43,29 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        Fly();
+        if(_isPaused == false)
+            Fly();
+    }
+
+    public void Stop()
+    {
+        _isPaused = true;
+        _inputController.RotateToMax -= OnRotateToMax;
+        _inputController.RotateToMin -= OnRotateToMin;
+        _inputController.FlyUp -= OnFlyUp;
+
+        _rigidbody2D.linearVelocity = Vector3.zero;
+        _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+    }
+
+    public void Resume()
+    {
+        _isPaused = false;
+        _inputController.RotateToMax += OnRotateToMax;
+        _inputController.RotateToMin += OnRotateToMin;
+        _inputController.FlyUp += OnFlyUp;
+
+        _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
     private void OnRotateToMax(bool isRotate)

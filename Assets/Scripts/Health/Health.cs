@@ -6,6 +6,7 @@ public class Health : MonoBehaviour
     [SerializeField] private float _maxValue;
 
     private EnemyTarget _enemyTarget;
+    private bool _isCanBeDamaged;
 
     public event Action HealthUpdate;
     public event Action HealthEnded;
@@ -19,6 +20,7 @@ public class Health : MonoBehaviour
         TryGetComponent(out EnemyTarget component);
         _enemyTarget = component;
         CurrentValue = MaxValue;
+        _isCanBeDamaged = true;
     }
 
     private void OnEnable()
@@ -45,14 +47,22 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        CurrentValue -= damage;
-
-        if (CurrentValue < 0)
+        if(_isCanBeDamaged == true)
         {
-            CurrentValue = 0;
-            HealthEnded?.Invoke();
-        }
+            CurrentValue -= damage;
 
-        HealthUpdate?.Invoke();
+            if (CurrentValue < 0)
+            {
+                CurrentValue = 0;
+                HealthEnded?.Invoke();
+            }
+
+            HealthUpdate?.Invoke();
+        }
+    }
+
+    public void SetIsCsnBeDamaged(bool isCsnBeDamaged)
+    {
+        _isCanBeDamaged = isCsnBeDamaged;
     }
 }

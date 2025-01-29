@@ -8,13 +8,13 @@ public class PlayerBullet : Bullet
 
         if (collision.TryGetComponent(out Health health) && health.EnemyTarget == null)
         {
-            if (ReliaseCoroutine == null && enabled)
+            if (ReliaseCoroutine == null && isActiveAndEnabled)
                 ReliaseCoroutine = StartCoroutine(DealDamage(health));
         }
 
         if (collision.TryGetComponent(out EnemyBullet bullet) && bullet.IsPerformHit == false)
         {
-            if (ReliaseCoroutine == null && enabled)
+            if (ReliaseCoroutine == null && isActiveAndEnabled)
                 ReliaseCoroutine = StartCoroutine(HitObstacle());
         }
     }

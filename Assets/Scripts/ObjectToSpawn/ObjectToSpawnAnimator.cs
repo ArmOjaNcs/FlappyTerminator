@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class ObjectToSpawnAnimator : MonoBehaviour
+public class ObjectToSpawnAnimator : MonoBehaviour, IPauseable
 {
     private const string Hit = nameof(Hit);
     private const string Exit = nameof(Exit);
@@ -25,5 +25,15 @@ public class ObjectToSpawnAnimator : MonoBehaviour
     {
         _animator.SetTrigger(Exit);
         HitPerformed?.Invoke();
+    }
+
+    public void Stop()
+    {
+        _animator.enabled = false;
+    }
+
+    public void Resume()
+    {
+        _animator.enabled = true;
     }
 }

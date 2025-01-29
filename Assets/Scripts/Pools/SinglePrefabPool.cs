@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Android.Gradle;
 using UnityEngine;
 
 public class SinglePrefabPool<T> where T : MonoBehaviour
@@ -36,6 +37,21 @@ public class SinglePrefabPool<T> where T : MonoBehaviour
             return element;
 
         return CreateObject();
+    }
+
+    public List<T> GetAllBusyElements()
+    {
+        List<T> busyElements = new List<T>();
+
+        foreach (var objectToSpawn in _pool)
+        {
+            if (objectToSpawn.gameObject.activeInHierarchy == true)
+            {
+                busyElements.Add(objectToSpawn);
+            }
+        }
+
+        return busyElements;
     }
 
     private void CreatePull(int count)

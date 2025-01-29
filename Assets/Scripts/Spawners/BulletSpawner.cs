@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletSpawner : SinglePrefabSpawner<Bullet>
+public class BulletSpawner : SinglePrefabSpawner<Bullet>, IPauseable
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _lifeTime;
@@ -30,7 +31,7 @@ public class BulletSpawner : SinglePrefabSpawner<Bullet>
         bullet.SetDirection(direction);
         bullet.SetStartPosition(firePoint);
         bullet.SetDamage(_damage);
-        bullet.SetLifeTime(_time);
+        bullet.SetLifeTime(_time, _lifeTime);
         bullet.SetRotation(rotation);
         bullet.Activate();
 
@@ -39,6 +40,28 @@ public class BulletSpawner : SinglePrefabSpawner<Bullet>
             bullet.LifeTimeFinished += Release;
             bullet.SetParentBody(_parentBody);
             bullet.SubscribeBySpawner();
+        }
+    }
+
+    public void Stop()
+    {
+        List<Bullet> bullets = Pool.GetAllBusyElements();
+
+        if (bullets.Count > 0)
+        {
+            foreach (Bullet bullet in bullets)
+                bullet.Stop();
+        }
+    }
+
+    public void Resume()
+    {
+        List<Bullet> bullets = Pool.GetAllBusyElements();
+
+        if (bullets.Count > 0)
+        {
+            foreach (Bullet bullet in bullets)
+                bullet.Resume();
         }
     }
 }

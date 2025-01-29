@@ -1,7 +1,7 @@
  using System;
 using UnityEngine;
 
-public class EnvironmentMover : MonoBehaviour
+public class EnvironmentMover : MonoBehaviour, IPauseable
 {
     [SerializeField] private EnvironmentBody _body;
     [SerializeField] private Transform _startPoint;
@@ -10,6 +10,7 @@ public class EnvironmentMover : MonoBehaviour
 
     private float _currentSpeed;
     private float _boostedSpeed;
+    private float _defaultSpeed;
 
     public event Action<EnvironmentMover> Finished;
 
@@ -37,6 +38,17 @@ public class EnvironmentMover : MonoBehaviour
     public void ResetBodyContact()
     {
         _body.SetFirstContact();
+    }
+
+    public void Stop()
+    {
+        _defaultSpeed = _currentSpeed;
+        _currentSpeed = 0;
+    }
+
+    public void Resume()
+    {
+        _currentSpeed = _defaultSpeed;
     }
 
     private void Move()

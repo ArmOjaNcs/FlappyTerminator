@@ -597,7 +597,7 @@ GameObject:
   - component: {fileID: 5402339243793151192}
   - component: {fileID: 539726197864029650}
   - component: {fileID: 462390691518533187}
-  - component: {fileID: 97306590800093937}
+  - component: {fileID: 3174324967943007442}
   m_Layer: 0
   m_Name: RocketLauncherBullet
   m_TagString: Untagged
@@ -685,7 +685,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0.025217775, y: 0.0126087945}
   m_Size: {x: 2.3617792, y: 0.54607844}
   m_Direction: 1
---- !u!114 &97306590800093937
+--- !u!114 &3174324967943007442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -694,7 +694,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7275482032238441177}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6267e12a6130a1947aa677ec889b2367, type: 3}
+  m_Script: {fileID: 11500000, guid: 792c2148ab1cf4e4198a034564167d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToSpawnAnimator: {fileID: 6484682193250593918}
+  _nozzlesAnimator: {fileID: 412406317745573828}

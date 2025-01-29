@@ -1,21 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MainTime : MonoBehaviour
+public class MainTime : MonoBehaviour, IPauseable
 {
     [SerializeField] private MainSpawner _spawner;
-    [SerializeField] private EnvironmentMover[] _environments;
-    [SerializeField] private BulletSpawner[] _bulletSpawners;
+    [SerializeField] private List<EnvironmentMover> _environments;
+    [SerializeField] private List<BulletSpawner> _bulletSpawners;
     [SerializeField] private BulletSpawner _playerBulletSpawner;
+    [SerializeField] private Player _player;
     [SerializeField] private Score _score;
 
     private int _boostLevel = 1;
     private float _currentTimeForBoost;
     private float _currentTimeForScore;
     private float _currentTimeForMedPack;
+    private bool _isPaused;
 
     private void Awake()
     {
-        Time.timeScale = 1;
+        _isPaused = false;
     }
 
     private void OnEnable()
@@ -33,11 +36,24 @@ public class MainTime : MonoBehaviour
         RunTime();
     }
 
+    public void Stop()
+    {
+        _isPaused = true;
+    }
+
+    public void Resume()
+    {
+        _isPaused = false;
+    }
+
     private void RunTime()
     {
-        _currentTimeForScore += Time.deltaTime;
-        _currentTimeForMedPack += Time.deltaTime;
-
+        if(_isPaused == false)
+        {
+            _currentTimeForScore += Time.deltaTime;
+            _currentTimeForMedPack += Time.deltaTime;
+        }
+        
         if (_currentTimeForScore > GameUtils.TimeToAddScore)
         {
             AddScore(_boostLevel);
@@ -50,7 +66,7 @@ public class MainTime : MonoBehaviour
             _currentTimeForMedPack = 0;
         }
 
-        if (_boostLevel <= GameUtils.MaxBoostLevel)
+        if (_boostLevel <= GameUtils.MaxBoostLevel && _isPaused == false)
         {
             _currentTimeForBoost += Time.deltaTime;
 

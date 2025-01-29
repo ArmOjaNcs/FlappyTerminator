@@ -39,7 +39,7 @@ public class PlayerWeapon : Shooter
 
     private protected override void Update()
     {
-        if (IsTimeToShoot() && IsCanShoot && _isHaveBullets)
+        if (IsTimeToShoot() && IsCanShoot && _isHaveBullets && IsPaused == false)
         {
             SetDirection(GetDirection());
             Shoot();
@@ -68,10 +68,13 @@ public class PlayerWeapon : Shooter
 
     private void OnReload()
     {
-        if(_reloadCoroutine == null)
+        if(IsPaused == false)
         {
-            _reloadCoroutine = StartCoroutine(BeginReload());
-            Reload?.Invoke(true);
+            if (_reloadCoroutine == null)
+            {
+                _reloadCoroutine = StartCoroutine(BeginReload());
+                Reload?.Invoke(true);
+            }
         }
     }
 }

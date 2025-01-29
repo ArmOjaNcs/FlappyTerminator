@@ -4,11 +4,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public abstract class Bullet : ObjectToSpawn
+public abstract class Bullet : ObjectToSpawn, IPauseable
 {
     [SerializeField] private ObjectToSpawnAnimator _objectToSpawnAnimator;
 
     private float _damage;
+    private float _currentLifeTime;
+    private float _defaultLifeTime;
     private float _speed;
     private Vector2 _direction;
     private Coroutine _lifeCoroutine;
@@ -34,6 +36,7 @@ public abstract class Bullet : ObjectToSpawn
         _isStop = false;
         IsPerformHit = false;
         _objectToSpawnAnimator.transform.position = transform.position;
+        _currentLifeTime = _defaultLifeTime;
     }
 
     private void OnDisable()
@@ -55,7 +58,7 @@ public abstract class Bullet : ObjectToSpawn
     {
         if (collision.TryGetComponent(out Obstacle _))
         {
-            if (ReliaseCoroutine == null && enabled)
+            if (ReliaseCoroutine == null && isActiveAndEnabled)
                 ReliaseCoroutine = StartCoroutine(HitObstacle());
         }
     }
@@ -70,9 +73,10 @@ public abstract class Bullet : ObjectToSpawn
         transform.rotation = rotation;
     }
 
-    public void SetLifeTime(WaitForSeconds lifeTime)
+    public void SetLifeTime(WaitForSeconds lifeTime, float defaultLifeTime)
     {
         _lifeTime = lifeTime;
+        _defaultLifeTime = defaultLifeTime;
     }
 
     public void SetStartPosition(Transform shotPoint)
@@ -95,6 +99,24 @@ public abstract class Bullet : ObjectToSpawn
         _parentBody = parentBody;
     }
 
+    public virtual void Stop()
+    {
+        _isStop = true;
+        _objectToSpawnAnimator.Stop();
+        
+        if(_lifeCoroutine != null)
+            StopCoroutine(_lifeCoroutine);
+    }
+
+    public virtual void Resume()
+    {
+        _isStop = false;
+        _objectToSpawnAnimator.Resume();
+
+        if(isActiveAndEnabled)
+            _lifeCoroutine = StartCoroutine(BeginLifeTime(_currentLifeTime));
+    }
+
     private protected override void Release()
     {
         transform.parent = null;
@@ -104,11 +126,16 @@ public abstract class Bullet : ObjectToSpawn
     private void Move()
     {
         transform.Translate(_direction.normalized * _speed * Time.deltaTime);
+        _currentLifeTime -= Time.deltaTime;
     }
 
-    private IEnumerator BeginLifeTime()
+    private IEnumerator BeginLifeTime(float currentLifeTime = 0)
     {
-        yield return _lifeTime;
+        if(currentLifeTime == 0) 
+            yield return _lifeTime;
+        else 
+            yield return new WaitForSeconds(currentLifeTime);
+        
         Release();
     }
 
