@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class GameOverMenu : MonoBehaviour
 {
     [SerializeField] private Score _score;
-    [SerializeField] private TextMeshProUGUI _leaderBoardText;
+    [SerializeField] private TextMeshProUGUI _leadersBoardText;
     [SerializeField] private Button _restart;
+    [SerializeField] private Button _backToStartMenu;
     [SerializeField] private EnterNewScore _enterNewScore;
     [SerializeField] private Player _player;
 
@@ -24,7 +25,7 @@ public class GameOverMenu : MonoBehaviour
 
     private void NewScoreClosed()
     {
-        SetLeadersBoardBText();
+        _leadersBoard.SetLeadersBoardBText(_leadersBoardText);
         ActivateButtons();
     }
 
@@ -40,62 +41,37 @@ public class GameOverMenu : MonoBehaviour
         }
         else
         {
-            SetLeadersBoardBText();
+            _leadersBoard.SetLeadersBoardBText(_leadersBoardText);
             ActivateButtons();
         } 
-    }
-
-    private void SetLeadersBoardBText()
-    {
-        string[] leaderBoardText = GetElementsFromLiderBoard();
-        ShowLiderBoardText(leaderBoardText);
     }
 
     private void MapButtons()
     {
         _restart.onClick.AddListener(() => ReloadGame());
+        _backToStartMenu.onClick.AddListener(() => LoadStartMenu());
         DeactivateButtons();
     }
 
     private void DeactivateButtons()
     {
         _restart.gameObject.SetActive(false);
+        _backToStartMenu.gameObject.SetActive(false);
     }
 
     private void ActivateButtons()
     {
         _restart.gameObject.SetActive(true);
+        _backToStartMenu.gameObject.SetActive(true);
     }
 
-    private static void ReloadGame()
+    private void ReloadGame()
     {
         SceneManager.LoadScene(GameUtils.MainScene);
     }
 
-    private void Update()
+    private void LoadStartMenu()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            ShowLiderBoardText(GetElementsFromLiderBoard());
-        }
-    }
-
-    private string[] GetElementsFromLiderBoard()
-    {
-        string[] allElements = _leadersBoard.ToString().Split(SignUtils.Space);
-        string[] correctedBordElements = new string[allElements.Length - 1];
-
-        for (int i = 0; i < correctedBordElements.Length; i++)
-            correctedBordElements[i] = (i + 1).ToString() + SignUtils.Dot + allElements[i];
-
-        return correctedBordElements;
-    }
-
-    private void ShowLiderBoardText(string[] liderBoardText)
-    {
-        _leaderBoardText.text = string.Empty;
-
-        for (int i = 0; i < liderBoardText.Length; i++)
-            _leaderBoardText.text += liderBoardText[i] + SignUtils.NextLine;
+        SceneManager.LoadScene(GameUtils.MenuScene);
     }
 }

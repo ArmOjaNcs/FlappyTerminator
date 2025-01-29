@@ -24,8 +24,6 @@ public class PlayerMover : MonoBehaviour
 
         _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
         _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
-
-        Reset();
     }
 
     private void OnEnable()
@@ -45,13 +43,6 @@ public class PlayerMover : MonoBehaviour
     private void Update()
     {
         Fly();
-    }
-
-    public void Reset()
-    {
-        transform.position = _startPosition;
-        transform.rotation = Quaternion.identity;
-        _rigidbody2D.linearVelocity = Vector2.zero;
     }
 
     private void OnRotateToMax(bool isRotate)
