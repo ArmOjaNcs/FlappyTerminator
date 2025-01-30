@@ -7,17 +7,18 @@ public class Enemy : ObjectToSpawn, IPauseable
     [SerializeField] private DetectionZone _detectionZone;
     [SerializeField] private Transform _weaponContainer;
     [SerializeField] private Health _health;
-    [SerializeField] private ObjectToSpawnAnimator _objectToSpawnAnimator;
+    [SerializeField] private ObjectAnimator _objectAnimator;
 
-    private EnemyWeapon _weapon;
     private Animator _weaponAnimator;
 
     public override event Action<ObjectToSpawn> LifeTimeFinished;
-    public event Action<bool> CanShootChanged;
+    public event Action StopShoot;
+    public event Action StartShoot;
     public event Action<Enemy> ReturnToPool;
     public event Action EnemyKilled;
     
     public Transform WeaponContainer => _weaponContainer;
+    public Health Health => _health;
 
     private void Awake()
     {
@@ -28,35 +29,27 @@ public class Enemy : ObjectToSpawn, IPauseable
     {
         _detectionZone.TargetInZone += OnTargetInZone;
         _health.HealthUpdate += OnHealthUpdate;
-        _objectToSpawnAnimator.HitPerformed += Release;
-    }
-
-    public void SetWeapon(EnemyWeapon weapon)
-    {
-        _weapon = weapon;
+        _objectAnimator.HitPerformed += Release;
     }
 
     public void Stop()
     {
-        _objectToSpawnAnimator.Stop();
+        _objectAnimator.Stop();
         _weaponAnimator.enabled = false;
-
-        if (_weapon != null)
-            _weapon.Stop();
     }
 
     public void Resume()
     {
-        _objectToSpawnAnimator.Resume();
+        _objectAnimator.Resume();
         _weaponAnimator.enabled = true;
-
-        if (_weapon != null)
-            _weapon.Resume();
     }
 
     private void OnTargetInZone(bool isTargetInZone)
     {
-        CanShootChanged?.Invoke(isTargetInZone);
+        if (isTargetInZone)
+            StartShoot?.Invoke();
+        else
+            StopShoot?.Invoke();
     }
 
     private void OnHealthUpdate()
@@ -65,7 +58,7 @@ public class Enemy : ObjectToSpawn, IPauseable
         {
             EnemyKilled?.Invoke();
             ReturnToPool?.Invoke(this);
-            _objectToSpawnAnimator.SetHitTrigger();
+            _objectAnimator.SetHitTrigger();
         }
     }
 

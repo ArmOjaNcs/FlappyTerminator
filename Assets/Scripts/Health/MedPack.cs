@@ -7,24 +7,29 @@ public class MedPack : ObjectToSpawn
 {
     private readonly float _healingPower = 100;
 
-    private AudioSource _audioSource;
     private SpriteRenderer _spriteRenderer;
-    private WaitForSeconds _wait;
     private bool _isFirstTouch;
 
     public override event Action<ObjectToSpawn> LifeTimeFinished;
 
     private void Awake()
     {
-        //_audioSource = GetComponent<AudioSource>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        //_wait = new WaitForSeconds(_audioSource.clip.length);
     }
 
     private void OnEnable()
     {
         _isFirstTouch = true;
         _spriteRenderer.enabled = true;
+    }
+
+    private protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D (collision);
+
+        if (collision.TryGetComponent(out Player player))
+            if (player.Health.CurrentValue < player.Health.MaxValue)
+                player.Health.TakeHeal(GetHealing());
     }
 
     public float GetHealing()
@@ -48,7 +53,6 @@ public class MedPack : ObjectToSpawn
 
     private IEnumerator PickingUp()
     {
-        //_audioSource.Play();
         _spriteRenderer.enabled = false;
         yield return null;
         Release();

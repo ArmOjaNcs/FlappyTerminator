@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class ObjectToSpawnAnimator : MonoBehaviour, IPauseable
+public class ObjectAnimator : MonoBehaviour, IPauseable
 {
     private const string Hit = nameof(Hit);
     private const string Exit = nameof(Exit);

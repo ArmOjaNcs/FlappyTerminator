@@ -23,13 +23,15 @@ public class EnemyWeapon : Shooter
     {
         transform.position = enemy.WeaponContainer.position;
         transform.SetParent(enemy.WeaponContainer);
-        enemy.CanShootChanged += SetIsCanShoot;
+        enemy.StopShoot += StopShoot;
+        enemy.StartShoot += StartShoot;
         enemy.ReturnToPool += OnEnemyReturnToPool;
     }
 
     private void OnEnemyReturnToPool(Enemy enemy)
     {
-        enemy.CanShootChanged -= SetIsCanShoot;
+        enemy.StopShoot -= StopShoot;
+        enemy.StartShoot -= StartShoot;
         enemy.ReturnToPool -= OnEnemyReturnToPool;
         LifeTimeFinished?.Invoke(this);
     }

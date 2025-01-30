@@ -18,8 +18,9 @@ public static class GameUtils
     public static readonly float MaxXPosition = 180;
     public static readonly string MainScene = nameof(MainScene);
     public static readonly string MenuScene = nameof(MenuScene);
+    public static readonly string MouseY = "Mouse Y";
 
-    public static void UlockCursor()
+    public static void UnlockCursor()
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

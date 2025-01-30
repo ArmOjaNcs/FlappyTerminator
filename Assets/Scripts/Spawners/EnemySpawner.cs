@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MultiPrefabSpawnerWithContainers<Enemy>, IPauseable
+public class EnemySpawner : MultiPrefabSpawnerWithContainers<Enemy>
 {
     [SerializeField] private Armory _armory;
+    [SerializeField] private Pause _pause;
 
     public event Action EnemyKilled;
 
@@ -23,37 +24,16 @@ public class EnemySpawner : MultiPrefabSpawnerWithContainers<Enemy>, IPauseable
         }
     }
 
-    public void Stop()
-    {
-        List<Enemy> enemies = Pool.GetAllBusyElements();
-
-        if (enemies.Count > 0)
-        {
-            foreach (Enemy enemy in enemies)
-                enemy.Stop();
-        }
-    }
-
-    public void Resume()
-    {
-        List<Enemy> enemies = Pool.GetAllBusyElements();
-
-        if (enemies.Count > 0)
-        {
-            foreach (Enemy enemy in enemies)
-                enemy.Resume();
-        }
-    }
-
     private protected override void Initialize(Enemy enemy)
     {
         EnemyWeapon weapon = _armory.GetRandomWeapon();
         weapon.SetEnemyParent(enemy);
-        enemy.SetWeapon(weapon);
         enemy.Activate();
 
         if (enemy.IsSpawnerSubscribed == false)
         {
+            _pause.Register(enemy);
+            _pause.Register(enemy.Health);
             enemy.LifeTimeFinished += Release;
             enemy.EnemyKilled += OnEnemyKilled;
             enemy.SubscribeBySpawner();

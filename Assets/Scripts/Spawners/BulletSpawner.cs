@@ -1,12 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletSpawner : SinglePrefabSpawner<Bullet>, IPauseable
+public class BulletSpawner : SinglePrefabSpawner<Bullet>
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _lifeTime;
     [SerializeField] private float _damage;
     [SerializeField] private Transform _parentBody;
+    [SerializeField] private Pause _pause;
 
     private WaitForSeconds _time;
 
@@ -17,11 +17,17 @@ public class BulletSpawner : SinglePrefabSpawner<Bullet>, IPauseable
 
     public float DecreaseSpeed(float speed)
     {
+        if (speed < 0)
+            return _speed;
+
         return _speed -= speed;
     }
 
     public float AddSpeed(float speed)
     {
+        if(speed < 0)
+            return _speed;
+
         return _speed += speed;
     }
 
@@ -39,29 +45,9 @@ public class BulletSpawner : SinglePrefabSpawner<Bullet>, IPauseable
         {
             bullet.LifeTimeFinished += Release;
             bullet.SetParentBody(_parentBody);
+            _pause.Register(bullet);
+            _pause.Register(bullet.ObjectAnimator);
             bullet.SubscribeBySpawner();
-        }
-    }
-
-    public void Stop()
-    {
-        List<Bullet> bullets = Pool.GetAllBusyElements();
-
-        if (bullets.Count > 0)
-        {
-            foreach (Bullet bullet in bullets)
-                bullet.Stop();
-        }
-    }
-
-    public void Resume()
-    {
-        List<Bullet> bullets = Pool.GetAllBusyElements();
-
-        if (bullets.Count > 0)
-        {
-            foreach (Bullet bullet in bullets)
-                bullet.Resume();
         }
     }
 }

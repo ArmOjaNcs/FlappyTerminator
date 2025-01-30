@@ -36,21 +36,6 @@ public class MultiPrefabPool<T> where T : MonoBehaviour
         return CreateObjects();
     }
 
-    public List<T> GetAllBusyElements()
-    {
-        List<T> busyElements = new List<T>();
-
-        foreach (var objectToSpawn in _pool)
-        {
-            if (objectToSpawn.gameObject.activeInHierarchy == true)
-            {
-                busyElements.Add(objectToSpawn);
-            }
-        }
-
-        return busyElements;
-    }
-
     private void CreatePull()
     {
         _pool = new List<T>();

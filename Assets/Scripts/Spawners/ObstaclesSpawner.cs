@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerSign>
 {
+    [SerializeField] private Pause _pause;
+
     public void SpawnObstacle()
     {
         if (TryGetFreeContainers(out List<Container> containers) &&
@@ -17,14 +20,18 @@ public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerSign>
         }
     }
 
-    private protected override void Initialize(DangerSign obstacle)
+    private protected override void Initialize(DangerSign dangerSign)
     {
-        obstacle.Activate();
+        dangerSign.Activate();
 
-        if (obstacle.IsSpawnerSubscribed == false)
+        if (dangerSign.IsSpawnerSubscribed == false)
         {
-            obstacle.LifeTimeFinished += Release;
-            obstacle.SubscribeBySpawner();
+            dangerSign.LifeTimeFinished += Release;
+
+            if (dangerSign.Obstacle != null)
+                _pause.Register(dangerSign.Obstacle);
+
+            dangerSign.SubscribeBySpawner();
         }
     }
 }

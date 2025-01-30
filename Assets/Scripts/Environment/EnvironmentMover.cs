@@ -7,6 +7,7 @@ public class EnvironmentMover : MonoBehaviour, IPauseable
     [SerializeField] private Transform _startPoint;
     [SerializeField] private Transform _endPoint;
     [SerializeField, Range(1,10)] private float _parallax;
+    [SerializeField] private Pause _pause;
 
     private float _currentSpeed;
     private float _boostedSpeed;
@@ -22,6 +23,10 @@ public class EnvironmentMover : MonoBehaviour, IPauseable
         _body.FinishReached += OnFinished;
         _boostedSpeed = GameUtils.StartEnvironmentSpeed;
         SetCurrentSpeed();
+        _pause.Register(this);
+
+        if(_body.Obstacle != null)
+            _pause.Register(_body.Obstacle);
     }
 
     private void Update()

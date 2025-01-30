@@ -9,6 +9,7 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private float _currentSmoothDuration;
 
     private float _smoothDuration;
+    private float _startValue;
     private Coroutine _coroutine;
 
     private void OnEnable()
@@ -30,14 +31,13 @@ public class HealthBar : MonoBehaviour
     private IEnumerator UpdateView()
     {
         float elapsedTime = 0;
-        float startValue = _slider.value;
         float targetValue = Health.CurrentValue / Health.MaxValue;
 
         while (elapsedTime < _smoothDuration)
         {
             elapsedTime += Time.deltaTime;
             float normalizedPosition = elapsedTime / _smoothDuration;
-            _slider.value = Mathf.MoveTowards(startValue, targetValue, normalizedPosition);
+            _slider.value = Mathf.Lerp(_startValue, targetValue, normalizedPosition);
 
             yield return null;
         }
@@ -47,6 +47,8 @@ public class HealthBar : MonoBehaviour
 
     private void OnHealthUpdate()
     {
+        _startValue = _slider.value;
+
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 

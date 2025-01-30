@@ -33,7 +33,7 @@ public class GameOverMenu : MonoBehaviour
     {
         Time.timeScale = 0;
         gameObject.SetActive(true);
-        GameUtils.UlockCursor();
+        GameUtils.UnlockCursor();
 
         if (_score.Value > _leadersBoard.GetLastElementScore())
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerWeapon : Shooter
 {
-    [SerializeField] private InputController _inputController;
+    [SerializeField] private PlayerInput _playerInput;
 
     public readonly int MaxBulletsValue = 30;
     public readonly float TimeForReload = 1.5f;
@@ -27,28 +27,33 @@ public class PlayerWeapon : Shooter
 
     private void OnEnable()
     {
-        _inputController.Shoot += SetIsCanShoot;
-        _inputController.Reload += OnReload;
+        _playerInput.StopShoot += StopShoot;
+        _playerInput.StartShoot += StartShoot;
+        _playerInput.Reload += OnReload;
     }
 
     private void OnDisable()
     {
-        _inputController.Shoot -= SetIsCanShoot;
-        _inputController.Reload -= OnReload;
+        _playerInput.StopShoot -= StopShoot;
+        _playerInput.StartShoot -= StartShoot;
+        _playerInput.Reload -= OnReload;
     }
 
     private protected override void Update()
     {
-        if (IsTimeToShoot() && IsCanShoot && _isHaveBullets && IsPaused == false)
+        if(IsPaused == false)
         {
-            SetDirection(GetDirection());
-            Shoot();
-            CurrentBulletsValue--;
-            BulletsValueChanged?.Invoke(CurrentBulletsValue);
-        }
+            if (IsTimeToShoot() && IsCanShoot && _isHaveBullets)
+            {
+                SetDirection(GetDirection());
+                Shoot();
+                CurrentBulletsValue--;
+                BulletsValueChanged?.Invoke(CurrentBulletsValue);
+            }
 
-        if(CurrentBulletsValue <= 0)
-            OnReload();
+            if (CurrentBulletsValue <= 0)
+                OnReload();
+        }
     }
 
     private Vector2 GetDirection()

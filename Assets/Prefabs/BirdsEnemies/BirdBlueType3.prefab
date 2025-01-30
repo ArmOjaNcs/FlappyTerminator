@@ -541,7 +541,7 @@ MonoBehaviour:
   _detectionZone: {fileID: 3255443772502709770}
   _weaponContainer: {fileID: 5431870056247089064}
   _health: {fileID: -5734842052279759855}
-  _objectToSpawnAnimator: {fileID: 3045145157671644912}
+  _objectAnimator: {fileID: 3045145157671644912}
 --- !u!58 &9202629434871394327
 CircleCollider2D:
   m_ObjectHideFlags: 0

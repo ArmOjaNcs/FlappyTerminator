@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainTime : MonoBehaviour, IPauseable
+public class TimeAccelerator : MonoBehaviour, IPauseable
 {
     [SerializeField] private MainSpawner _spawner;
     [SerializeField] private List<EnvironmentMover> _environments;
@@ -9,6 +9,7 @@ public class MainTime : MonoBehaviour, IPauseable
     [SerializeField] private BulletSpawner _playerBulletSpawner;
     [SerializeField] private Player _player;
     [SerializeField] private Score _score;
+    [SerializeField] private Pause _pause;
 
     private int _boostLevel = 1;
     private float _currentTimeForBoost;
@@ -19,6 +20,7 @@ public class MainTime : MonoBehaviour, IPauseable
     private void Awake()
     {
         _isPaused = false;
+        _pause.Register(this);
     }
 
     private void OnEnable()

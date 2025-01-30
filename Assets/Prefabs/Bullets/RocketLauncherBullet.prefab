@@ -697,5 +697,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 792c2148ab1cf4e4198a034564167d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectToSpawnAnimator: {fileID: 6484682193250593918}
+  _objectAnimator: {fileID: 6484682193250593918}
   _nozzlesAnimator: {fileID: 412406317745573828}

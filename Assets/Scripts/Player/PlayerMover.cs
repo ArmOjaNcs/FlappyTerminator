@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMover : MonoBehaviour, IPauseable
 {
-    [SerializeField] private InputController _inputController;
+    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private float _tapForce;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _maxRotationZ;
@@ -29,16 +29,16 @@ public class PlayerMover : MonoBehaviour, IPauseable
 
     private void OnEnable()
     {
-        _inputController.RotateToMax += OnRotateToMax;
-        _inputController.RotateToMin += OnRotateToMin;
-        _inputController.FlyUp += OnFlyUp;
+        _playerInput.RotateToMax += OnRotateToMax;
+        _playerInput.RotateToMin += OnRotateToMin;
+        _playerInput.FlyUp += OnFlyUp;
     }
 
     private void OnDisable()
     {
-        _inputController.RotateToMax -= OnRotateToMax;
-        _inputController.RotateToMin -= OnRotateToMin;
-        _inputController.FlyUp -= OnFlyUp;
+        _playerInput.RotateToMax -= OnRotateToMax;
+        _playerInput.RotateToMin -= OnRotateToMin;
+        _playerInput.FlyUp -= OnFlyUp;
     }
 
     private void Update()
@@ -50,9 +50,6 @@ public class PlayerMover : MonoBehaviour, IPauseable
     public void Stop()
     {
         _isPaused = true;
-        _inputController.RotateToMax -= OnRotateToMax;
-        _inputController.RotateToMin -= OnRotateToMin;
-        _inputController.FlyUp -= OnFlyUp;
 
         _rigidbody2D.linearVelocity = Vector3.zero;
         _rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
@@ -61,9 +58,6 @@ public class PlayerMover : MonoBehaviour, IPauseable
     public void Resume()
     {
         _isPaused = false;
-        _inputController.RotateToMax += OnRotateToMax;
-        _inputController.RotateToMin += OnRotateToMin;
-        _inputController.FlyUp += OnFlyUp;
 
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     }

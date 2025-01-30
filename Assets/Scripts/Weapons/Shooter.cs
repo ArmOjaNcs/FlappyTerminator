@@ -14,8 +14,11 @@ public abstract class Shooter : MonoBehaviour, IPauseable
 
     private protected virtual void Update()
     {
-        if(IsTimeToShoot() && IsCanShoot)
-            Shoot();
+        if(IsPaused == false)
+        {
+            if (IsTimeToShoot() && IsCanShoot)
+                Shoot();
+        }
     }
 
     public void SetBulletSpawner(BulletSpawner bulletPrefabSpawner)
@@ -33,9 +36,14 @@ public abstract class Shooter : MonoBehaviour, IPauseable
         IsPaused = false;
     }
 
-    private protected void SetIsCanShoot(bool canShoot)
+    private protected void StopShoot()
     {
-        IsCanShoot = canShoot;
+        IsCanShoot = false;
+    }
+
+    private protected void StartShoot()
+    {
+        IsCanShoot = true;
     }
 
     private protected void SetDirection(Vector2 direction)
@@ -45,23 +53,19 @@ public abstract class Shooter : MonoBehaviour, IPauseable
 
     private protected bool IsTimeToShoot()
     {
-        if(IsPaused == false)
-            _currentTime += Time.deltaTime;
+        _currentTime += Time.deltaTime;
 
         return _currentTime > Delay;
     }
 
     private protected void Shoot()
     {
-        if(IsPaused == false)
-        {
-            Bullet bullet = _bulletSpawner.Pool.GetFreeElement();
+        Bullet bullet = _bulletSpawner.Pool.GetFreeElement();
 
-            if (bullet != null)
-            {
-                _bulletSpawner.Initialize(bullet, _direction, FirePoint, transform.rotation);
-                _currentTime = 0;
-            }
+        if (bullet != null)
+        {
+            _bulletSpawner.Initialize(bullet, _direction, FirePoint, transform.rotation);
+            _currentTime = 0;
         }
     }
 }

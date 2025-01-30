@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Obstacle : MonoBehaviour
+public class Obstacle : MonoBehaviour, IPauseable
 {
     private readonly float _damageOnEnter = 30;
     private readonly float _damageOnStay = 2;
@@ -9,6 +9,7 @@ public class Obstacle : MonoBehaviour
 
     private WaitForSeconds _timeBeforeDamaged;
     private bool _isCanBeDamaged;
+    private bool _isPaused;
 
     private void Awake()
     {
@@ -18,20 +19,36 @@ public class Obstacle : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Player player) && _isCanBeDamaged)
+        if (_isPaused == false)
         {
-            if(player.TryGetComponent(out Health health))
-                StartCoroutine(WaitForCanBeDamaged(health));
+            if (collision.gameObject.TryGetComponent(out Player player) && _isCanBeDamaged)
+            {
+                if (player.TryGetComponent(out Health health))
+                    StartCoroutine(WaitForCanBeDamaged(health));
+            }
         }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Player player))
+        if (_isPaused == false)
         {
-            if (player.TryGetComponent(out Health health))
-                health.TakeDamage(_damageOnStay);
+            if (collision.gameObject.TryGetComponent(out Player player))
+            {
+                if (player.TryGetComponent(out Health health))
+                    health.TakeDamage(_damageOnStay);
+            }
         }
+    }
+
+    public void Stop()
+    {
+        _isPaused = true;
+    }
+
+    public void Resume()
+    {
+        _isPaused = false;
     }
 
     private IEnumerator WaitForCanBeDamaged(Health health)

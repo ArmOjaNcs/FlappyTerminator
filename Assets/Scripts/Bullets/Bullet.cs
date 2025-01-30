@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider2D))]
 public abstract class Bullet : ObjectToSpawn, IPauseable
 {
-    [SerializeField] private ObjectToSpawnAnimator _objectToSpawnAnimator;
+    [SerializeField] private ObjectAnimator _objectAnimator;
 
     private float _damage;
     private float _currentLifeTime;
@@ -16,7 +16,7 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
     private Coroutine _lifeCoroutine;
     private WaitForSeconds _lifeTime;
     private Transform _parentBody;
-    private bool _isStop;
+    private bool _isPaused;
 
     private protected Coroutine ReliaseCoroutine;
 
@@ -24,18 +24,20 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
     public override event Action<ObjectToSpawn> LifeTimeFinished;
 
+    public ObjectAnimator ObjectAnimator => _objectAnimator;
+
     private void Start()
     {
-        _objectToSpawnAnimator.HitPerformed += Release;
+        _objectAnimator.HitPerformed += Release;
     }
 
     private protected virtual void OnEnable()
     {
         _lifeCoroutine = StartCoroutine(BeginLifeTime());
         ReliaseCoroutine = null;
-        _isStop = false;
+        _isPaused = false;
         IsPerformHit = false;
-        _objectToSpawnAnimator.transform.position = transform.position;
+        _objectAnimator.transform.position = transform.position;
         _currentLifeTime = _defaultLifeTime;
     }
 
@@ -50,7 +52,7 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
     private void Update()
     {
-        if (_isStop == false)
+        if (_isPaused == false)
             Move();
     }
 
@@ -101,8 +103,7 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
     public virtual void Stop()
     {
-        _isStop = true;
-        _objectToSpawnAnimator.Stop();
+        _isPaused = true;
         
         if(_lifeCoroutine != null)
             StopCoroutine(_lifeCoroutine);
@@ -110,8 +111,7 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
     public virtual void Resume()
     {
-        _isStop = false;
-        _objectToSpawnAnimator.Resume();
+        _isPaused = false;
 
         if(isActiveAndEnabled)
             _lifeCoroutine = StartCoroutine(BeginLifeTime(_currentLifeTime));
@@ -160,9 +160,9 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
     private protected virtual void PerformHit()
     {
-        _isStop = true;
+        _isPaused = true;
         IsPerformHit = true;
         transform.SetParent(_parentBody);
-        _objectToSpawnAnimator.SetHitTrigger();
+        _objectAnimator.SetHitTrigger();
     }
 }

@@ -378,6 +378,7 @@ MonoBehaviour:
   _startPoint: {fileID: 52116557}
   _endPoint: {fileID: 1829090228}
   _parallax: 5
+  _pause: {fileID: 1943368549}
 --- !u!1 &52389905
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,6 +752,7 @@ MonoBehaviour:
   Prefab: {fileID: -8334725238731754816, guid: e1419e2f18686354eb7d1921eeb514bc, type: 3}
   MaxCapacity: 10
   _bulletSpawner: {fileID: 1448659160}
+  _pause: {fileID: 1943368549}
 --- !u!1 &199172692
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,7 +926,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: {fileID: 894499684}
   _slider: {fileID: 1870672117}
-  _currentSmoothDuration: 1
+  _currentSmoothDuration: 0.5
 --- !u!114 &202136006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,6 +1034,7 @@ MonoBehaviour:
   _lifeTime: 2
   _damage: 30
   _parentBody: {fileID: 549723135}
+  _pause: {fileID: 1943368549}
 --- !u!1 &244485730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,6 +2326,7 @@ MonoBehaviour:
   _startPoint: {fileID: 454456433}
   _endPoint: {fileID: 321712702}
   _parallax: 4
+  _pause: {fileID: 1943368549}
 --- !u!1 &463702663
 GameObject:
   m_ObjectHideFlags: 0
@@ -3177,6 +3181,7 @@ MonoBehaviour:
   Prefab: {fileID: -9096369661076686797, guid: 1228115c6d427184aba98adf1f3d1f09, type: 3}
   MaxCapacity: 10
   _bulletSpawner: {fileID: 635837890}
+  _pause: {fileID: 1943368549}
 --- !u!1 &549723134
 GameObject:
   m_ObjectHideFlags: 0
@@ -3431,6 +3436,7 @@ MonoBehaviour:
   _lifeTime: 5
   _damage: 50
   _parentBody: {fileID: 549723135}
+  _pause: {fileID: 1943368549}
 --- !u!1 &564992332
 GameObject:
   m_ObjectHideFlags: 0
@@ -3717,6 +3723,7 @@ MonoBehaviour:
   _lifeTime: 3
   _damage: 70
   _parentBody: {fileID: 549723135}
+  _pause: {fileID: 1943368549}
 --- !u!1 &657214448
 GameObject:
   m_ObjectHideFlags: 0
@@ -3917,6 +3924,7 @@ MonoBehaviour:
   _startPoint: {fileID: 706399880}
   _endPoint: {fileID: 843600430}
   _parallax: 1
+  _pause: {fileID: 1943368549}
 --- !u!1 &708938535
 GameObject:
   m_ObjectHideFlags: 0
@@ -4480,6 +4488,7 @@ MonoBehaviour:
   _startPoint: {fileID: 902526836}
   _endPoint: {fileID: 1217756198}
   _parallax: 4
+  _pause: {fileID: 1943368549}
 --- !u!1 &903210112
 GameObject:
   m_ObjectHideFlags: 0
@@ -4574,6 +4583,7 @@ MonoBehaviour:
   _lifeTime: 2
   _damage: 20
   _parentBody: {fileID: 549723135}
+  _pause: {fileID: 1943368549}
 --- !u!1 &904975646
 GameObject:
   m_ObjectHideFlags: 0
@@ -5010,6 +5020,7 @@ MonoBehaviour:
   _lifeTime: 2
   _damage: 20
   _parentBody: {fileID: 549723135}
+  _pause: {fileID: 1943368549}
 --- !u!1 &948347360
 GameObject:
   m_ObjectHideFlags: 0
@@ -5591,6 +5602,7 @@ MonoBehaviour:
   Prefab: {fileID: 7046198327421533985, guid: 8492203590de2224298e4be35cefa46d, type: 3}
   MaxCapacity: 10
   _bulletSpawner: {fileID: 562123036}
+  _pause: {fileID: 1943368549}
 --- !u!1 &1020311696
 GameObject:
   m_ObjectHideFlags: 0
@@ -6267,6 +6279,7 @@ MonoBehaviour:
   _startPoint: {fileID: 1096693553}
   _endPoint: {fileID: 255417159}
   _parallax: 7
+  _pause: {fileID: 1943368549}
 --- !u!1 &1105415062
 GameObject:
   m_ObjectHideFlags: 0
@@ -6314,6 +6327,7 @@ MonoBehaviour:
   Prefab: {fileID: 4062845673044360693, guid: fbbaa687be547504285e8ffbdd6b0210, type: 3}
   MaxCapacity: 10
   _bulletSpawner: {fileID: 945013270}
+  _pause: {fileID: 1943368549}
 --- !u!1 &1110769194
 GameObject:
   m_ObjectHideFlags: 0
@@ -6954,6 +6968,7 @@ MonoBehaviour:
   _startPoint: {fileID: 1230822783}
   _endPoint: {fileID: 1815158320}
   _parallax: 3.5
+  _pause: {fileID: 1943368549}
 --- !u!1 &1231569510
 GameObject:
   m_ObjectHideFlags: 0
@@ -7043,13 +7058,25 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1241003489568585894, guid: 40efec9a5eb89f24a9deae6091f01aa7, type: 3}
+      propertyPath: _playerInput
+      value: 
+      objectReference: {fileID: 1747586463}
+    - target: {fileID: 1241003489568585894, guid: 40efec9a5eb89f24a9deae6091f01aa7, type: 3}
       propertyPath: _inputController
+      value: 
+      objectReference: {fileID: 1747586463}
+    - target: {fileID: 2761203636321760287, guid: 40efec9a5eb89f24a9deae6091f01aa7, type: 3}
+      propertyPath: _playerInput
       value: 
       objectReference: {fileID: 1747586463}
     - target: {fileID: 2761203636321760287, guid: 40efec9a5eb89f24a9deae6091f01aa7, type: 3}
       propertyPath: _inputController
       value: 
       objectReference: {fileID: 1747586463}
+    - target: {fileID: 4080694448963728075, guid: 40efec9a5eb89f24a9deae6091f01aa7, type: 3}
+      propertyPath: _pause
+      value: 
+      objectReference: {fileID: 1943368549}
     - target: {fileID: 4080694448963728075, guid: 40efec9a5eb89f24a9deae6091f01aa7, type: 3}
       propertyPath: _health
       value: 
@@ -7722,6 +7749,7 @@ MonoBehaviour:
   _startPoint: {fileID: 1410672322}
   _endPoint: {fileID: 1408384296}
   _parallax: 7
+  _pause: {fileID: 1943368549}
 --- !u!1 &1417224939
 GameObject:
   m_ObjectHideFlags: 0
@@ -7845,6 +7873,7 @@ MonoBehaviour:
   - {fileID: -792905881139468825, guid: 511b9f4d88615e14282bd0fec28d7924, type: 3}
   - {fileID: 108926745065762616, guid: 877872f2c8e8d144dabf4bb53ba375b1, type: 3}
   _armory: {fileID: 246516561}
+  _pause: {fileID: 1943368549}
 --- !u!4 &1417224941
 Transform:
   m_ObjectHideFlags: 0
@@ -7954,6 +7983,7 @@ MonoBehaviour:
   _lifeTime: 5
   _damage: 90
   _parentBody: {fileID: 549723135}
+  _pause: {fileID: 1943368549}
 --- !u!1 &1459614936
 GameObject:
   m_ObjectHideFlags: 0
@@ -8098,6 +8128,7 @@ MonoBehaviour:
   - {fileID: 1377098760}
   Prefab: {fileID: 7313551509327710000, guid: 4d76e6b274f4f3949b4b455229e869e9, type: 3}
   MaxCapacity: 10
+  _pause: {fileID: 1943368549}
 --- !u!1 &1519782599
 GameObject:
   m_ObjectHideFlags: 0
@@ -8438,7 +8469,7 @@ GameObject:
   - component: {fileID: 1583551744}
   - component: {fileID: 1583551743}
   m_Layer: 0
-  m_Name: MainTime
+  m_Name: TimeAccelerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8478,6 +8509,7 @@ MonoBehaviour:
   _playerBulletSpawner: {fileID: 904429524}
   _player: {fileID: 916973691}
   _score: {fileID: 201110607}
+  _pause: {fileID: 1943368549}
 --- !u!4 &1583551744
 Transform:
   m_ObjectHideFlags: 0
@@ -9271,6 +9303,7 @@ MonoBehaviour:
   _startPoint: {fileID: 1735350375}
   _endPoint: {fileID: 1036837276}
   _parallax: 3.5
+  _pause: {fileID: 1943368549}
 --- !u!1 &1743730164
 GameObject:
   m_ObjectHideFlags: 0
@@ -9322,6 +9355,7 @@ MonoBehaviour:
   _startPoint: {fileID: 1743730165}
   _endPoint: {fileID: 2061430024}
   _parallax: 1
+  _pause: {fileID: 1943368549}
 --- !u!1 &1747586462
 GameObject:
   m_ObjectHideFlags: 0
@@ -9333,7 +9367,7 @@ GameObject:
   - component: {fileID: 1747586464}
   - component: {fileID: 1747586463}
   m_Layer: 0
-  m_Name: InputController
+  m_Name: PlayerInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9351,6 +9385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07504a44757ba2b4ebb7100ac2e47e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pause: {fileID: 1943368549}
 --- !u!4 &1747586464
 Transform:
   m_ObjectHideFlags: 0
@@ -9672,6 +9707,7 @@ MonoBehaviour:
   - {fileID: 2091716340}
   Prefab: {fileID: -9161510885996811869, guid: e54f3c3d285a28c48b541ba5d19140a7, type: 3}
   MaxCapacity: 10
+  _pause: {fileID: 1943368549}
 --- !u!1 &1779014865
 GameObject:
   m_ObjectHideFlags: 0
@@ -10735,29 +10771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cabf36a1fc3c66e4889c0fdfc9ba8622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _environments:
-  - {fileID: 1743730166}
-  - {fileID: 2119373078}
-  - {fileID: 706399881}
-  - {fileID: 1735350376}
-  - {fileID: 1230822784}
-  - {fileID: 52116558}
-  - {fileID: 2077999738}
-  - {fileID: 902526837}
-  - {fileID: 454456434}
-  - {fileID: 1410672323}
-  - {fileID: 1096693554}
-  _bulletSpawners:
-  - {fileID: 904429524}
-  - {fileID: 635837890}
-  - {fileID: 239371413}
-  - {fileID: 945013270}
-  - {fileID: 1448659160}
-  - {fileID: 562123036}
-  _player: {fileID: 916973691}
-  _mainTime: {fileID: 1583551743}
-  _enemySpawner: {fileID: 1417224940}
-  _inputController: {fileID: 1747586463}
+  _playerInput: {fileID: 1747586463}
 --- !u!4 &1943368550
 Transform:
   m_ObjectHideFlags: 0
@@ -11512,6 +11526,7 @@ MonoBehaviour:
   _startPoint: {fileID: 2077999737}
   _endPoint: {fileID: 1058870374}
   _parallax: 5
+  _pause: {fileID: 1943368549}
 --- !u!1 &2091716338
 GameObject:
   m_ObjectHideFlags: 0
@@ -11638,6 +11653,7 @@ MonoBehaviour:
   Prefab: {fileID: 6909607229508714761, guid: c8977a282a1775e4a9e1c39277697aa0, type: 3}
   MaxCapacity: 10
   _bulletSpawner: {fileID: 239371413}
+  _pause: {fileID: 1943368549}
 --- !u!1 &2104380458
 GameObject:
   m_ObjectHideFlags: 0
@@ -12016,6 +12032,7 @@ MonoBehaviour:
   _startPoint: {fileID: 2119373077}
   _endPoint: {fileID: 1183806662}
   _parallax: 1
+  _pause: {fileID: 1943368549}
 --- !u!1 &2133087582
 GameObject:
   m_ObjectHideFlags: 0

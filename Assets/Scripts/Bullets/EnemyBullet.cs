@@ -6,10 +6,10 @@ public class EnemyBullet : Bullet
     {
         base.OnTriggerEnter2D(collision);
 
-        if (collision.TryGetComponent(out Health health) && health.EnemyTarget != null)
+        if (collision.TryGetComponent(out Player player))
         {
             if (ReliaseCoroutine == null && isActiveAndEnabled)
-                ReliaseCoroutine = StartCoroutine(DealDamage(health));
+                ReliaseCoroutine = StartCoroutine(DealDamage(player.Health));
         }
 
         if (collision.TryGetComponent(out PlayerBullet bullet) && bullet.IsPerformHit == false)

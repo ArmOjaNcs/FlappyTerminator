@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RocketBullet : Bullet
+public class RocketBullet : EnemyBullet
 {
     [SerializeField] private Animator _nozzlesAnimator;
 

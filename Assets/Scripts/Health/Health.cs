@@ -1,26 +1,22 @@
 using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IPauseable
 {
     [SerializeField] private float _maxValue;
 
-    private EnemyTarget _enemyTarget;
-    private bool _isCanBeDamaged;
+    private bool _isCanBeChanged;
 
     public event Action HealthUpdate;
     public event Action HealthEnded;
 
     public float MaxValue => _maxValue;
     public float CurrentValue { get; private set; }
-    public EnemyTarget EnemyTarget => _enemyTarget;
 
     private void Awake()
     {
-        TryGetComponent(out EnemyTarget component);
-        _enemyTarget = component;
         CurrentValue = MaxValue;
-        _isCanBeDamaged = true;
+        _isCanBeChanged = true;
     }
 
     private void OnEnable()
@@ -28,26 +24,28 @@ public class Health : MonoBehaviour
         CurrentValue = MaxValue;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out MedPack medPack) && _enemyTarget != null)
-            if (CurrentValue < MaxValue)
-                TakeHeal(medPack.GetHealing());
-    }
-
     public void TakeHeal(float heal)
     {
-        CurrentValue += heal;
+        if (heal < 0)
+            return;
 
-        if (CurrentValue > MaxValue)
-            CurrentValue = MaxValue;
+        if (_isCanBeChanged == true)
+        {
+            CurrentValue += heal;
 
-        HealthUpdate?.Invoke();
+            if (CurrentValue > MaxValue)
+                CurrentValue = MaxValue;
+
+            HealthUpdate?.Invoke();
+        }
     }
 
     public void TakeDamage(float damage)
     {
-        if(_isCanBeDamaged == true)
+        if (damage < 0)
+            return;
+
+        if (_isCanBeChanged == true)
         {
             CurrentValue -= damage;
 
@@ -61,8 +59,13 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void SetIsCsnBeDamaged(bool isCsnBeDamaged)
+    public void Stop()
     {
-        _isCanBeDamaged = isCsnBeDamaged;
+        _isCanBeChanged = false;
+    }
+
+    public void Resume()
+    {
+        _isCanBeChanged = true;
     }
 }
