@@ -42,6 +42,12 @@ public class Pause : MonoBehaviour, IPauseable
             iPauseable.Resume();
     }
 
+    public void UnSubscribe()
+    {
+        _playerInput.Paused -= OnPaused;
+        _playerInput.UnPaused -= OnUnPaused;
+    }
+
     private void OnPaused()
     {
         if (_isPlaying)

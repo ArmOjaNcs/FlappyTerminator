@@ -93,6 +93,8 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
             bulletSpawner.AddSpeed(GameUtils.EnvironmentBoostedSpeed * GameUtils.EnemyBulletMultiplier);
 
         _playerBulletSpawner.DecreaseSpeed(GameUtils.EnvironmentBoostedSpeed);
+        _player.PlayerAnimator.speed += GameUtils.AnimationBoost;
+        _player.WeaponAnimator.speed += GameUtils.AnimationBoost;
     }
 
     private void AddMaxEnemiesCount()

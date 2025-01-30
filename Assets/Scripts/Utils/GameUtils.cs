@@ -16,6 +16,7 @@ public static class GameUtils
     public static readonly float TimeToSpawnMedPack = 60;
     public static readonly float MinXPosition = 40;
     public static readonly float MaxXPosition = 180;
+    public static readonly float AnimationBoost = 0.2f;
     public static readonly string MainScene = nameof(MainScene);
     public static readonly string MenuScene = nameof(MenuScene);
     public static readonly string MouseY = "Mouse Y";

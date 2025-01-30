@@ -12,9 +12,6 @@ public class StartMenu : MonoBehaviour
 
     private void Awake()
     {
-        if(Time.timeScale == 0)
-            Time.timeScale = 1;
-
         _leadersBoard = new LeadersBoard();
         _leadersBoard.SetLeadersBoardBText(_leadersBoardText);
         _startButton.onClick.AddListener(() => BeginNewGame());

@@ -16,12 +16,14 @@ public class Player : MonoBehaviour, IPauseable
     public event Action PlayerDead;
 
     public Health Health => _health;
+    public Animator PlayerAnimator => _animator;
+    public Animator WeaponAnimator => _weaponAnimator;
 
     private void Awake()
     {
         _weapon.SetBulletSpawner(_bulletSpawner);
         _animator = GetComponent<Animator>();
-        _animator.speed = 1;
+        //_animator.speed = 1;
         _pause.Register(this);
         _pause.Register(_weapon);
         _pause.Register(_health);

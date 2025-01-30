@@ -11,8 +11,10 @@ public class GameOverMenu : MonoBehaviour
     [SerializeField] private Button _backToStartMenu;
     [SerializeField] private EnterNewScore _enterNewScore;
     [SerializeField] private Player _player;
+    [SerializeField] private Pause _pause;
 
     private LeadersBoard _leadersBoard;
+    private UIAnimator _uiAnimator;
 
     private void Awake()
     {
@@ -20,6 +22,11 @@ public class GameOverMenu : MonoBehaviour
         MapButtons();
         _player.PlayerDead += OnPlayerDead;
         _enterNewScore.OnClosed += NewScoreClosed;
+        _uiAnimator = GetComponent<UIAnimator>();
+    }
+
+    private void Start()
+    {
         gameObject.SetActive(false);
     }
 
@@ -31,8 +38,9 @@ public class GameOverMenu : MonoBehaviour
 
     private void OnPlayerDead()
     {
-        Time.timeScale = 0;
-        gameObject.SetActive(true);
+        _pause.Stop();
+        _pause.UnSubscribe();
+        _uiAnimator.Show();
         GameUtils.UnlockCursor();
 
         if (_score.Value > _leadersBoard.GetLastElementScore())
