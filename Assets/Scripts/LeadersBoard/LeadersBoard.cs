@@ -9,7 +9,6 @@ public class LeadersBoard
 
     public LeadersBoard()
     {
-        //PlayerPrefs.DeleteAll();
         _playersScores = new PlayerScore[LidersBoardInitializer.MaxElements];
 
         Refresh();

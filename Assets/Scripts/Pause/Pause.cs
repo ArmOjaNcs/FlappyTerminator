@@ -4,6 +4,7 @@ using UnityEngine;
 public class Pause : MonoBehaviour, IPauseable
 {
     [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private UIAnimator _pauseMenu;
 
     private List<IPauseable> _iPauseables = new ();
     private bool _isPlaying;
@@ -34,15 +35,27 @@ public class Pause : MonoBehaviour, IPauseable
     {
         foreach (IPauseable iPauseable in _iPauseables)
             iPauseable.Stop();
+
+        _pauseMenu.Show();
     }
 
     public void Resume()
     {
         foreach(IPauseable iPauseable in _iPauseables)
             iPauseable.Resume();
+
+        _pauseMenu.Hide();
     }
 
-    public void UnSubscribe()
+    public void EndGame()
+    {
+        foreach (IPauseable iPauseable in _iPauseables)
+            iPauseable.Stop();
+
+        UnSubscribe();
+    }
+
+    private void UnSubscribe()
     {
         _playerInput.Paused -= OnPaused;
         _playerInput.UnPaused -= OnUnPaused;

@@ -6,7 +6,7 @@ public class PlayerWeapon : Shooter
 {
     [SerializeField] private PlayerInput _playerInput;
 
-    public readonly int MaxBulletsValue = 30;
+    public readonly int MaxBulletsValue = 50;
     public readonly float TimeForReload = 1.5f;
 
     private bool _isHaveBullets;

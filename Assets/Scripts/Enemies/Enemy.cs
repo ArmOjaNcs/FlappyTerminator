@@ -25,6 +25,11 @@ public class Enemy : ObjectToSpawn, IPauseable
         _weaponAnimator = _weaponContainer.GetComponent<Animator>();
     }
 
+    private void OnEnable()
+    {
+        StopShoot?.Invoke();
+    }
+
     private void Start()
     {
         _detectionZone.TargetInZone += OnTargetInZone;

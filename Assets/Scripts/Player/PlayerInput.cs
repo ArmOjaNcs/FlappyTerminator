@@ -18,7 +18,7 @@ public class PlayerInput : MonoBehaviour, IPauseable
 
     private bool IsRotateToMax => Input.GetAxis(GameUtils.MouseY) > 0;
     private bool IsRotateToMin => Input.GetAxis(GameUtils.MouseY) < 0;
-    private bool IsFlyUp => Input.GetKeyDown(KeyCode.Space);
+    private bool IsFlyUp => Input.GetKey(KeyCode.Space);
     private bool IsShoot => Input.GetKey(KeyCode.Mouse0);
     private bool IsReload => Input.GetKeyDown(KeyCode.Mouse1);
     private bool IsPaused => Input.GetKeyDown(KeyCode.Escape);
