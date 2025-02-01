@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerWeapon : Shooter
 {
-    [SerializeField] private PlayerInput _playerInput;
-
     public readonly int MaxBulletsValue = 50;
     public readonly float TimeForReload = 1.5f;
 
@@ -14,7 +12,7 @@ public class PlayerWeapon : Shooter
     private Coroutine _reloadCoroutine;
 
     public event Action<int> BulletsValueChanged;
-    public event Action<bool> Reload;
+    public event Action<bool> Reloaded;
 
     public int CurrentBulletsValue { get; private set; }
 
@@ -23,20 +21,6 @@ public class PlayerWeapon : Shooter
         CurrentBulletsValue = MaxBulletsValue;
         _isHaveBullets = true;
         _waitForReload = new WaitForSeconds(TimeForReload);
-    }
-
-    private void OnEnable()
-    {
-        _playerInput.StopShoot += StopShoot;
-        _playerInput.StartShoot += StartShoot;
-        _playerInput.Reload += OnReload;
-    }
-
-    private void OnDisable()
-    {
-        _playerInput.StopShoot -= StopShoot;
-        _playerInput.StartShoot -= StartShoot;
-        _playerInput.Reload -= OnReload;
     }
 
     private protected override void Update()
@@ -52,7 +36,19 @@ public class PlayerWeapon : Shooter
             }
 
             if (CurrentBulletsValue <= 0)
-                OnReload();
+                Reload();
+        }
+    }
+
+    public void Reload()
+    {
+        if (IsPaused == false)
+        {
+            if (_reloadCoroutine == null)
+            {
+                _reloadCoroutine = StartCoroutine(BeginReload());
+                Reloaded?.Invoke(true);
+            }
         }
     }
 
@@ -67,19 +63,7 @@ public class PlayerWeapon : Shooter
         yield return _waitForReload;
         _isHaveBullets = true;
         CurrentBulletsValue = MaxBulletsValue;
-        Reload?.Invoke(false);
+        Reloaded?.Invoke(false);
         _reloadCoroutine = null;
-    }
-
-    private void OnReload()
-    {
-        if(IsPaused == false)
-        {
-            if (_reloadCoroutine == null)
-            {
-                _reloadCoroutine = StartCoroutine(BeginReload());
-                Reload?.Invoke(true);
-            }
-        }
     }
 }

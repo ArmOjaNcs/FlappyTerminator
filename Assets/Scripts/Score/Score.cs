@@ -9,6 +9,9 @@ public class Score : MonoBehaviour
 
     public void AddValue(int value)
     {
+        if (value < 0)
+            return;
+
         Value += value;
         ScoreUpdate?.Invoke(Value);
     }

@@ -36,12 +36,12 @@ public abstract class Shooter : MonoBehaviour, IPauseable
         IsPaused = false;
     }
 
-    private protected void StopShoot()
+    public void StopShoot()
     {
         IsCanShoot = false;
     }
 
-    private protected void StartShoot()
+    public void StartShoot()
     {
         IsCanShoot = true;
     }

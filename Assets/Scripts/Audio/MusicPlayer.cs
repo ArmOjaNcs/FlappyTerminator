@@ -7,6 +7,7 @@ public class MusicPlayer : MonoBehaviour
     [SerializeField] private List<AudioClip> _music;
 
     private int _indexOfClip;
+    private bool _isPlaying;
 
     public AudioSource MusicSource => _musicSource;
 
@@ -14,6 +15,7 @@ public class MusicPlayer : MonoBehaviour
     {
         _indexOfClip = Random.Range(0, _music.Count);
         _musicSource.clip = _music[_indexOfClip];
+        _isPlaying = true;
     }
 
     private void Start()
@@ -23,8 +25,11 @@ public class MusicPlayer : MonoBehaviour
 
     private void Update()
     {
-        if (_musicSource.isPlaying == false)
-            ChangeToNextClip();
+        if (_isPlaying)
+        {
+            if (_musicSource.isPlaying == false)
+                ChangeToNextClip();
+        } 
     }
 
     public void ChangeToNextClip()
@@ -43,5 +48,10 @@ public class MusicPlayer : MonoBehaviour
 
         _musicSource.clip = _music[_indexOfClip];
         _musicSource.Play();
+    }
+
+    public void StopPlaying()
+    {
+        _isPlaying = false;
     }
 }

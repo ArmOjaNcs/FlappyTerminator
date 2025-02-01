@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class GameOverMenu : MonoBehaviour
 {
-    [SerializeField] private Score _score;
     [SerializeField] private TextMeshProUGUI _leadersBoardText;
     [SerializeField] private Button _restart;
     [SerializeField] private Button _backToStartMenu;
@@ -14,6 +13,8 @@ public class GameOverMenu : MonoBehaviour
     [SerializeField] private Pause _pause;
     [SerializeField] private MusicPlayer _musicPlayer;
     [SerializeField] private AudioClip _gameOverClip;
+    [SerializeField] private UIAnimator _playerScore;
+    [SerializeField] private TextMeshProUGUI _playerScoreText;
 
     private LeadersBoard _leadersBoard;
     private UIAnimator _uiAnimator;
@@ -30,6 +31,7 @@ public class GameOverMenu : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(false);
+        _playerScore.gameObject.SetActive(false);
     }
 
     private void NewScoreClosed()
@@ -44,16 +46,19 @@ public class GameOverMenu : MonoBehaviour
         _musicPlayer.MusicSource.clip = _gameOverClip;
         _musicPlayer.MusicSource.loop = false;
         _musicPlayer.MusicSource.Play();
+        _musicPlayer.StopPlaying();
         _uiAnimator.Show();
         GameUtils.UnlockCursor();
 
-        if (_score.Value > _leadersBoard.GetLastElementScore())
+        if (_player.Score.Value > _leadersBoard.GetLastElementScore())
         {
-            _enterNewScore.Initialize(_leadersBoard, _score.Value);
+            _enterNewScore.Initialize(_leadersBoard, _player.Score.Value);
         }
         else
         {
             _leadersBoard.SetLeadersBoardBText(_leadersBoardText);
+            _playerScoreText.text = _player.Score.Value.ToString();
+            _playerScore.Show();
             ActivateButtons();
         } 
     }

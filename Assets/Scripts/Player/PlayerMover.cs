@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMover : MonoBehaviour, IPauseable
 {
-    [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private float _tapForce;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _maxRotationZ;
@@ -27,23 +26,15 @@ public class PlayerMover : MonoBehaviour, IPauseable
         _minRotation = Quaternion.Euler(0, 0, _minRotationZ);
     }
 
-    private void OnEnable()
-    {
-        _playerInput.RotateToMax += OnRotateToMax;
-        _playerInput.RotateToMin += OnRotateToMin;
-        _playerInput.FlyUp += OnFlyUp;
-    }
-
-    private void OnDisable()
-    {
-        _playerInput.RotateToMax -= OnRotateToMax;
-        _playerInput.RotateToMin -= OnRotateToMin;
-        _playerInput.FlyUp -= OnFlyUp;
-    }
-
     private void Update()
     {
         if(_isPaused == false)
+            Rotate();
+    }
+
+    private void FixedUpdate()
+    {
+        if (_isPaused == false)
             Fly();
     }
 
@@ -62,35 +53,38 @@ public class PlayerMover : MonoBehaviour, IPauseable
         _rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
     }
 
-    private void OnRotateToMax(bool isRotate)
+    public void RotateToMax(bool isRotate)
     {
         _isRotateToMax = isRotate;
     }
 
-    private void OnRotateToMin(bool isRotate)
+    public void RotateToMin(bool isRotate)
     {
         _isRotateToMin = isRotate;
     }
 
-    private void OnFlyUp(bool isFlyUp)
+    public void FlyUp(bool isFlyUp)
     {
         _isFlyUp = isFlyUp;
     }
 
     private void Fly()
     {
+        if (_isFlyUp)
+            _rigidbody2D.linearVelocity = Vector2.up * _tapForce;
+
+        _rigidbody2D.angularVelocity = 0;
+    }
+
+    private void Rotate()
+    {
         if (_isRotateToMax)
             LerpRotation(_maxRotation);
         else if (_isRotateToMin)
             LerpRotation(_minRotation);
 
-        if (_isFlyUp)
-            _rigidbody2D.linearVelocity = Vector2.up * _tapForce;
-
-        if(transform.position.x > _startPosition.x || transform.position.x < _startPosition.x)
+        if (transform.position.x > _startPosition.x || transform.position.x < _startPosition.x)
             transform.position = new Vector2(_startPosition.x, transform.position.y);
-
-        _rigidbody2D.angularVelocity = 0;
     }
 
     private void LerpRotation(Quaternion rotation)

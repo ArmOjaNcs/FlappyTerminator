@@ -7,33 +7,33 @@ public class ObjectAnimator : MonoBehaviour, IPauseable
     private const string Hit = nameof(Hit);
     private const string Exit = nameof(Exit);
 
-    private Animator _animator;
-
     public event Action HitPerformed;
+
+    public Animator Animator { get; private set; }
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
     }
 
     public void SetHitTrigger()
     {
-        _animator.SetTrigger(Hit);
+        Animator.SetTrigger(Hit);
     }
 
     public void InvokeHitPerformed()
     {
-        _animator.SetTrigger(Exit);
+        Animator.SetTrigger(Exit);
         HitPerformed?.Invoke();
     }
 
     public void Stop()
     {
-        _animator.enabled = false;
+        Animator.enabled = false;
     }
 
     public void Resume()
     {
-        _animator.enabled = true;
+        Animator.enabled = true;
     }
 }

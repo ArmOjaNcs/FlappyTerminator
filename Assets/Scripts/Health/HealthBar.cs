@@ -30,6 +30,7 @@ public class HealthBar : MonoBehaviour
 
     private IEnumerator UpdateView()
     {
+        _startValue = _slider.value;
         float elapsedTime = 0;
         float targetValue = Health.CurrentValue / Health.MaxValue;
 
@@ -47,8 +48,6 @@ public class HealthBar : MonoBehaviour
 
     private void OnHealthUpdate()
     {
-        _startValue = _slider.value;
-
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 

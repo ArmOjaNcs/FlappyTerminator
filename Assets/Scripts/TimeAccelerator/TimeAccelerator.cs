@@ -8,7 +8,6 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
     [SerializeField] private List<BulletSpawner> _bulletSpawners;
     [SerializeField] private BulletSpawner _playerBulletSpawner;
     [SerializeField] private Player _player;
-    [SerializeField] private Score _score;
     [SerializeField] private Pause _pause;
 
     private int _boostLevel = 1;
@@ -93,7 +92,7 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
             bulletSpawner.AddSpeed(GameUtils.EnvironmentBoostedSpeed * GameUtils.EnemyBulletMultiplier);
 
         _playerBulletSpawner.DecreaseSpeed(GameUtils.EnvironmentBoostedSpeed);
-        _player.PlayerAnimator.speed += GameUtils.AnimationBoost;
+        _player.PlayerAnimator.Animator.speed += GameUtils.AnimationBoost;
         _player.WeaponAnimator.speed += GameUtils.AnimationBoost;
     }
 
@@ -111,11 +110,11 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
 
     private void AddScore(int score)
     {
-        _score.AddValue(score);
+        _player.Score.AddValue(score);
     }
 
     private void AddScoreForEnemy()
     {
-        _score.AddValue(GameUtils.ScoreByEnemy);
+        _player.Score.AddValue(GameUtils.ScoreByEnemy);
     }
 }

@@ -2,13 +2,23 @@ using UnityEngine;
 
 public class HealthBarMover : MonoBehaviour
 {
-    [SerializeField] private Transform _player;
+    [SerializeField] private Player _player;
 
     private Vector3 _offset;
 
     private void Awake()
     {
-        _offset = transform.position - _player.position;
+        _offset = transform.position - _player.transform.position;
+    }
+
+    private void OnEnable()
+    {
+        _player.PlayerPerformDead += OnPlayerPerformDead;
+    }
+
+    private void OnDisable()
+    {
+        _player.PlayerPerformDead -= OnPlayerPerformDead;
     }
 
     private void Update()
@@ -18,6 +28,11 @@ public class HealthBarMover : MonoBehaviour
 
     private void MoveWithOffset()
     {
-        transform.position = _player.position + _offset;
+        transform.position = _player.transform.position + _offset;
+    }
+
+    private void OnPlayerPerformDead()
+    {
+        gameObject.SetActive(false);
     }
 }

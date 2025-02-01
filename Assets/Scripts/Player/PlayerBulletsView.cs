@@ -10,13 +10,13 @@ public class PlayerBulletsView : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerWeapon.Reload += OnReload;
+        _playerWeapon.Reloaded += OnReload;
         _playerWeapon.BulletsValueChanged += OnBulletsValueChanged;
     }
 
     private void OnDisable()
     {
-        _playerWeapon.Reload -= OnReload;
+        _playerWeapon.Reloaded -= OnReload;
         _playerWeapon.BulletsValueChanged -= OnBulletsValueChanged;
     }
 

@@ -22,8 +22,7 @@ public class Pause : MonoBehaviour, IPauseable
 
     private void OnDisable()
     {
-        _playerInput.Paused -= OnPaused;
-        _playerInput.UnPaused -= OnUnPaused;
+        UnSubscribe();
     }
 
     public void Register(IPauseable pauseable)
