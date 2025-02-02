@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4608511559498126581}
   - component: {fileID: 8246513506202251295}
   - component: {fileID: 1625002506112845939}
-  - component: {fileID: 4503362726518739515}
-  - component: {fileID: -9161510885996811869}
+  - component: {fileID: 916029092898966138}
+  - component: {fileID: 7560477059048572526}
   m_Layer: 0
   m_Name: DangerSignDown
   m_TagString: Untagged
@@ -139,7 +139,7 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &4503362726518739515
+--- !u!114 &916029092898966138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 406b8f982b880d741bb9405bacf97431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-9161510885996811869
+--- !u!114 &7560477059048572526
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,3 +163,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c5b985d45545044839df6652048405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _obstacle: {fileID: 916029092898966138}

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4744756536502176854}
   - component: {fileID: 8564567719677432653}
   - component: {fileID: 5579668934763285714}
-  - component: {fileID: -2045032190677130519}
-  - component: {fileID: 7313551509327710000}
+  - component: {fileID: 4770781279741548632}
+  - component: {fileID: 694572404488619468}
   m_Layer: 0
   m_Name: DangerSignUp
   m_TagString: Untagged
@@ -139,19 +139,7 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &-2045032190677130519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357382442581227608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 406b8f982b880d741bb9405bacf97431, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7313551509327710000
+--- !u!114 &4770781279741548632
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,5 +149,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05c5b985d45545044839df6652048405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _obstacle: {fileID: 694572404488619468}
+--- !u!114 &694572404488619468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357382442581227608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 406b8f982b880d741bb9405bacf97431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

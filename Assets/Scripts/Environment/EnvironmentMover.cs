@@ -9,9 +9,9 @@ public class EnvironmentMover : MonoBehaviour, IPauseable
     [SerializeField, Range(1,10)] private float _parallax;
     [SerializeField] private Pause _pause;
 
-    private float _currentSpeed;
     private float _boostedSpeed;
     private float _defaultSpeed;
+    private float _currentSpeed;
 
     public event Action<EnvironmentMover> Finished;
 

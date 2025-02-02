@@ -17,27 +17,21 @@ public class Obstacle : MonoBehaviour, IPauseable
         _isCanBeDamaged = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (_isPaused == false)
         {
-            if (collision.gameObject.TryGetComponent(out Player player) && _isCanBeDamaged)
-            {
-                if (player.TryGetComponent(out Health health))
-                    StartCoroutine(WaitForCanBeDamaged(health));
-            }
+            if (collision.TryGetComponent(out Player player) && _isCanBeDamaged && isActiveAndEnabled)
+                StartCoroutine(WaitForCanBeDamaged(player.Health));
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (_isPaused == false)
         {
-            if (collision.gameObject.TryGetComponent(out Player player))
-            {
-                if (player.TryGetComponent(out Health health))
-                    health.TakeDamage(_damageOnStay);
-            }
+            if (collision.TryGetComponent(out Player player))
+                player.Health.TakeDamage(_damageOnStay);
         }
     }
 

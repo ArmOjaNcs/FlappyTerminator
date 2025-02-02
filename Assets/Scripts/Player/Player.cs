@@ -7,29 +7,33 @@ public class Player : MonoBehaviour, IPauseable
     [SerializeField] private PlayerWeapon _weapon;
     [SerializeField] private BulletSpawner _bulletSpawner;
     [SerializeField] private Health _health;
-    [SerializeField] private PlayerMover _playerMover;
+    [SerializeField] private PlayerPilot _playerPilot;
+    [SerializeField] private PlayerRotator _playerRotator;
     [SerializeField] private Animator _weaponAnimator;
+    [SerializeField] private ObjectAnimator _playerAnimator;
     [SerializeField] private Pause _pause;
 
     private float _defaultAnimatorSpeed;
+    private AudioSource _audioSource;
 
     public event Action PlayerPerformDead;
     public event Action PlayerDead;
 
     public Health Health => _health;
-    public ObjectAnimator PlayerAnimator { get; private set; }
+    public ObjectAnimator PlayerAnimator => _playerAnimator;
     public Score Score { get; private set; }
     public Animator WeaponAnimator => _weaponAnimator;
 
     private void Awake()
     {
         _weapon.SetBulletSpawner(_bulletSpawner);
-        PlayerAnimator = GetComponent<ObjectAnimator>();
         Score = GetComponent<Score>();
         _pause.Register(this);
         _pause.Register(_weapon);
         _pause.Register(_health);
-        _pause.Register(_playerMover);
+        _pause.Register(_playerPilot);
+        _pause.Register(_playerRotator);
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -40,6 +44,7 @@ public class Player : MonoBehaviour, IPauseable
         _playerInput.StopShoot += OnStopShoot;
         _playerInput.StartShoot += OnStartShoot;
         _playerInput.Reload += OnReload;
+        _playerInput.FlyDown += OnFlyDown;
         _health.HealthEnded += OnHealthEnded;
         PlayerAnimator.HitPerformed += OnPlayerDead;
     }
@@ -69,17 +74,17 @@ public class Player : MonoBehaviour, IPauseable
 
     private void OnRotateToMax(bool isRotate)
     {
-        _playerMover.RotateToMax(isRotate);
+        _playerRotator.RotateToMax(isRotate);
     }
 
     private void OnRotateToMin(bool isRotate)
     {
-        _playerMover.RotateToMin(isRotate);
+        _playerRotator.RotateToMin(isRotate);
     }
 
     private void OnFlyUp(bool isFlyUp)
     {
-        _playerMover.FlyUp(isFlyUp);
+        _playerPilot.FlyUp(isFlyUp);
     }
 
     private void OnStopShoot()
@@ -90,6 +95,11 @@ public class Player : MonoBehaviour, IPauseable
     private void OnStartShoot()
     {
         _weapon.StartShoot();
+    }
+
+    private void OnFlyDown(bool isFallDown)
+    {
+        _playerPilot.FlyDown(isFallDown);
     }
 
     private void OnReload()
@@ -105,6 +115,7 @@ public class Player : MonoBehaviour, IPauseable
         _playerInput.StopShoot -= OnStopShoot;
         _playerInput.StartShoot -= OnStartShoot;
         _playerInput.Reload -= OnReload;
+        _playerInput.FlyDown -= OnFlyDown;
         _health.HealthEnded -= OnHealthEnded;
     }
 
@@ -113,6 +124,7 @@ public class Player : MonoBehaviour, IPauseable
         UnSubscribe();
         PlayerAnimator.SetHitTrigger();
         PlayerPerformDead?.Invoke();
+        _audioSource.Play();
     }
 
     private void OnPlayerDead()

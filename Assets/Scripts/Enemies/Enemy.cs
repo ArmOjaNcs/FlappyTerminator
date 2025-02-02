@@ -10,6 +10,7 @@ public class Enemy : ObjectToSpawn, IPauseable
     [SerializeField] private ObjectAnimator _objectAnimator;
 
     private Animator _weaponAnimator;
+    private AudioSource _hitSource;
 
     public override event Action<ObjectToSpawn> LifeTimeFinished;
     public event Action StopShoot;
@@ -23,6 +24,7 @@ public class Enemy : ObjectToSpawn, IPauseable
     private void Awake()
     {
         _weaponAnimator = _weaponContainer.GetComponent<Animator>();
+        _hitSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -41,12 +43,14 @@ public class Enemy : ObjectToSpawn, IPauseable
     {
         _objectAnimator.Stop();
         _weaponAnimator.enabled = false;
+        _hitSource.Pause();
     }
 
     public void Resume()
     {
         _objectAnimator.Resume();
         _weaponAnimator.enabled = true;
+        _hitSource.UnPause();
     }
 
     private void OnTargetInZone(bool isTargetInZone)
@@ -64,6 +68,7 @@ public class Enemy : ObjectToSpawn, IPauseable
             EnemyKilled?.Invoke();
             ReturnToPool?.Invoke(this);
             _objectAnimator.SetHitTrigger();
+            _hitSource.Play();
         }
     }
 

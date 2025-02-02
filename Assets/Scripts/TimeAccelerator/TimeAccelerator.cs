@@ -14,12 +14,14 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
     private float _currentTimeForBoost;
     private float _currentTimeForScore;
     private float _currentTimeForMedPack;
+    private float _timeForMedPack;
     private bool _isPaused;
 
     private void Awake()
     {
         _isPaused = false;
         _pause.Register(this);
+        _timeForMedPack = GameUtils.TimeToSpawnMedPack;
     }
 
     private void OnEnable()
@@ -61,7 +63,7 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
             _currentTimeForScore = 0;
         }
 
-        if(_currentTimeForMedPack > GameUtils.TimeToSpawnMedPack)
+        if(_currentTimeForMedPack > _timeForMedPack)
         {
             _spawner.SetIsCanSpawnMedPack();
             _currentTimeForMedPack = 0;
@@ -91,9 +93,10 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
         foreach (BulletSpawner bulletSpawner in _bulletSpawners)
             bulletSpawner.AddSpeed(GameUtils.EnvironmentBoostedSpeed * GameUtils.EnemyBulletMultiplier);
 
-        _playerBulletSpawner.DecreaseSpeed(GameUtils.EnvironmentBoostedSpeed);
+        _playerBulletSpawner.DecreaseSpeed(GameUtils.EnvironmentBoostedSpeed / GameUtils.DividerForDecreasePlayerBullet);
         _player.PlayerAnimator.Animator.speed += GameUtils.AnimationBoost;
         _player.WeaponAnimator.speed += GameUtils.AnimationBoost;
+        _timeForMedPack -= GameUtils.DiminutiveForMedPack;
     }
 
     private void AddMaxEnemiesCount()

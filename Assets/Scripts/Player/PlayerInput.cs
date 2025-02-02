@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour, IPauseable
     public event Action<bool> RotateToMax;
     public event Action<bool> RotateToMin;
     public event Action<bool> FlyUp;
+    public event Action<bool> FlyDown;
     public event Action StartShoot;
     public event Action StopShoot;
     public event Action Reload;
@@ -19,6 +20,7 @@ public class PlayerInput : MonoBehaviour, IPauseable
     private bool IsRotateToMax => Input.GetAxis(GameUtils.MouseY) > 0;
     private bool IsRotateToMin => Input.GetAxis(GameUtils.MouseY) < 0;
     private bool IsFlyUp => Input.GetKey(KeyCode.Space);
+    private bool IsFlyDown => Input.GetKey(KeyCode.C);
     private bool IsShoot => Input.GetKey(KeyCode.Mouse0);
     private bool IsReload => Input.GetKeyDown(KeyCode.Mouse1);
     private bool IsPaused => Input.GetKeyDown(KeyCode.Escape);
@@ -57,6 +59,11 @@ public class PlayerInput : MonoBehaviour, IPauseable
                 StartShoot?.Invoke();
             else
                 StopShoot?.Invoke();
+
+            if (IsFlyDown)
+                FlyDown?.Invoke(true);
+            else
+                FlyDown?.Invoke(false);
 
             if (IsReload)
                 Reload?.Invoke();

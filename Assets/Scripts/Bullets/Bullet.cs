@@ -11,14 +11,15 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
     private float _damage;
     private float _currentLifeTime;
     private float _defaultLifeTime;
-    private float _speed;
-    private Vector2 _direction;
     private Coroutine _lifeCoroutine;
     private WaitForSeconds _lifeTime;
     private Transform _parentBody;
     private bool _isPaused;
+    private float _speed;
+    private Vector2 _direction;
 
     private protected Coroutine ReliaseCoroutine;
+    private protected AudioSource HitSource;
 
     public bool IsPerformHit { get; private set; }
 
@@ -29,6 +30,8 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
     private void Start()
     {
         _objectAnimator.HitPerformed += Release;
+        TryGetComponent(out AudioSource hitSource);
+        HitSource = hitSource;
     }
 
     private protected virtual void OnEnable()
@@ -58,6 +61,15 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
     private protected override void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.TryGetComponent(out DynamicObstacle obstacle))
+        {
+            if (ReliaseCoroutine == null && isActiveAndEnabled)
+            {
+                obstacle.Rigidbody2D.AddForceAtPosition(_direction * _speed, transform.position);
+                ReliaseCoroutine = StartCoroutine(HitObstacle());
+            }
+        }
+
         if (collision.TryGetComponent(out Obstacle _))
         {
             if (ReliaseCoroutine == null && isActiveAndEnabled)
@@ -107,6 +119,9 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
         
         if(_lifeCoroutine != null)
             StopCoroutine(_lifeCoroutine);
+
+        if(HitSource != null)
+            HitSource.Pause();
     }
 
     public virtual void Resume()
@@ -115,6 +130,9 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
         if(isActiveAndEnabled)
             _lifeCoroutine = StartCoroutine(BeginLifeTime(_currentLifeTime));
+
+        if (HitSource != null)
+            HitSource.UnPause();
     }
 
     private protected override void Release()
@@ -144,6 +162,9 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
         if (_lifeCoroutine != null)
             StopCoroutine(_lifeCoroutine);
 
+        if (HitSource != null)
+            HitSource.Play();
+
         health.TakeDamage(_damage);
         yield return null;
         PerformHit();
@@ -154,6 +175,9 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
         if (_lifeCoroutine != null)
             StopCoroutine(_lifeCoroutine);
 
+        if (HitSource != null)
+            HitSource.Play();
+
         yield return null;
         PerformHit();
     }
@@ -162,7 +186,7 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
     {
         _isPaused = true;
         IsPerformHit = true;
-        transform.SetParent(_parentBody);
         _objectAnimator.SetHitTrigger();
+        transform.SetParent(_parentBody);
     }
 }

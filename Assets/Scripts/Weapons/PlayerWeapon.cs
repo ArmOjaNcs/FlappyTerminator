@@ -33,6 +33,12 @@ public class PlayerWeapon : Shooter
                 Shoot();
                 CurrentBulletsValue--;
                 BulletsValueChanged?.Invoke(CurrentBulletsValue);
+
+                if(ShotSource != null)
+                {
+                    Debug.Log("Shot");
+                    ShotSource.Play();
+                }
             }
 
             if (CurrentBulletsValue <= 0)

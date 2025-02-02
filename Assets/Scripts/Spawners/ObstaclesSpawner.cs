@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerSign>
+public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerObject>
 {
     [SerializeField] private Pause _pause;
 
@@ -10,7 +10,7 @@ public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerSign>
         if (TryGetFreeContainers(out List<Container> containers) &&
            IsContainersInEnoughDistance(containers, out List<Container> validContainers))
         {
-            DangerSign obstacle = Pool.GetFreeElement();
+            DangerObject obstacle = Pool.GetFreeElement();
 
             if(obstacle != null)
             {
@@ -20,7 +20,7 @@ public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerSign>
         }
     }
 
-    private protected override void Initialize(DangerSign dangerSign)
+    private protected override void Initialize(DangerObject dangerSign)
     {
         dangerSign.Activate();
 

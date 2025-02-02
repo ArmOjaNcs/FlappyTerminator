@@ -9,15 +9,30 @@ public abstract class Shooter : MonoBehaviour, IPauseable
     private Vector2 _direction;
     private float _currentTime;
 
+    private protected AudioSource ShotSource;
     private protected bool IsPaused;
     private protected bool IsCanShoot;
+
+    private void Start()
+    {
+        TryGetComponent(out AudioSource shotSource);
+        ShotSource = shotSource;
+
+        if (ShotSource == null)
+            Debug.Log("ShotSource null");
+    }
 
     private protected virtual void Update()
     {
         if(IsPaused == false)
         {
             if (IsTimeToShoot() && IsCanShoot)
+            {
                 Shoot();
+                
+                if(ShotSource != null)
+                    ShotSource.Play();
+            }
         }
     }
 
@@ -29,11 +44,17 @@ public abstract class Shooter : MonoBehaviour, IPauseable
     public void Stop()
     {
         IsPaused = true;
+
+        if (ShotSource != null)
+            ShotSource.Pause();
     }
 
     public void Resume()
     {
         IsPaused = false;
+
+        if (ShotSource != null)
+            ShotSource.UnPause();
     }
 
     public void StopShoot()
