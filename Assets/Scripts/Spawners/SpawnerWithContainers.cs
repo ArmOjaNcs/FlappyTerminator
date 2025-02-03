@@ -5,37 +5,57 @@ public abstract class SpawnerWithContainers : MonoBehaviour
 {
     [SerializeField] private protected List<Container> Containers;
 
-    public bool TryGetFreeContainers(out List<Container> containers)
+    private int _tempRandom;
+    private List<Container> _tempContainers = new();
+
+    private protected List<Container> ValidContainers = new();
+
+    private protected bool TryGetFreeContainers()
     {
-        containers = new List<Container>();
+        _tempContainers.Clear();
 
         foreach (Container container in Containers)
         {
             if (container.IsHasElement == false)
-                containers.Add(container);
+                _tempContainers.Add(container);
         }
 
-        return containers.Count > 0;
+        return _tempContainers.Count > 0;
     }
 
-    public bool IsContainersInEnoughDistance(List<Container> containers, out List<Container> validContainers)
+    private protected bool IsContainersInEnoughDistance(List<Container> containers)
     {
-        validContainers = new List<Container>();
+        ValidContainers.Clear();
 
         foreach (Container container in containers)
         {
             if (container.transform.position.x >= GameUtils.MinXPosition &&
                 container.transform.position.x <= GameUtils.MaxXPosition)
-                validContainers.Add(container);
+                ValidContainers.Add(container);
         }
 
-        return validContainers.Count > 0;
+        return ValidContainers.Count > 0;
     }
 
-    public Container GetRandomContainer(List<Container> containers)
+    private protected bool TryFillUpValidContainers()
     {
-        Container container = containers[Random.Range(0, containers.Count)];
+        if (TryGetFreeContainers() &&
+          IsContainersInEnoughDistance(_tempContainers))
+            return true;
+
+        return false;
+    }
+
+    private protected Container GetRandomContainer()
+    {
+        _tempRandom = Random.Range(0, ValidContainers.Count);
+        Container container = ValidContainers[_tempRandom];
         return container;
+    }
+
+    private protected void RemoveFromValidContainers()
+    {
+        ValidContainers.RemoveAt(_tempRandom);
     }
 
     private protected void Release(ObjectToSpawn element)

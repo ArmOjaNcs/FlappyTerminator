@@ -23,6 +23,9 @@ public class Obstacle : MonoBehaviour, IPauseable
         {
             if (collision.TryGetComponent(out Player player) && _isCanBeDamaged && isActiveAndEnabled)
                 StartCoroutine(WaitForCanBeDamaged(player.Health));
+
+            if (collision.TryGetComponent(out Enemy enemy))
+                enemy.Health.TakeDamage(_damageOnEnter);
         }
     }
 
@@ -32,15 +35,18 @@ public class Obstacle : MonoBehaviour, IPauseable
         {
             if (collision.TryGetComponent(out Player player))
                 player.Health.TakeDamage(_damageOnStay);
+
+            if (collision.TryGetComponent(out Enemy enemy))
+                enemy.Health.TakeDamage(_damageOnStay);
         }
     }
 
-    public void Stop()
+    public virtual void Stop()
     {
         _isPaused = true;
     }
 
-    public void Resume()
+    public virtual void Resume()
     {
         _isPaused = false;
     }

@@ -6,8 +6,12 @@ public class DangerObject : ObjectToSpawn
     [SerializeField] private Obstacle _obstacle;
 
     public override event Action<ObjectToSpawn> LifeTimeFinished;
+    public Obstacle Obstacle { get; private set; }
 
-    public Obstacle Obstacle => _obstacle;
+    private void Awake()
+    {
+        Obstacle = GetComponent<Obstacle>();   
+    }
 
     private protected override void Release()
     {

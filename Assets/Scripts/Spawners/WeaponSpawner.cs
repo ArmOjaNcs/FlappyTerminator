@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WeaponSpawner : SinglePrefabSpawner<EnemyWeapon>
+public class WeaponSpawner : Spawner<EnemyWeapon>
 {
     [SerializeField] private BulletSpawner _bulletSpawner;
     [SerializeField] private Pause _pause;
@@ -9,9 +9,8 @@ public class WeaponSpawner : SinglePrefabSpawner<EnemyWeapon>
     {
         EnemyWeapon weapon = Pool.GetFreeElement();
 
-        if( weapon != null )
-            Initialize(weapon);
-        
+        Initialize(weapon);
+
         return weapon;
     }
 

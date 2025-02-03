@@ -1,13 +1,12 @@
 using System.Collections.Generic;
-using Unity.Android.Gradle;
 using UnityEngine;
 
-public class SinglePrefabPool<T> where T : MonoBehaviour
+public class ObjectPool<T> where T : MonoBehaviour
 {
     private List<T> _pool;
     private T _prefab;
 
-    public SinglePrefabPool(T prefab, int count, Transform container)
+    public ObjectPool(T prefab, int count, Transform container)
     {
         _prefab = prefab;
         Container = container;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletSpawner : SinglePrefabSpawner<Bullet>
+public class BulletSpawner : Spawner<Bullet>
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _lifeTime;

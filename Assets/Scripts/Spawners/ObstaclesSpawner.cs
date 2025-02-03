@@ -1,26 +1,30 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstaclesSpawner : SinglePrefabSpawnerWithContainers<DangerObject>
+public class ObstaclesSpawner : SpawnerWithContainers
 {
+    [SerializeField] private DangerObject _prefab;
+    [SerializeField] private int _maxCapacity;
     [SerializeField] private Pause _pause;
+
+    private DangerObjectsPool _dangerObjectsPool;
+
+    private void Awake()
+    {
+        _dangerObjectsPool = new DangerObjectsPool(_prefab, _maxCapacity, transform);
+    }
 
     public void SpawnObstacle()
     {
-        if (TryGetFreeContainers(out List<Container> containers) &&
-           IsContainersInEnoughDistance(containers, out List<Container> validContainers))
+        if (TryFillUpValidContainers())
         {
-            DangerObject obstacle = Pool.GetFreeElement();
+            DangerObject obstacle = _dangerObjectsPool.GetFreeElement();
 
-            if(obstacle != null)
-            {
-                obstacle.SetStartPosition(GetRandomContainer(validContainers));
-                Initialize(obstacle);
-            }
+            obstacle.SetStartPosition(GetRandomContainer());
+            Initialize(obstacle);
         }
     }
 
-    private protected override void Initialize(DangerObject dangerSign)
+    private void Initialize(DangerObject dangerSign)
     {
         dangerSign.Activate();
 

@@ -17,11 +17,15 @@ public static class GameUtils
     public static readonly float TimeToNextLevel = 10;
     public static readonly float TimeToSpawnMedPack = 65;
     public static readonly float MinXPosition = 40;
-    public static readonly float MaxXPosition = 180;
+    public static readonly float MaxXPosition = 350;
+    public static readonly float MinXPositionForCratesSpawner = 200;
+    public static readonly float MaxXPositionForCratesSpawner = 240;
     public static readonly float AnimationBoost = 0.1f;
     public static readonly string MainScene = nameof(MainScene);
     public static readonly string MenuScene = nameof(MenuScene);
     public static readonly string MouseY = "Mouse Y";
+
+    public static float CurrentGroundSpeed = StartEnvironmentSpeed;
 
     public static void UnlockCursor()
     {
@@ -33,5 +37,10 @@ public static class GameUtils
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public static void AddCurrentGroundSpeed()
+    {
+        CurrentGroundSpeed += EnvironmentBoostedSpeed;
     }
 }

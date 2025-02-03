@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public abstract class SinglePrefabSpawner<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Spawner<T> : MonoBehaviour where T : MonoBehaviour
 {
     [SerializeField] private protected T Prefab;
     [SerializeField] private protected int MaxCapacity;
 
-    public SinglePrefabPool<T> Pool;
+    public ObjectPool<T> Pool;
 
     private void Awake()
     {
-        Pool = new SinglePrefabPool<T>(Prefab, MaxCapacity, transform);
+        Pool = new ObjectPool<T>(Prefab, MaxCapacity, transform);
     }
 
     private protected void Release(ObjectToSpawn element)

@@ -1,26 +1,33 @@
-using System.Collections.Generic;
+using UnityEngine;
 
-public class MedPackSpawner : SinglePrefabSpawnerWithContainers<MedPack>
+public class MedPackSpawner : SpawnerWithContainers
 {
+    [SerializeField] private MedPack _prefab;
+    [SerializeField] private int _maxCapacity;
+
+    private MedPacksPool _medPacksPool;
+
+    private void Awake()
+    {
+        _medPacksPool = new MedPacksPool(_prefab, _maxCapacity, transform);
+    }
+
     public void SpawnMedPack()
     {
-        if (IsContainersInEnoughDistance(Containers, out List<Container> validContainers))
+        if (TryFillUpValidContainers())
         {
-            MedPack medPack = Pool.GetFreeElement();
+            MedPack medPack = _medPacksPool.GetFreeElement();
 
-            if (medPack != null)
-            {
-                medPack.SetStartPosition(GetRandomContainer(validContainers));
-                Initialize(medPack);
-            }
+            medPack.SetStartPosition(GetRandomContainer());
+            Initialize(medPack);
         }
     }
 
-    private protected override void Initialize(MedPack medPack)
+    private void Initialize(MedPack medPack)
     {
         medPack.Activate();
 
-        if(medPack.IsSpawnerSubscribed == false)
+        if (medPack.IsSpawnerSubscribed == false)
         {
             medPack.LifeTimeFinished += Release;
             medPack.SubscribeBySpawner();

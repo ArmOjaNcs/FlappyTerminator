@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MainSpawner : MonoBehaviour
 {
     [SerializeField] private MainEnvironmentChanger _changer;
-    [SerializeField] private EnemySpawner _enemySpawner;
-    [SerializeField] private ObstaclesSpawner[] _obstaclesSpawners;
+    [SerializeField] private PoultryHouse _enemySpawner;
+    [SerializeField] private List<ObstaclesSpawner> _obstaclesSpawners;
+    [SerializeField] private CratesSpawner _cratesSpawner;
     [SerializeField] private MedPackSpawner _medPackSpawner;
     [SerializeField] private Player _player;
 
@@ -13,7 +15,7 @@ public class MainSpawner : MonoBehaviour
     private bool _isPlayerDead;
     private bool _isCanSpawnMedPack;
 
-    public EnemySpawner EnemySpawner => _enemySpawner;
+    public PoultryHouse EnemySpawner => _enemySpawner;
 
     private void Awake()
     {
@@ -63,10 +65,11 @@ public class MainSpawner : MonoBehaviour
 
     private void OnGroundChanged()
     {
-        if(_isPlayerDead == false)
+        if (_isPlayerDead == false)
         {
             SpawnMaxEnemyCount();
             SpawnMaxObstaclesCount();
+            _cratesSpawner.SpawnCrates();
 
             if (_isCanSpawnMedPack)
             {
@@ -78,15 +81,14 @@ public class MainSpawner : MonoBehaviour
 
     private void SpawnMaxEnemyCount()
     {
-        for (int i = 0; i < _maxEnemiesCount; i++)
-            _enemySpawner.SpawnEnemy();
+        _enemySpawner.SpawnEnemies(_maxEnemiesCount);
     }
 
     private void SpawnMaxObstaclesCount()
     {
         for (int i = 0; i < _maxObstaclesCount; i++)
         {
-            int randomIndex = Random.Range(0, _obstaclesSpawners.Length);
+            int randomIndex = Random.Range(0, _obstaclesSpawners.Count);
             _obstaclesSpawners[randomIndex].SpawnObstacle();
         }
     }

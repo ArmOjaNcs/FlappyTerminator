@@ -97,6 +97,7 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
         _player.PlayerAnimator.Animator.speed += GameUtils.AnimationBoost;
         _player.WeaponAnimator.speed += GameUtils.AnimationBoost;
         _timeForMedPack -= GameUtils.DiminutiveForMedPack;
+        GameUtils.AddCurrentGroundSpeed();
     }
 
     private void AddMaxEnemiesCount()

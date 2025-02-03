@@ -25,7 +25,7 @@ public class PlayerWeapon : Shooter
 
     private protected override void Update()
     {
-        if(IsPaused == false)
+        if (IsPaused == false)
         {
             if (IsTimeToShoot() && IsCanShoot && _isHaveBullets)
             {
@@ -33,12 +33,7 @@ public class PlayerWeapon : Shooter
                 Shoot();
                 CurrentBulletsValue--;
                 BulletsValueChanged?.Invoke(CurrentBulletsValue);
-
-                if(ShotSource != null)
-                {
-                    Debug.Log("Shot");
-                    ShotSource.Play();
-                }
+                ShotSource.Play();
             }
 
             if (CurrentBulletsValue <= 0)

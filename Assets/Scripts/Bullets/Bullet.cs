@@ -166,6 +166,7 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
             HitSource.Play();
 
         health.TakeDamage(_damage);
+
         yield return null;
         PerformHit();
     }
