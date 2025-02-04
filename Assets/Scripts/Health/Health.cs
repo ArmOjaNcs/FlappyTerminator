@@ -12,10 +12,12 @@ public class Health : MonoBehaviour, IPauseable
 
     public float MaxValue => _maxValue;
     public float CurrentValue { get; private set; }
+    public float DefaultMaxValue {  get; private set; }
 
     private void Awake()
     {
         CurrentValue = MaxValue;
+        DefaultMaxValue = MaxValue;
         _isCanBeChanged = true;
     }
 
@@ -57,6 +59,13 @@ public class Health : MonoBehaviour, IPauseable
 
             HealthUpdate?.Invoke();
         }
+    }
+
+    public void SetMaxHealth(float value)
+    {
+        _maxValue = value;
+        CurrentValue = MaxValue;
+        HealthUpdate?.Invoke();
     }
 
     public void Stop()

@@ -5,6 +5,8 @@ public class WeaponSpawner : Spawner<EnemyWeapon>
     [SerializeField] private BulletSpawner _bulletSpawner;
     [SerializeField] private Pause _pause;
 
+    private float _delayPercent = 1;
+
     public EnemyWeapon GetWeapon()
     {
         EnemyWeapon weapon = Pool.GetFreeElement();
@@ -17,6 +19,7 @@ public class WeaponSpawner : Spawner<EnemyWeapon>
     public void Initialize(EnemyWeapon weapon)
     {
         weapon.gameObject.SetActive(true);
+        weapon.SetDelay(weapon.DefaultDelay * _delayPercent);
 
         if (weapon.IsSpawnerSubscribed == false)
         {
@@ -25,5 +28,10 @@ public class WeaponSpawner : Spawner<EnemyWeapon>
             weapon.SetBulletSpawner(_bulletSpawner);
             weapon.SubscribeBySpawner();
         }
+    }
+
+    public void DecreaseCurrentDelayPercent(float percent)
+    {
+        _delayPercent -= percent;
     }
 }

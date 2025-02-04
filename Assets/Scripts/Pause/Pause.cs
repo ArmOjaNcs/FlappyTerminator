@@ -16,8 +16,7 @@ public class Pause : MonoBehaviour, IPauseable
 
     private void OnEnable()
     {
-        _playerInput.Paused += OnPaused;
-        _playerInput.UnPaused += OnUnPaused;
+        Subscribe();
     }
 
     private void OnDisable()
@@ -32,32 +31,56 @@ public class Pause : MonoBehaviour, IPauseable
 
     public void Stop()
     {
-        foreach (IPauseable iPauseable in _iPauseables)
-            iPauseable.Stop();
-
+        InvokeStop();
         _pauseMenu.Show();
     }
 
     public void Resume()
     {
-        foreach(IPauseable iPauseable in _iPauseables)
-            iPauseable.Resume();
-
+        InvokeResume();
         _pauseMenu.Hide();
     }
 
     public void EndGame()
     {
-        foreach (IPauseable iPauseable in _iPauseables)
-            iPauseable.Stop();
-
+        InvokeStop();
         UnSubscribe();
+    }
+
+    public void UpgradePlayer()
+    {
+        InvokeStop();
+        UnSubscribe();
+    }
+
+    public void ApplyPlayerUpgrade()
+    {
+        InvokeResume();
+        Subscribe();
+    }
+
+    private void Subscribe()
+    {
+        _playerInput.Paused += OnPaused;
+        _playerInput.UnPaused += OnUnPaused;
     }
 
     private void UnSubscribe()
     {
         _playerInput.Paused -= OnPaused;
         _playerInput.UnPaused -= OnUnPaused;
+    }
+
+    private void InvokeStop()
+    {
+        foreach (IPauseable iPauseable in _iPauseables)
+            iPauseable.Stop();
+    }
+
+    private void InvokeResume()
+    {
+        foreach (IPauseable iPauseable in _iPauseables)
+            iPauseable.Resume();
     }
 
     private void OnPaused()

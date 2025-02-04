@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
@@ -9,8 +10,8 @@ public class Enemy : ObjectToSpawn, IPauseable
     [SerializeField] private Health _health;
     [SerializeField] private ObjectAnimator _objectAnimator;
 
-    private Animator _weaponAnimator;
     private AudioSource _hitSource;
+    private Coroutine _deathCoroutine;
 
     public override event Action<ObjectToSpawn> LifeTimeFinished;
     public event Action StopShoot;
@@ -23,13 +24,14 @@ public class Enemy : ObjectToSpawn, IPauseable
 
     private void Awake()
     {
-        _weaponAnimator = _weaponContainer.GetComponent<Animator>();
         _hitSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
     {
         StopShoot?.Invoke();
+        _deathCoroutine = null;
+        Debug.Log(Health.MaxValue);
     }
 
     private void Start()
@@ -42,14 +44,12 @@ public class Enemy : ObjectToSpawn, IPauseable
     public void Stop()
     {
         _objectAnimator.Stop();
-        _weaponAnimator.enabled = false;
         _hitSource.Pause();
     }
 
     public void Resume()
     {
         _objectAnimator.Resume();
-        _weaponAnimator.enabled = true;
         _hitSource.UnPause();
     }
 
@@ -63,18 +63,22 @@ public class Enemy : ObjectToSpawn, IPauseable
 
     private void OnHealthUpdate()
     {
-        if(_health.CurrentValue == 0)
-        {
-            EnemyKilled?.Invoke();
-            ReturnToPool?.Invoke(this);
-            _objectAnimator.SetHitTrigger();
-            _hitSource.Play();
-        }
+        if (_health.CurrentValue == 0 && _deathCoroutine == null && isActiveAndEnabled)
+            StartCoroutine(PerformDeath());
     }
 
     private protected override void Release()
     {
         ReturnToPool?.Invoke(this);
         LifeTimeFinished?.Invoke(this);
+    }
+
+    private IEnumerator PerformDeath()
+    {
+        EnemyKilled?.Invoke();
+        ReturnToPool?.Invoke(this);
+        _objectAnimator.SetHitTrigger();
+        _hitSource.Play();
+        yield return null;
     }
 }

@@ -44,7 +44,7 @@ public class MainSpawner : MonoBehaviour
 
     private void Start()
     {
-        SpawnMaxEnemyCount();
+        _enemySpawner.SpawnEnemies(10);
         SpawnMaxObstaclesCount();
     }
 

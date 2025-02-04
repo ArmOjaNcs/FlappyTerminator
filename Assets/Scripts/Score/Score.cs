@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    public event Action<int> ScoreUpdate;
+    public event Action<int> ScoreValueUpdate;
+    public event Action<int> EnemiesKilledUpdate;
 
     public int Value { get; private set; }
+    public int EnemiesKilled { get; private set; }
 
     public void AddValue(int value)
     {
@@ -13,6 +15,12 @@ public class Score : MonoBehaviour
             return;
 
         Value += value;
-        ScoreUpdate?.Invoke(Value);
+        ScoreValueUpdate?.Invoke(Value);
+    }
+
+    public void AddEnemiesKilled()
+    {
+        EnemiesKilled++;
+        EnemiesKilledUpdate?.Invoke(EnemiesKilled);
     }
 }

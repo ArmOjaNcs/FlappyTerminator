@@ -14,12 +14,15 @@ public class PlayerPilot : MonoBehaviour, IPauseable
     private bool _isPaused;
     private bool _isCanFlyUp;
     private bool _isCanFlyDown;
+    private float _flyForcePercent = 1;
+    private float _defaultFlyForce;
 
     private void Awake()
     {
         _startPosition = transform.position;
         _isCanFlyUp = true;
         _isCanFlyDown = true;
+        _defaultFlyForce = _flyForce;
     }
 
     private void Update()
@@ -55,6 +58,12 @@ public class PlayerPilot : MonoBehaviour, IPauseable
 
         if (collision.TryGetComponent(out Ground _))
             _isCanFlyDown = true;
+    }
+
+    public void AddFlyForcePercent(float percent)
+    {
+        _flyForcePercent += percent;
+        _flyForce = _defaultFlyForce * _flyForcePercent;
     }
 
     public void Stop()

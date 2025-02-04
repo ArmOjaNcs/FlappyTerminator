@@ -14,6 +14,8 @@ public class Player : MonoBehaviour, IPauseable
     [SerializeField] private Pause _pause;
 
     private float _defaultAnimatorSpeed;
+    private float _fireRatePercent = 1;
+    private float _healthPercent = 1;
     private AudioSource _audioSource;
 
     public event Action PlayerPerformDead;
@@ -23,6 +25,13 @@ public class Player : MonoBehaviour, IPauseable
     public ObjectAnimator PlayerAnimator => _playerAnimator;
     public Score Score { get; private set; }
     public Animator WeaponAnimator => _weaponAnimator;
+    public int CurrentLevel { get; private set; }
+    public int CurrentFlyForceLevel { get; private set; }
+    public int CurrentDamageLevel { get; private set; }
+    public int CurrentFireRateLevel { get; private set; }
+    public int CurrentHealthLevel { get; private set; }
+    public int CurrentReloadLevel { get; private set; }
+    public int CurrentMaxBulletsLevel { get; private set; }
 
     private void Awake()
     {
@@ -70,6 +79,59 @@ public class Player : MonoBehaviour, IPauseable
     public void AddAnimatorSpeed(float speed)
     {
         PlayerAnimator.Animator.speed += speed;
+    }
+
+    public void AddFlyForceLevel(float percent)
+    {
+        CurrentFlyForceLevel++;
+        AddLevel();
+
+        _playerPilot.AddFlyForcePercent(percent);
+    }
+
+    public void AddDamageLevel(float percent)
+    {
+        CurrentDamageLevel++;
+        AddLevel();
+
+        _bulletSpawner.AddDamagePercent(percent);
+    }
+
+    public void AddFireRateLevel(float percent)
+    {
+        CurrentFireRateLevel++;
+        AddLevel();
+        _fireRatePercent -= percent;
+        _weapon.SetDelay(_weapon.DefaultDelay * _fireRatePercent);
+    }
+
+    public void AddHealthLevel(float percent)
+    {
+        CurrentHealthLevel++;
+        AddLevel();
+        _healthPercent += percent;
+        Health.SetMaxHealth(Health.DefaultMaxValue * _healthPercent);
+    }
+
+    public void AddReloadLevel(float percent)
+    {
+        CurrentReloadLevel++;
+        AddLevel();
+
+        _weapon.DecreaseReloadPercent(percent);
+    }
+
+    public void AddMaxBulletsLevel(int value)
+    {
+        CurrentMaxBulletsLevel++;
+        AddLevel();
+
+        _weapon.AddMaxBulletsValue(value);
+    }
+
+    private void AddLevel()
+    {
+        CurrentLevel++;
     }
 
     private void OnRotateToMax(bool isRotate)

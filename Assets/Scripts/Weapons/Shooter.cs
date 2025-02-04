@@ -13,9 +13,17 @@ public abstract class Shooter : MonoBehaviour, IPauseable
     private protected bool IsPaused;
     private protected bool IsCanShoot;
 
+    public float DefaultDelay {  get; private set; }
+
     private void Start()
     {
         ShotSource = GetComponent<AudioSource>();
+    }
+
+    private void OnEnable()
+    {
+        if (DefaultDelay <= 0)
+            DefaultDelay = Delay;
     }
 
     private protected virtual void Update()
@@ -33,6 +41,11 @@ public abstract class Shooter : MonoBehaviour, IPauseable
     public void SetBulletSpawner(BulletSpawner bulletPrefabSpawner)
     {
         _bulletSpawner = bulletPrefabSpawner;
+    }
+
+    public void SetDelay(float delay)
+    {
+        Delay = delay;
     }
 
     public void Stop()

@@ -11,6 +11,7 @@ public class PoultryHouse : SpawnerWithContainers
     [SerializeField] private Pause _pause;
 
     private List<BirdsPool> _birdsPools;
+    private float _maxHealthPercent = 1;
 
     public event Action EnemyKilled;
 
@@ -44,11 +45,17 @@ public class PoultryHouse : SpawnerWithContainers
         }
     }
 
+    public void AddCurrentMaxHealthPercent(float percent)
+    {
+        _maxHealthPercent += percent;
+    }
+
     private void Initialize(Enemy enemy)
     {
         EnemyWeapon weapon = _armory.GetRandomWeapon();
         weapon.SetEnemyParent(enemy);
         enemy.Activate();
+        enemy.Health.SetMaxHealth(enemy.Health.DefaultMaxValue * _maxHealthPercent);
 
         if (enemy.IsSpawnerSubscribed == false)
         {

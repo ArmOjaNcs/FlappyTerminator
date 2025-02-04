@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FirePoint: {fileID: 5934091244037880261}
-  Delay: 1
+  Delay: 1.5
 --- !u!82 &-6211598549493543514
 AudioSource:
   m_ObjectHideFlags: 0

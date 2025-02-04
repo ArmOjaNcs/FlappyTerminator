@@ -9,10 +9,13 @@ public class BulletSpawner : Spawner<Bullet>
     [SerializeField] private Pause _pause;
 
     private WaitForSeconds _time;
+    private float _defaultDamage;
+    private float _damagePercent = 1;
 
     private void Start()
     {
         _time = new WaitForSeconds(_lifeTime);
+        _defaultDamage = _damage;
     }
 
     public float DecreaseSpeed(float speed)
@@ -29,6 +32,12 @@ public class BulletSpawner : Spawner<Bullet>
             return _speed;
 
         return _speed += speed;
+    }
+
+    public void AddDamagePercent(float percent)
+    {
+        _damagePercent += percent;
+        _damage = _defaultDamage * _damagePercent;
     }
 
     public void Initialize(Bullet bullet, Vector2 direction, Transform firePoint, Quaternion rotation)

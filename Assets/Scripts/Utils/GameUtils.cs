@@ -11,10 +11,10 @@ public static class GameUtils
     public static readonly int DividerForDecreasePlayerBullet = 2;
     public static readonly int DiminutiveForMedPack = 2;
     public static readonly int EnemyBulletMultiplier = 2;
-    public static readonly float StartEnvironmentSpeed = 10;
+    public static readonly float StartEnvironmentSpeed = 8;
     public static readonly float EnvironmentBoostedSpeed = 2.0f;
     public static readonly float TimeToAddScore = 1;
-    public static readonly float TimeToNextLevel = 10;
+    public static readonly float TimeToNextLevel = 60;
     public static readonly float TimeToSpawnMedPack = 65;
     public static readonly float MinXPosition = 40;
     public static readonly float MaxXPosition = 350;

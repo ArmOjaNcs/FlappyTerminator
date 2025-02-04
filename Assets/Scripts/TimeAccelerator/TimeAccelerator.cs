@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,8 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
     private float _currentTimeForMedPack;
     private float _timeForMedPack;
     private bool _isPaused;
+
+    public event Action LevelChanged;
 
     private void Awake()
     {
@@ -98,6 +101,7 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
         _player.WeaponAnimator.speed += GameUtils.AnimationBoost;
         _timeForMedPack -= GameUtils.DiminutiveForMedPack;
         GameUtils.AddCurrentGroundSpeed();
+        LevelChanged?.Invoke();
     }
 
     private void AddMaxEnemiesCount()
@@ -120,5 +124,6 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
     private void AddScoreForEnemy()
     {
         _player.Score.AddValue(GameUtils.ScoreByEnemy);
+        _player.Score.AddEnemiesKilled();
     }
 }

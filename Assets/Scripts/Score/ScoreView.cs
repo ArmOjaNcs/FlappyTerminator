@@ -10,12 +10,12 @@ public class ScoreView : MonoBehaviour
 
     private void OnEnable()
     {
-        _score.ScoreUpdate += OnScoreUpdate;
+        _score.ScoreValueUpdate += OnScoreUpdate;
     }
 
     private void OnDisable()
     {
-        _score.ScoreUpdate -= OnScoreUpdate;
+        _score.ScoreValueUpdate -= OnScoreUpdate;
     }
 
     private void Start()

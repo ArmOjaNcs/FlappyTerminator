@@ -4,23 +4,28 @@ using UnityEngine;
 
 public class PlayerWeapon : Shooter
 {
-    public readonly int MaxBulletsValue = 50;
-    public readonly float TimeForReload = 1.5f;
+    private readonly int _maxBulletsValue = 30; 
 
     private bool _isHaveBullets;
     private WaitForSeconds _waitForReload;
     private Coroutine _reloadCoroutine;
+    private float _reloadPercent = 1;
+    private float _defaultTimeForReload;
+    private  float _timeForReload = 2; 
 
     public event Action<int> BulletsValueChanged;
     public event Action<bool> Reloaded;
 
     public int CurrentBulletsValue { get; private set; }
+    public int MaxBulletsValue { get; private set; }
 
     private void Awake()
     {
+        MaxBulletsValue = _maxBulletsValue;
+        _defaultTimeForReload = _timeForReload;
         CurrentBulletsValue = MaxBulletsValue;
         _isHaveBullets = true;
-        _waitForReload = new WaitForSeconds(TimeForReload);
+        _waitForReload = new WaitForSeconds(_timeForReload);
     }
 
     private protected override void Update()
@@ -51,6 +56,20 @@ public class PlayerWeapon : Shooter
                 Reloaded?.Invoke(true);
             }
         }
+    }
+
+    public void DecreaseReloadPercent(float percent)
+    {
+        _reloadPercent -= percent;
+        _timeForReload = _defaultTimeForReload * _reloadPercent;
+        _waitForReload = new WaitForSeconds(_timeForReload);
+    }
+
+    public void AddMaxBulletsValue(int value)
+    {
+        MaxBulletsValue += value;
+        CurrentBulletsValue = MaxBulletsValue;
+        BulletsValueChanged?.Invoke(CurrentBulletsValue);
     }
 
     private Vector2 GetDirection()
