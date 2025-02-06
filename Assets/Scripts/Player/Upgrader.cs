@@ -10,17 +10,7 @@ public class Upgrader : MonoBehaviour
     [SerializeField] private PoultryHouse _enemySpawner;
     [SerializeField] private List<BulletSpawner> _enemyBulletsSpawners;
     [SerializeField] private TimeAccelerator _timeAccelerator;
-    [SerializeField] private Pause _pause;
-    [SerializeField] private UIAnimator _upgradeWindow;
 
-    private readonly float _percentForEnemyUpgrade = 0.05f;
-    private readonly float _percentForPlayerUpgrade = 0.1f;
-    private readonly int _enemiesCountWithUpgrade = 2;
-    private readonly int _maxPlayerLevel = 60;
-    private readonly int _maxAbilityLevel = 10;
-    private readonly int _bulletsCountOnUpgrade = 10;
-
-    private int _enemiesForNextLevel = 5;
     private int _currentEnemiesKilled;
 
     public event Action FlyForceOnMaxLevel;
@@ -28,6 +18,8 @@ public class Upgrader : MonoBehaviour
     public event Action DamageOnMaxLevel;
     public event Action HealthOnMaxLevel;
     public event Action ReloadOnMaxLevel;
+    public event Action BulletsOnMaxLevel;
+    public event Action LevelAccepted;
 
     private void OnEnable()
     {
@@ -43,87 +35,94 @@ public class Upgrader : MonoBehaviour
 
     public void UgradeFlyForce()
     {
-        _player.AddFlyForceLevel(_percentForPlayerUpgrade);
+        _player.AddFlyForceLevel(UpgradeUtils.PercentForPlayerUpgrade);
 
-        if (_player.CurrentFlyForceLevel == _maxAbilityLevel)
+        if (_player.CurrentFlyForceLevel == UpgradeUtils.MaxAbilityLevel)
             FlyForceOnMaxLevel?.Invoke();
 
-        _upgradeWindow.Hide();
-        _pause.ApplyPlayerUpgrade();
+        UpgradeUtils.AcceptPlayerLevel();
+        LevelAccepted?.Invoke();
     }
 
     public void UgradeFireRate()
     {
-        _player.AddFireRateLevel(_percentForPlayerUpgrade);
+        if(_player.CurrentFireRateLevel == UpgradeUtils.MaxAbilityLevel - 1)
+            _player.AddFireRateLevel(UpgradeUtils.PercentForPlayerLastLevelUpgrade);
+        else
+            _player.AddFireRateLevel(UpgradeUtils.PercentForPlayerUpgrade);
 
-        if (_player.CurrentFireRateLevel == _maxAbilityLevel)
+
+        if (_player.CurrentFireRateLevel == UpgradeUtils.MaxAbilityLevel)
             FireRateOnMaxLevel?.Invoke();
 
-        _upgradeWindow.Hide();
-        _pause.ApplyPlayerUpgrade();
+        UpgradeUtils.AcceptPlayerLevel();
+        LevelAccepted?.Invoke();
     }
 
     public void UgradeDamage()
     {
-        _player.AddDamageLevel(_percentForPlayerUpgrade);
+        _player.AddDamageLevel(UpgradeUtils.PercentForPlayerDamageUpgrade);
 
-        if (_player.CurrentDamageLevel == _maxAbilityLevel)
+        if (_player.CurrentDamageLevel == UpgradeUtils.MaxAbilityLevel)
             DamageOnMaxLevel?.Invoke();
 
-        _upgradeWindow.Hide();
-        _pause.ApplyPlayerUpgrade();
+        UpgradeUtils.AcceptPlayerLevel();
+        LevelAccepted?.Invoke();
     }
 
     public void UgradeHealth()
     {
-        _player.AddHealthLevel(_percentForPlayerUpgrade);
+        _player.AddHealthLevel(UpgradeUtils.PercentForPlayerHealthUpgrade);
 
-        if (_player.CurrentHealthLevel == _maxAbilityLevel)
+        if (_player.CurrentHealthLevel == UpgradeUtils.MaxAbilityLevel)
             HealthOnMaxLevel?.Invoke();
 
-        _upgradeWindow.Hide();
-        _pause.ApplyPlayerUpgrade();
+        UpgradeUtils.AcceptPlayerLevel();
+        LevelAccepted?.Invoke();
     }
 
     public void UgradeReload()
     {
-        _player.AddReloadLevel(_percentForPlayerUpgrade);
+        if (_player.CurrentReloadLevel == UpgradeUtils.MaxAbilityLevel - 1)
+            _player.AddReloadLevel(UpgradeUtils.PercentForPlayerLastLevelUpgrade);
+        else
+            _player.AddReloadLevel(UpgradeUtils.PercentForPlayerUpgrade);
 
-        if (_player.CurrentReloadLevel == _maxAbilityLevel)
+        if (_player.CurrentReloadLevel == UpgradeUtils.MaxAbilityLevel)
             ReloadOnMaxLevel?.Invoke();
 
-        _upgradeWindow.Hide();
-        _pause.ApplyPlayerUpgrade();
+        UpgradeUtils.AcceptPlayerLevel();
+        LevelAccepted?.Invoke();
     }
 
     public void UpgradeMaxBulletsValue()
     {
-        _player.AddMaxBulletsLevel(_bulletsCountOnUpgrade);
+        _player.AddMaxBulletsLevel(UpgradeUtils.BulletsCountOnUpgrade);
 
-        if (_player.CurrentMaxBulletsLevel == _maxAbilityLevel)
-            ReloadOnMaxLevel?.Invoke();
+        if (_player.CurrentMaxBulletsLevel == UpgradeUtils.MaxAbilityLevel)
+            BulletsOnMaxLevel?.Invoke();
 
-        _upgradeWindow.Hide();
-        _pause.ApplyPlayerUpgrade();
+        UpgradeUtils.AcceptPlayerLevel();
+        LevelAccepted?.Invoke();
     }
 
     private void OnLevelChanged()
     {
-        _armory.DecreaseAllWeaponsDelay(_percentForEnemyUpgrade);
+        _armory.DecreaseAllWeaponsDelay(UpgradeUtils.PercentForEnemyUpgrade);
 
         foreach (var bulletSpawner in _enemyBulletsSpawners)
-            bulletSpawner.AddDamagePercent(_percentForEnemyUpgrade);
+            bulletSpawner.AddDamagePercent(UpgradeUtils.PercentForEnemyUpgrade);
            
-        _enemySpawner.AddCurrentMaxHealthPercent(_percentForEnemyUpgrade);
+        _enemySpawner.AddCurrentMaxHealthPercent(UpgradeUtils.PercentForEnemyHealthUpgrade);
     }
 
     private void OnEnemiesKilledUpdate(int enemiesCount)
     {
-        if(enemiesCount >= _enemiesForNextLevel + _currentEnemiesKilled && _player.CurrentLevel < _maxPlayerLevel)
+        if(enemiesCount >= UpgradeUtils.EnemiesForNextLevel + _currentEnemiesKilled && 
+            _player.CurrentLevel < UpgradeUtils.MaxPlayerLevel)
         {
-            _pause.UpgradePlayer();
-            _upgradeWindow.Show();
-            _enemiesForNextLevel += _enemiesCountWithUpgrade;
+            UpgradeUtils.AddNotAcceptedPlayerLevel();
+            UpgradeUtils.AddEnemiesForNextLevel();
             _currentEnemiesKilled = enemiesCount;
         }
     }

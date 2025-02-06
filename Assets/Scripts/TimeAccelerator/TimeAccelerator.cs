@@ -25,6 +25,8 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
         _isPaused = false;
         _pause.Register(this);
         _timeForMedPack = GameUtils.TimeToSpawnMedPack;
+        GameUtils.StartGame();
+        UpgradeUtils.StartGame();
     }
 
     private void OnEnable()
@@ -123,7 +125,7 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
 
     private void AddScoreForEnemy()
     {
-        _player.Score.AddValue(GameUtils.ScoreByEnemy);
+        _player.Score.AddValue(GameUtils.ScoreByEnemy + _boostLevel);
         _player.Score.AddEnemiesKilled();
     }
 }

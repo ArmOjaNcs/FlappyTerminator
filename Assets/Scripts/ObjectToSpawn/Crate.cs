@@ -18,6 +18,7 @@ public class Crate : ObjectToSpawn, IPauseable
     private void OnEnable()
     {
         Obstacle.Rigidbody2D.linearVelocity = Vector2.zero;
+        Obstacle.Rigidbody2D.angularVelocity = 0;
     }
 
     private void Update()

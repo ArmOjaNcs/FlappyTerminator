@@ -4,12 +4,15 @@ using UnityEngine.UI;
 public class UpgradeWindow : MonoBehaviour
 {
     [SerializeField] private UIAnimator _animator;
+    [SerializeField] private UIAnimator _pauseUI;
     [SerializeField] private Upgrader _upgrader;
     [SerializeField] private Button _flyUpgrade;
     [SerializeField] private Button _damageUpgrade;
     [SerializeField] private Button _fireRateUpgrade;
     [SerializeField] private Button _healthUpgrade;
     [SerializeField] private Button _reloadUpgrade;
+    [SerializeField] private Button _maxBulletsUpgrade;
+    [SerializeField] private Button _toPauseMenu;
 
     private void OnEnable()
     {
@@ -18,15 +21,19 @@ public class UpgradeWindow : MonoBehaviour
         _upgrader.DamageOnMaxLevel += OnDamageOnMaxLevel;
         _upgrader.HealthOnMaxLevel += OnHealthOnMaxLevel;
         _upgrader.ReloadOnMaxLevel += OnReloadOnMaxLevel;
+        _upgrader.BulletsOnMaxLevel += OnBulletsOnMaxLevel;
     }
 
-    private void OnDisable()
+    public void ShowPauseMenu()
     {
-        _upgrader.FlyForceOnMaxLevel -= OnFlyForceOnMaxLevel;
-        _upgrader.FireRateOnMaxLevel -= OnFireRateOnMaxLevel;
-        _upgrader.DamageOnMaxLevel -= OnDamageOnMaxLevel;
-        _upgrader.HealthOnMaxLevel -= OnHealthOnMaxLevel;
-        _upgrader.ReloadOnMaxLevel -= OnReloadOnMaxLevel;
+        _animator.Hide();
+        _pauseUI.Show();
+    }
+
+    public void IsHasNotAcceptedLevel()
+    {
+        if (UpgradeUtils.NotAcceptedPlayerLevel == 0)
+            ShowPauseMenu();
     }
 
     private void OnFlyForceOnMaxLevel()
@@ -52,5 +59,10 @@ public class UpgradeWindow : MonoBehaviour
     private void OnReloadOnMaxLevel()
     {
         _reloadUpgrade.gameObject.SetActive(false);
+    }
+
+    private void OnBulletsOnMaxLevel()
+    {
+        _maxBulletsUpgrade.gameObject.SetActive(false);
     }
 }

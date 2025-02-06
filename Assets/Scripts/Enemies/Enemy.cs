@@ -31,7 +31,6 @@ public class Enemy : ObjectToSpawn, IPauseable
     {
         StopShoot?.Invoke();
         _deathCoroutine = null;
-        Debug.Log(Health.MaxValue);
     }
 
     private void Start()

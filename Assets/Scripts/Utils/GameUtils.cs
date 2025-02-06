@@ -14,7 +14,7 @@ public static class GameUtils
     public static readonly float StartEnvironmentSpeed = 8;
     public static readonly float EnvironmentBoostedSpeed = 2.0f;
     public static readonly float TimeToAddScore = 1;
-    public static readonly float TimeToNextLevel = 5;
+    public static readonly float TimeToNextLevel = 50;
     public static readonly float TimeToSpawnMedPack = 65;
     public static readonly float MinXPosition = 40;
     public static readonly float MaxXPosition = 350;
@@ -25,7 +25,7 @@ public static class GameUtils
     public static readonly string MenuScene = nameof(MenuScene);
     public static readonly string MouseY = "Mouse Y";
 
-    public static float CurrentGroundSpeed = StartEnvironmentSpeed;
+    public static float CurrentGroundSpeed { get; private set; }
 
     public static void UnlockCursor()
     {
@@ -37,6 +37,11 @@ public static class GameUtils
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public static void StartGame()
+    {
+        CurrentGroundSpeed = StartEnvironmentSpeed;
     }
 
     public static void AddCurrentGroundSpeed()
