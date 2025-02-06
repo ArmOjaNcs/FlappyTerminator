@@ -14,7 +14,7 @@ public static class GameUtils
     public static readonly float StartEnvironmentSpeed = 8;
     public static readonly float EnvironmentBoostedSpeed = 2.0f;
     public static readonly float TimeToAddScore = 1;
-    public static readonly float TimeToNextLevel = 60;
+    public static readonly float TimeToNextLevel = 5;
     public static readonly float TimeToSpawnMedPack = 65;
     public static readonly float MinXPosition = 40;
     public static readonly float MaxXPosition = 350;

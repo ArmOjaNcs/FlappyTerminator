@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +30,17 @@ public class EnterNewScore : MonoBehaviour
 
     private void EnterNewLeadersBoardElement()
     {
-        var playerScore = new PlayerScore(_inputField.text, _score);
+        string tempName = _inputField.text;
+        List<char> chars = new(); 
+        
+        for(int i = 0; i < tempName.Length; i++)
+        {
+            if (tempName[i] != SignUtils.Space && tempName[i] != SignUtils.DoubleDot)
+                chars.Add(tempName[i]);
+        }
+
+        string name = new string(chars.ToArray());
+        var playerScore = new PlayerScore(name, _score);
         _leadersBoard.AddElement(playerScore);
         gameObject.SetActive(false);
         OnClosed?.Invoke();

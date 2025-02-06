@@ -11,8 +11,6 @@ public class GameOverMenu : MonoBehaviour
     [SerializeField] private EnterNewScore _enterNewScore;
     [SerializeField] private Player _player;
     [SerializeField] private Pause _pause;
-    [SerializeField] private MusicPlayer _musicPlayer;
-    [SerializeField] private AudioClip _gameOverClip;
     [SerializeField] private UIAnimator _playerScore;
     [SerializeField] private TextMeshProUGUI _playerScoreText;
 
@@ -43,10 +41,6 @@ public class GameOverMenu : MonoBehaviour
     private void OnPlayerDead()
     {
         _pause.EndGame();
-        _musicPlayer.MusicSource.clip = _gameOverClip;
-        _musicPlayer.MusicSource.loop = false;
-        _musicPlayer.MusicSource.Play();
-        _musicPlayer.StopPlaying();
         _uiAnimator.Show();
         GameUtils.UnlockCursor();
 

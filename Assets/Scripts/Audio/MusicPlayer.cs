@@ -5,17 +5,27 @@ public class MusicPlayer : MonoBehaviour
 {
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private List<AudioClip> _music;
+    [SerializeField] private Player _player;
+    [SerializeField] private AudioClip _gameOverClip;
 
     private int _indexOfClip;
     private bool _isPlaying;
-
-    public AudioSource MusicSource => _musicSource;
 
     private void Awake()
     {
         _indexOfClip = Random.Range(0, _music.Count);
         _musicSource.clip = _music[_indexOfClip];
         _isPlaying = true;
+    }
+
+    private void OnEnable()
+    {
+        _player.PlayerDead += OnPlayerDead;
+    }
+
+    private void OnDisable()
+    {
+        _player.PlayerDead -= OnPlayerDead;
     }
 
     private void Start()
@@ -50,8 +60,11 @@ public class MusicPlayer : MonoBehaviour
         _musicSource.Play();
     }
 
-    public void StopPlaying()
+    private void OnPlayerDead()
     {
+        _musicSource.clip = _gameOverClip;
+        _musicSource.loop = false;
+        _musicSource.Play();
         _isPlaying = false;
     }
 }

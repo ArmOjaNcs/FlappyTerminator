@@ -52,7 +52,7 @@ public class LeadersBoard
 
     public void SetLeadersBoardBText(TextMeshProUGUI text)
     {
-        string[] leaderBoardText = GetElementsFromLiderBoard();
+        string[] leaderBoardText = GetElementsFromLidersBoard();
         ShowLiderBoardText(leaderBoardText, text);
     }
 
@@ -71,7 +71,7 @@ public class LeadersBoard
         }
     }
 
-    private string[] GetElementsFromLiderBoard()
+    private string[] GetElementsFromLidersBoard()
     {
         string[] allElements = ToString().Split(SignUtils.Space);
         string[] correctedBordElements = new string[allElements.Length - 1];

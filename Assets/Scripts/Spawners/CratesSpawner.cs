@@ -4,8 +4,8 @@ public class CratesSpawner : MonoBehaviour
 {
     [SerializeField] private Crate _prefab;
     [SerializeField] private int _maxCapacity;
-    [SerializeField] private Transform _bodyMoveTo;
     [SerializeField] private Pause _pause;
+    [SerializeField] private Transform _target;
 
     private readonly int _maxCratesByX = 5;
     private readonly int _minCratesByX = 1;
@@ -64,7 +64,7 @@ public class CratesSpawner : MonoBehaviour
         if (crate.IsSpawnerSubscribed == false)
         {
             crate.LifeTimeFinished += Release;
-            crate.SetTarget(_bodyMoveTo);
+            crate.SetTarget(_target);
             _pause.Register(crate);
 
             if (crate.Obstacle != null)

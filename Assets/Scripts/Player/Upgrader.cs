@@ -126,7 +126,5 @@ public class Upgrader : MonoBehaviour
             _enemiesForNextLevel += _enemiesCountWithUpgrade;
             _currentEnemiesKilled = enemiesCount;
         }
-
-        Debug.Log(enemiesCount);
     }
 }
