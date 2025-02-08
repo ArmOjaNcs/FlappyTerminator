@@ -2,8 +2,8 @@ public static class LidersBoardInitializer
 {
     public readonly static int MaxElements = 10;
 
-    private readonly static int _maxScore = 2200;
-    private readonly static int _subtractor = 200;
+    private readonly static int _maxScore = 22000;
+    private readonly static int _subtractor = 2000;
 
     public static PlayerScore[] GetNewPlayersScores()
     {

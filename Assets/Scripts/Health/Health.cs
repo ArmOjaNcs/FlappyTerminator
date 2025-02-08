@@ -9,6 +9,7 @@ public class Health : MonoBehaviour, IPauseable
 
     public event Action HealthUpdate;
     public event Action HealthEnded;
+    public event Action DamageTaken;
 
     public float MaxValue => _maxValue;
     public float CurrentValue { get; private set; }
@@ -58,6 +59,7 @@ public class Health : MonoBehaviour, IPauseable
             }
 
             HealthUpdate?.Invoke();
+            DamageTaken?.Invoke();
         }
     }
 

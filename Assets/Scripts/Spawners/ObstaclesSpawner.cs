@@ -7,10 +7,14 @@ public class ObstaclesSpawner : SpawnerWithContainers
     [SerializeField] private Pause _pause;
 
     private DangerObjectsPool _dangerObjectsPool;
+    private float _damageOnEnter;
+    private float _damageOnStay;
 
     private void Awake()
     {
         _dangerObjectsPool = new DangerObjectsPool(_prefab, _maxCapacity, transform);
+        _damageOnEnter = UpgradeUtils.StartDamageOnEnterForObstacle;
+        _damageOnStay = UpgradeUtils.StartDamageOnStayForObstacle;
     }
 
     public void SpawnObstacle()
@@ -24,8 +28,20 @@ public class ObstaclesSpawner : SpawnerWithContainers
         }
     }
 
+    public void AddDamageOnEnter(float damage)
+    {
+        _damageOnEnter += damage;
+    }
+
+    public void AddDamageOnStay(float damage)
+    {
+        _damageOnStay += damage;
+    }
+
     private void Initialize(DangerObject dangerSign)
     {
+        dangerSign.Obstacle.SetDamageOnEnter(_damageOnEnter);
+        dangerSign.Obstacle.SetDamageOnStay(_damageOnStay);
         dangerSign.Activate();
 
         if (dangerSign.IsSpawnerSubscribed == false)

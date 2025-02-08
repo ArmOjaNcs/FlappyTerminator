@@ -96,12 +96,10 @@ public class TimeAccelerator : MonoBehaviour, IPauseable
             environment.AddSpeed(GameUtils.EnvironmentBoostedSpeed);
 
         foreach (BulletSpawner bulletSpawner in _bulletSpawners)
-            bulletSpawner.AddSpeed(GameUtils.EnvironmentBoostedSpeed * GameUtils.EnemyBulletMultiplier);
+            bulletSpawner.AddForce(GameUtils.EnvironmentBoostedSpeed * GameUtils.EnemyBulletMultiplier);
 
-        _playerBulletSpawner.DecreaseSpeed(GameUtils.EnvironmentBoostedSpeed / GameUtils.DividerForDecreasePlayerBullet);
         _player.PlayerAnimator.Animator.speed += GameUtils.AnimationBoost;
         _player.WeaponAnimator.speed += GameUtils.AnimationBoost;
-        _timeForMedPack -= GameUtils.DiminutiveForMedPack;
         GameUtils.AddCurrentGroundSpeed();
         LevelChanged?.Invoke();
     }

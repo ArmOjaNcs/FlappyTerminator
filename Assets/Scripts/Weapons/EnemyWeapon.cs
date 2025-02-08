@@ -9,11 +9,6 @@ public class EnemyWeapon : Shooter
 
     public bool IsSpawnerSubscribed => _isSpawnerSubscribed;
 
-    private void Awake()
-    {
-        SetDirection(-Vector2.right);
-    }
-
     public void SubscribeBySpawner()
     {
         _isSpawnerSubscribed = true;
@@ -34,5 +29,10 @@ public class EnemyWeapon : Shooter
         enemy.StartShoot -= StartShoot;
         enemy.ReturnToPool -= OnEnemyReturnToPool;
         LifeTimeFinished?.Invoke(this);
+    }
+
+    private protected override Vector2 GetDirection()
+    {
+        return -Vector2.right;
     }
 }

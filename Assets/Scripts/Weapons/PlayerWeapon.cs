@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerWeapon : Shooter
 {
-    private readonly int _maxBulletsValue = 30; 
+    private readonly int _maxBulletsValue = 30;
+
+    [SerializeField] private Transform _aim;
 
     private bool _isHaveBullets;
     private WaitForSeconds _waitForReload;
@@ -34,7 +36,6 @@ public class PlayerWeapon : Shooter
         {
             if (IsTimeToShoot() && IsCanShoot && _isHaveBullets)
             {
-                SetDirection(GetDirection());
                 Shoot();
                 CurrentBulletsValue--;
                 BulletsValueChanged?.Invoke(CurrentBulletsValue);
@@ -72,7 +73,7 @@ public class PlayerWeapon : Shooter
         BulletsValueChanged?.Invoke(CurrentBulletsValue);
     }
 
-    private Vector2 GetDirection()
+    private protected override Vector2 GetDirection()
     {
         return FirePoint.position - transform.position;
     }

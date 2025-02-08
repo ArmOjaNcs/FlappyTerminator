@@ -576,8 +576,8 @@ GameObject:
   - component: {fileID: 5645429846658802701}
   - component: {fileID: 3265607704033280719}
   - component: {fileID: 3186457585731622860}
-  - component: {fileID: -8108138720658430108}
   - component: {fileID: 7777766572493669864}
+  - component: {fileID: 2459724557957701850}
   m_Layer: 0
   m_Name: KnifeBullet
   m_TagString: Untagged
@@ -616,7 +616,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -665,19 +665,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.11654474, y: 0.010594964}
   m_Size: {x: 2.2360845, y: 0.38549873}
   m_Direction: 1
---- !u!114 &-8108138720658430108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7419014631090020341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36a6ba25d7294a14b950439986eac224, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _objectAnimator: {fileID: 3685986078644923946}
 --- !u!82 &7777766572493669864
 AudioSource:
   m_ObjectHideFlags: 0
@@ -775,6 +762,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2459724557957701850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7419014631090020341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6267e12a6130a1947aa677ec889b2367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectAnimator: {fileID: 3685986078644923946}
 --- !u!1 &7605013546144852226
 GameObject:
   m_ObjectHideFlags: 0

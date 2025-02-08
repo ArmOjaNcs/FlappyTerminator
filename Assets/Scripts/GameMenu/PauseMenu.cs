@@ -8,8 +8,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private UIAnimator _upgradeMenu;
     [SerializeField] private UIAnimator _pauseUI;
 
-    public UIAnimator UpgradeMenu => _upgradeMenu;
-
     private void OnEnable()
     {
         if(UpgradeUtils.NotAcceptedPlayerLevel > 0)

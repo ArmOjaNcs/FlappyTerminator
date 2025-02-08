@@ -5,6 +5,7 @@ public class Pause : MonoBehaviour, IPauseable
 {
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private UIAnimator _pauseUI;
+    [SerializeField] private UIAnimator _upgradeWindow;
     [SerializeField] private PauseMenu _pauseMenu;
 
     private List<IPauseable> _iPauseables = new ();
@@ -42,9 +43,9 @@ public class Pause : MonoBehaviour, IPauseable
 
         if(_pauseUI.isActiveAndEnabled)
             _pauseUI.Hide();
-
-        if(_pauseMenu.UpgradeMenu.isActiveAndEnabled)
-            _pauseMenu.UpgradeMenu.Hide();
+        Debug.Log("Resume");
+        if(_upgradeWindow.isActiveAndEnabled)
+            _upgradeWindow.Hide();
     }
 
     public void EndGame()
@@ -57,12 +58,14 @@ public class Pause : MonoBehaviour, IPauseable
     {
         _playerInput.Paused += OnPaused;
         _playerInput.UnPaused += OnUnPaused;
+        _playerInput.Upgrade += OnUpgarade;
     }
 
     private void UnSubscribe()
     {
         _playerInput.Paused -= OnPaused;
         _playerInput.UnPaused -= OnUnPaused;
+        _playerInput.Upgrade -= OnUpgarade;
     }
 
     private void InvokeStop()
@@ -92,6 +95,16 @@ public class Pause : MonoBehaviour, IPauseable
         {
             Resume();
             _isPlaying = true;
+        }
+    }
+
+    private void OnUpgarade()
+    {
+        if (_isPlaying)
+        {
+            InvokeStop();
+            _upgradeWindow.Show();
+            _isPlaying = false;
         }
     }
 }

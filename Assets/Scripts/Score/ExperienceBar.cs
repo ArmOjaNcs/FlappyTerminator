@@ -33,18 +33,20 @@ public class ExperienceBar : MonoBehaviour
 
     private void OnEnemiesKilledUpdate(int enemiesCount)
     {
-        if(enemiesCount >= UpgradeUtils.EnemiesForNextLevel + _currentEnemiesKilled &&
-            _player.CurrentLevel < UpgradeUtils.MaxPlayerLevel)
+        if(_player.CurrentLevel < UpgradeUtils.MaxPlayerLevel)
         {
-            _text.text = LevelUp;
-            _slider.value = (float)(enemiesCount - _currentEnemiesKilled) 
-                / UpgradeUtils.EnemiesForNextLevel;
-            _currentEnemiesKilled = enemiesCount;
-        }
-        else
-        {
-            _slider.value = (float)(enemiesCount - _currentEnemiesKilled) 
-                / UpgradeUtils.EnemiesForNextLevel;
+            if (enemiesCount >= UpgradeUtils.EnemiesForNextLevel + _currentEnemiesKilled)
+            {
+                _text.text = LevelUp;
+                _slider.value = (float)(enemiesCount - _currentEnemiesKilled)
+                    / UpgradeUtils.EnemiesForNextLevel;
+                _currentEnemiesKilled = enemiesCount;
+            }
+            else
+            {
+                _slider.value = (float)(enemiesCount - _currentEnemiesKilled)
+                    / UpgradeUtils.EnemiesForNextLevel;
+            }
         }
     }
 

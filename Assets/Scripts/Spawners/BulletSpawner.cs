@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BulletSpawner : Spawner<Bullet>
 {
-    [SerializeField] private float _speed;
+    [SerializeField] private float _force;
     [SerializeField] private float _lifeTime;
     [SerializeField] private float _damage;
     [SerializeField] private Transform _parentBody;
@@ -12,26 +12,28 @@ public class BulletSpawner : Spawner<Bullet>
     private float _defaultDamage;
     private float _damagePercent = 1;
 
+    public float Force => _force;
+
     private void Start()
     {
         _time = new WaitForSeconds(_lifeTime);
         _defaultDamage = _damage;
     }
 
-    public float DecreaseSpeed(float speed)
+    public float DecreaseForce(float force)
     {
-        if (speed < 0)
-            return _speed;
+        if (force < 0)
+            return _force;
 
-        return _speed -= speed;
+        return _force -= force;
     }
 
-    public float AddSpeed(float speed)
+    public float AddForce(float force)
     {
-        if(speed < 0)
-            return _speed;
+        if(force < 0)
+            return _force;
 
-        return _speed += speed;
+        return _force += force;
     }
 
     public void AddDamagePercent(float percent)
@@ -40,14 +42,14 @@ public class BulletSpawner : Spawner<Bullet>
         _damage = _defaultDamage * _damagePercent;
     }
 
-    public void Initialize(Bullet bullet, Vector2 direction, Transform firePoint, Quaternion rotation)
+    public void Initialize(Bullet bullet, Transform firePoint, Quaternion rotation)
     {
-        bullet.SetSpeed(_speed);
-        bullet.SetDirection(direction);
         bullet.SetStartPosition(firePoint);
         bullet.SetDamage(_damage);
         bullet.SetLifeTime(_time, _lifeTime);
         bullet.SetRotation(rotation);
+        bullet.Rigidbody2D.linearVelocity = Vector2.zero;
+        bullet.Rigidbody2D.angularVelocity = 0;
         bullet.Activate();
 
         if (bullet.IsSpawnerSubscribed == false)

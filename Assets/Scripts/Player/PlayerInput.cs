@@ -16,15 +16,17 @@ public class PlayerInput : MonoBehaviour, IPauseable
     public event Action Reload;
     public event Action Paused;
     public event Action UnPaused;
+    public event Action Upgrade;
 
     private bool IsRotateToMax => Input.GetAxis(GameUtils.MouseY) > 0;
     private bool IsRotateToMin => Input.GetAxis(GameUtils.MouseY) < 0;
-    private bool IsFlyUp => Input.GetKey(KeyCode.Space);
-    private bool IsFlyDown => Input.GetKey(KeyCode.C);
+    private bool IsFlyUp => Input.GetKey(KeyCode.UpArrow);
+    private bool IsFlyDown => Input.GetKey(KeyCode.DownArrow);
     private bool IsShoot => Input.GetKey(KeyCode.Mouse0);
     private bool IsReload => Input.GetKeyDown(KeyCode.Mouse1);
     private bool IsPaused => Input.GetKeyDown(KeyCode.Escape);
-    private bool IsUnPaused => Input.GetKeyDown(KeyCode.E);
+    private bool IsUnPaused => Input.GetKeyDown(KeyCode.RightArrow);
+    private bool IsUpgrade => Input.GetKeyDown(KeyCode.LeftArrow);
 
     private void Awake()
     {
@@ -73,7 +75,13 @@ public class PlayerInput : MonoBehaviour, IPauseable
             Paused?.Invoke();
 
         if (IsUnPaused)
+        {
             UnPaused?.Invoke();
+            Debug.Log("Unpaused");
+        }
+
+        if(IsUpgrade)
+            Upgrade?.Invoke();
     }
 
     public void Stop()

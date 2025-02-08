@@ -7,9 +7,9 @@ public class CratesSpawner : MonoBehaviour
     [SerializeField] private Pause _pause;
     [SerializeField] private Transform _target;
 
-    private readonly int _maxCratesByX = 5;
+    private readonly int _maxCratesByX = 3;
     private readonly int _minCratesByX = 1;
-    private readonly int _maxCratesByY = 7;
+    private readonly int _maxCratesByY = 5;
     private readonly int _minCratesByY = 3;
     private readonly int _multiplier = 3;
 
@@ -17,12 +17,16 @@ public class CratesSpawner : MonoBehaviour
     private Vector2 _colliderSize;
     private Vector2 _tempPosition;
     private float _yPosition;
+    private float _damageOnEnter;
+    private float _damageOnStay;
 
     private void Awake()
     {
         _cratesPool = new CratesPool(_prefab, _maxCapacity, transform);
         _colliderSize = _prefab.GetComponent<BoxCollider2D>().size;
         _yPosition = transform.position.y;
+        _damageOnEnter = UpgradeUtils.StartDamageOnEnterForObstacle;
+        _damageOnStay = UpgradeUtils.StartDamageOnStayForObstacle;
     }
 
     private void Start()
@@ -57,6 +61,16 @@ public class CratesSpawner : MonoBehaviour
         }
     }
 
+    public void AddDamageOnEnter(float damage)
+    {
+        _damageOnEnter += damage;
+    }
+
+    public void AddDamageOnStay(float damage)
+    {
+        _damageOnStay += damage;
+    }
+
     private void Initialize(Crate crate)
     {
         crate.Activate();
@@ -65,6 +79,8 @@ public class CratesSpawner : MonoBehaviour
         {
             crate.LifeTimeFinished += Release;
             crate.SetTarget(_target);
+            crate.Obstacle.SetDamageOnEnter(_damageOnEnter);
+            crate.Obstacle.SetDamageOnStay(_damageOnStay);
             _pause.Register(crate);
 
             if (crate.Obstacle != null)

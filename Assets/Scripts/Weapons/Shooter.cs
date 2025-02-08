@@ -6,7 +6,6 @@ public abstract class Shooter : MonoBehaviour, IPauseable
     [SerializeField] private protected float Delay;
 
     private BulletSpawner _bulletSpawner;
-    private Vector2 _direction;
     private float _currentTime;
 
     private protected AudioSource ShotSource;
@@ -48,13 +47,13 @@ public abstract class Shooter : MonoBehaviour, IPauseable
         Delay = delay;
     }
 
-    public void Stop()
+    public virtual void Stop()
     {
         IsPaused = true;
         ShotSource.Pause();
     }
 
-    public void Resume()
+    public virtual void Resume()
     {
         IsPaused = false;
         ShotSource.UnPause();
@@ -70,11 +69,6 @@ public abstract class Shooter : MonoBehaviour, IPauseable
         IsCanShoot = true;
     }
 
-    private protected void SetDirection(Vector2 direction)
-    {
-        _direction = direction;
-    }
-
     private protected bool IsTimeToShoot()
     {
         _currentTime += Time.deltaTime;
@@ -88,8 +82,11 @@ public abstract class Shooter : MonoBehaviour, IPauseable
 
         if (bullet != null)
         {
-            _bulletSpawner.Initialize(bullet, _direction, FirePoint, transform.rotation);
+            _bulletSpawner.Initialize(bullet, FirePoint, transform.rotation);
+            bullet.Rigidbody2D.linearVelocity = _bulletSpawner.Force * GetDirection();
             _currentTime = 0;
         }
     }
+
+    private protected abstract Vector2 GetDirection();
 }

@@ -23,7 +23,7 @@ public class Crate : ObjectToSpawn, IPauseable
 
     private void Update()
     {
-        if(_isPaused == false)
+        if (_isPaused == false)
         {
             var pos = _target.position;
             pos.y = transform.position.y;

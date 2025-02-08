@@ -225,8 +225,8 @@ GameObject:
   - component: {fileID: 1291542480527970702}
   - component: {fileID: 220507642317843886}
   - component: {fileID: 4096925278746159969}
-  - component: {fileID: 5057566095709924773}
   - component: {fileID: -4719877345621550173}
+  - component: {fileID: -8961727628128670989}
   m_Layer: 0
   m_Name: GrenadeBullet
   m_TagString: Untagged
@@ -265,7 +265,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -314,19 +314,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.07154919, y: 0.026831025}
   m_Size: {x: 1.9480422, y: 1.3040916}
   m_Direction: 1
---- !u!114 &5057566095709924773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4473803431888103639}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36a6ba25d7294a14b950439986eac224, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _objectAnimator: {fileID: 603821845695220550}
 --- !u!82 &-4719877345621550173
 AudioSource:
   m_ObjectHideFlags: 0
@@ -424,6 +411,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-8961727628128670989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4473803431888103639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6267e12a6130a1947aa677ec889b2367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectAnimator: {fileID: 603821845695220550}
 --- !u!1 &5158519052496904448
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ public class Upgrader : MonoBehaviour
     [SerializeField] private Armory _armory;
     [SerializeField] private PoultryHouse _enemySpawner;
     [SerializeField] private List<BulletSpawner> _enemyBulletsSpawners;
+    [SerializeField] private List<ObstaclesSpawner> _obstaclesSpawners;
+    [SerializeField] private CratesSpawner _cratesSpawner;
     [SerializeField] private TimeAccelerator _timeAccelerator;
 
     private int _currentEnemiesKilled;
@@ -20,6 +22,7 @@ public class Upgrader : MonoBehaviour
     public event Action ReloadOnMaxLevel;
     public event Action BulletsOnMaxLevel;
     public event Action LevelAccepted;
+    public event Action CanUpgarde;
 
     private void OnEnable()
     {
@@ -35,7 +38,7 @@ public class Upgrader : MonoBehaviour
 
     public void UgradeFlyForce()
     {
-        _player.AddFlyForceLevel(UpgradeUtils.PercentForPlayerUpgrade);
+        _player.AddFlyForceLevel(UpgradeUtils.PercentForPlayerFlyUpgrade);
 
         if (_player.CurrentFlyForceLevel == UpgradeUtils.MaxAbilityLevel)
             FlyForceOnMaxLevel?.Invoke();
@@ -112,6 +115,15 @@ public class Upgrader : MonoBehaviour
 
         foreach (var bulletSpawner in _enemyBulletsSpawners)
             bulletSpawner.AddDamagePercent(UpgradeUtils.PercentForEnemyUpgrade);
+
+        foreach (var obstaclesSpawner in _obstaclesSpawners)
+        {
+            obstaclesSpawner.AddDamageOnEnter(UpgradeUtils.DamageOnEnterForObstacle);
+            obstaclesSpawner.AddDamageOnStay(UpgradeUtils.DamageOnStayForObstacle);
+        }
+
+        _cratesSpawner.AddDamageOnEnter(UpgradeUtils.DamageOnEnterForObstacle);
+        _cratesSpawner.AddDamageOnStay(UpgradeUtils.DamageOnStayForObstacle);
            
         _enemySpawner.AddCurrentMaxHealthPercent(UpgradeUtils.PercentForEnemyHealthUpgrade);
     }
@@ -121,9 +133,11 @@ public class Upgrader : MonoBehaviour
         if(enemiesCount >= UpgradeUtils.EnemiesForNextLevel + _currentEnemiesKilled && 
             _player.CurrentLevel < UpgradeUtils.MaxPlayerLevel)
         {
+            _player.AddLevel();
             UpgradeUtils.AddNotAcceptedPlayerLevel();
             UpgradeUtils.AddEnemiesForNextLevel();
             _currentEnemiesKilled = enemiesCount;
+            CanUpgarde?.Invoke();
         }
     }
 }

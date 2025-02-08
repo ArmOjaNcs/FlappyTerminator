@@ -14,9 +14,9 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
     private Coroutine _lifeCoroutine;
     private WaitForSeconds _lifeTime;
     private Transform _parentBody;
+    private Vector2 _linearVelocity;
+    private Rigidbody2D _rigidbody2D;
     private bool _isPaused;
-    private float _speed;
-    private Vector2 _direction;
 
     private protected Coroutine ReliaseCoroutine;
     private protected AudioSource HitSource;
@@ -26,6 +26,12 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
     public override event Action<ObjectToSpawn> LifeTimeFinished;
 
     public ObjectAnimator ObjectAnimator => _objectAnimator;
+    public Rigidbody2D Rigidbody2D => _rigidbody2D;
+
+    private void Awake()
+    {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+    }
 
     private void Start()
     {
@@ -34,11 +40,10 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
         HitSource = hitSource;
     }
 
-    private protected virtual void OnEnable()
+    private void OnEnable()
     {
         _lifeCoroutine = StartCoroutine(BeginLifeTime());
         ReliaseCoroutine = null;
-        _isPaused = false;
         IsPerformHit = false;
         _objectAnimator.transform.position = transform.position;
         _currentLifeTime = _defaultLifeTime;
@@ -55,8 +60,8 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
 
     private void Update()
     {
-        if (_isPaused == false)
-            Move();
+        if(_isPaused == false)
+            _currentLifeTime -= Time.deltaTime;
     }
 
     private protected override void OnTriggerEnter2D(Collider2D collision)
@@ -65,7 +70,7 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
         {
             if (ReliaseCoroutine == null && isActiveAndEnabled)
             {
-                obstacle.Rigidbody2D.AddForceAtPosition(_direction * _speed, transform.position);
+                obstacle.Rigidbody2D.AddForceAtPosition(_rigidbody2D.linearVelocity, transform.position);
                 ReliaseCoroutine = StartCoroutine(HitObstacle());
             }
         }
@@ -75,11 +80,6 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
             if (ReliaseCoroutine == null && isActiveAndEnabled)
                 ReliaseCoroutine = StartCoroutine(HitObstacle());
         }
-    }
-
-    public void SetDirection(Vector2 direction)
-    {
-        _direction = direction;
     }
 
     public void SetRotation(Quaternion rotation)
@@ -98,11 +98,6 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
         transform.position = shotPoint.position;
     }
 
-    public void SetSpeed(float speed)
-    {
-        _speed = speed;
-    }
-
     public void SetDamage(float damage)
     {
         _damage = damage;
@@ -116,35 +111,33 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
     public virtual void Stop()
     {
         _isPaused = true;
-        
+
         if(_lifeCoroutine != null)
             StopCoroutine(_lifeCoroutine);
 
         if(HitSource != null)
             HitSource.Pause();
+
+        SetKinematicRigidbody();
     }
 
     public virtual void Resume()
     {
         _isPaused = false;
 
-        if(isActiveAndEnabled)
+        if (isActiveAndEnabled)
             _lifeCoroutine = StartCoroutine(BeginLifeTime(_currentLifeTime));
 
         if (HitSource != null)
             HitSource.UnPause();
+
+        SetDynamicRigidbody();
     }
 
     private protected override void Release()
     {
         transform.parent = null;
         LifeTimeFinished?.Invoke(this);
-    }
-
-    private void Move()
-    {
-        transform.Translate(_direction.normalized * _speed * Time.deltaTime);
-        _currentLifeTime -= Time.deltaTime;
     }
 
     private IEnumerator BeginLifeTime(float currentLifeTime = 0)
@@ -183,11 +176,24 @@ public abstract class Bullet : ObjectToSpawn, IPauseable
         PerformHit();
     }
 
-    private protected virtual void PerformHit()
+    private void SetKinematicRigidbody()
     {
-        _isPaused = true;
+        _linearVelocity = Rigidbody2D.linearVelocity;
+        Rigidbody2D.linearVelocity = Vector2.zero;
+        Rigidbody2D.bodyType = RigidbodyType2D.Kinematic;
+    }
+
+    private void SetDynamicRigidbody()
+    {
+        Rigidbody2D.linearVelocity = _linearVelocity;
+        Rigidbody2D.bodyType = RigidbodyType2D.Dynamic;
+    }
+
+    private protected void PerformHit()
+    {
         IsPerformHit = true;
         _objectAnimator.SetHitTrigger();
         transform.SetParent(_parentBody);
+        SetKinematicRigidbody();
     }
 }

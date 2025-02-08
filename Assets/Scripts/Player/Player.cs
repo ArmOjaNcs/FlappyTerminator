@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IPauseable
@@ -12,11 +13,18 @@ public class Player : MonoBehaviour, IPauseable
     [SerializeField] private Animator _weaponAnimator;
     [SerializeField] private ObjectAnimator _playerAnimator;
     [SerializeField] private Pause _pause;
+    [SerializeField] private AudioClip _damageTaken;
+    [SerializeField] private AudioClip _danger;
+    [SerializeField] private AudioClip _dead;
 
     private float _defaultAnimatorSpeed;
     private float _fireRatePercent = 1;
     private float _healthPercent = 1;
     private AudioSource _audioSource;
+    private Coroutine _soundCoroutine;
+    private WaitForSeconds _waitForDamage;
+    private WaitForSeconds _waitForDanger;
+    private WaitForSeconds _waitForDead;
 
     public event Action PlayerPerformDead;
     public event Action PlayerDead;
@@ -43,19 +51,14 @@ public class Player : MonoBehaviour, IPauseable
         _pause.Register(_playerPilot);
         _pause.Register(_playerRotator);
         _audioSource = GetComponent<AudioSource>();
+        _waitForDamage = new WaitForSeconds(_damageTaken.length);
+        _waitForDanger = new WaitForSeconds(_danger.length);
+        _waitForDead = new WaitForSeconds(_dead.length);
     }
 
     private void OnEnable()
     {
-        _playerInput.RotateToMax += OnRotateToMax;
-        _playerInput.RotateToMin += OnRotateToMin;
-        _playerInput.FlyUp += OnFlyUp;
-        _playerInput.StopShoot += OnStopShoot;
-        _playerInput.StartShoot += OnStartShoot;
-        _playerInput.Reload += OnReload;
-        _playerInput.FlyDown += OnFlyDown;
-        _health.HealthEnded += OnHealthEnded;
-        PlayerAnimator.HitPerformed += OnPlayerDead;
+        Subscribe();
     }
 
     private void OnDisable()
@@ -84,23 +87,18 @@ public class Player : MonoBehaviour, IPauseable
     public void AddFlyForceLevel(float percent)
     {
         CurrentFlyForceLevel++;
-        AddLevel();
-
         _playerPilot.AddFlyForcePercent(percent);
     }
 
     public void AddDamageLevel(float percent)
     {
         CurrentDamageLevel++;
-        AddLevel();
-
         _bulletSpawner.AddDamagePercent(percent);
     }
 
     public void AddFireRateLevel(float percent)
     {
         CurrentFireRateLevel++;
-        AddLevel();
         _fireRatePercent -= percent;
         _weapon.SetDelay(_weapon.DefaultDelay * _fireRatePercent);
     }
@@ -108,7 +106,6 @@ public class Player : MonoBehaviour, IPauseable
     public void AddHealthLevel(float percent)
     {
         CurrentHealthLevel++;
-        AddLevel();
         _healthPercent += percent;
         Health.SetMaxHealth(Health.DefaultMaxValue * _healthPercent);
     }
@@ -116,20 +113,16 @@ public class Player : MonoBehaviour, IPauseable
     public void AddReloadLevel(float percent)
     {
         CurrentReloadLevel++;
-        AddLevel();
-
         _weapon.DecreaseReloadPercent(percent);
     }
 
     public void AddMaxBulletsLevel(int value)
     {
         CurrentMaxBulletsLevel++;
-        AddLevel();
-
         _weapon.AddMaxBulletsValue(value);
     }
 
-    private void AddLevel()
+    public void AddLevel()
     {
         CurrentLevel++;
     }
@@ -181,16 +174,51 @@ public class Player : MonoBehaviour, IPauseable
         _health.HealthEnded -= OnHealthEnded;
     }
 
+    private void Subscribe()
+    {
+        _playerInput.RotateToMax += OnRotateToMax;
+        _playerInput.RotateToMin += OnRotateToMin;
+        _playerInput.FlyUp += OnFlyUp;
+        _playerInput.StopShoot += OnStopShoot;
+        _playerInput.StartShoot += OnStartShoot;
+        _playerInput.Reload += OnReload;
+        _playerInput.FlyDown += OnFlyDown;
+        _health.HealthEnded += OnHealthEnded;
+        _health.DamageTaken += OnDamageTaken;
+        PlayerAnimator.HitPerformed += OnPlayerDead;
+    }
+
     private void OnHealthEnded()
     {
         UnSubscribe();
         PlayerAnimator.SetHitTrigger();
         PlayerPerformDead?.Invoke();
-        _audioSource.Play();
+
+        if (_soundCoroutine != null)
+            StopCoroutine(_soundCoroutine);
+
+        _soundCoroutine = StartCoroutine(SoundRoutine(_dead, _waitForDead));
     }
 
     private void OnPlayerDead()
     {
         PlayerDead?.Invoke();
+    }
+
+    private void OnDamageTaken()
+    {
+        if (_health.CurrentValue < _health.MaxValue * 0.3f && _soundCoroutine == null)
+            _soundCoroutine = StartCoroutine(SoundRoutine(_danger, _waitForDanger));
+        else if (_soundCoroutine == null)
+            _soundCoroutine = StartCoroutine(SoundRoutine(_damageTaken, _waitForDamage));
+    }
+
+    private IEnumerator SoundRoutine(AudioClip audioClip, WaitForSeconds wait)
+    {
+        _audioSource.Stop();
+        _audioSource.clip = audioClip;
+        _audioSource.Play();
+        yield return wait;
+        _soundCoroutine = null;
     }
 }
